@@ -1,12 +1,11 @@
 import os
 
-def move_to_folder(folder_name, func):
+def move_dir(folder_name):
 	try:
 		os.chdir('./' + folder_name)
 	except(FileNotFoundError):
 		os.mkdir(folder_name)
 		os.chdir(folder_name)
 
-	func()
-
+def dir_back():
 	os.chdir('..')
