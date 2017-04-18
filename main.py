@@ -1,7 +1,8 @@
 import csv, shelve
 import ffile
+import make_excel
 
-import ups_reader
+import ups_reader_simple, ups_reader_detail
 
 py_filename = "ups"
 
@@ -20,7 +21,15 @@ def save_ups_data():
 
 	ffile.dir_back()
 
-ups_reader.read('data/ups_simple.csv')
+ups_data = ups_reader_simple.read('data/ups_simple.csv')
+ups_reader_detail.add_details('data/ups_detail.csv', ups_data)
+
+for tracking_num, data in ups_data.items():
+	print(tracking_num, data)
+	break
+
+
+# ups_data = ups_reader_detail.read('data/ups_detail.csv')
 
 # print_upKs_data()
 # save_ups_data()
