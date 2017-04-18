@@ -7,7 +7,10 @@ header_dict = {
 	"Service Level": "Service Level",
 	"Weight": "Weight",
 	"Zone": "Zone",
-	"Reference No": "Reference No.1"
+	"Reference No": "Reference No.1",
+	"Pickup Date": "Pickup Date",
+	"Billed Charge": "Billed Charge",
+	"Invoice Section": "Invoice Section",
 }
 
 # Index starts at 0
@@ -58,10 +61,17 @@ def read(file_name):
 			except IndexError:
 				pass
 
+		# Extract the actual UPS data
 		for row in reader:
 			try:
 				data = get_ups_data(row)
-				ups_data[ data["Reference No"] ] = data
+				tracking_num = data["Tracking Number"]
+				if tracking_num not in ups_data:
+					ups_data[tracking_num] = {"simple": []}
+				ups_data[tracking_num]["simple"].append(data)
+				if len(ups_data[ tracking_num]["simple"]) >= 3:
+					print(ups_data[ tracking_num]["simple"])
+				# print(ups_data[tracking_num]["simple"])
 			except IndexError:
 				pass
 
