@@ -31,6 +31,8 @@ for tracking_num, data in ups_data.items():
 
 # ups_data = ups_reader_detail.read('data/ups_detail.csv')
 
+make_excel.make(ups_data)
+
 # print_upKs_data()
 # save_ups_data()
 
