@@ -2,7 +2,7 @@ import csv, math
 
 # Gives the column for excel file
 header_index = {
-	"Tracking Number": "N",
+	"Tracking Number": "U",
 	"Charge Type": "AT",
 	"Charge Symbol": "AR",
 	"Billed Charge": "BA",
