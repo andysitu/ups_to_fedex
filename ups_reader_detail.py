@@ -48,8 +48,13 @@ def add_details(file_name, simple_ups_data):
 
 			data_dic = {}
 
-			if "detail" not in simple_ups_data[tracking_num]:
-				simple_ups_data[tracking_num]["detail"] = []
+			try:
+				if "detail" not in simple_ups_data[tracking_num]:
+					simple_ups_data[tracking_num]["detail"] = []
+			except KeyError:
+				print(tracking_num + " not found in ups billing data(detail)")
+				print("but it was present in ups invoice data (simple).")
+				continue
 			
 			detail_list = simple_ups_data[tracking_num]["detail"]
 
