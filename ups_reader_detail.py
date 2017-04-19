@@ -52,6 +52,8 @@ def add_details(file_name, simple_ups_data):
 			
 			data = {}
 			for header, header_num in header_num_dic.items():
+				if header == "Tracking Number":
+					continue
 				data[header] = row[header_num]
 			simple_ups_data[tracking_num]["detail"].append(data)
 			# print(row_num, simple_ups_data[tracking_num]["detail"])
