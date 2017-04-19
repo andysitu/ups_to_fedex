@@ -8,8 +8,6 @@ header_index = {
 	"Billed Charge": "BA",
 }
 
-
-
 alphabet_list = {	'A': 1, 'B': 2, 'C':3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11,
 				'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21,
 				'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26,}
@@ -32,6 +30,8 @@ header_num_dic = make_header_num_dic(header_index)
 
 def add_details(file_name, simple_ups_data):
 	header_num_dic = make_header_num_dic(header_index)
+	previous_tracking_num = ""
+
 	with open(file_name) as f_detail:
 		reader = csv.reader(f_detail)
 
@@ -45,16 +45,26 @@ def add_details(file_name, simple_ups_data):
 			if tracking_num == "":
 				# error_row += 1
 				continue
+
 			data_dic = {}
 
 			if "detail" not in simple_ups_data[tracking_num]:
 				simple_ups_data[tracking_num]["detail"] = []
 			
+			detail_list = simple_ups_data[tracking_num]["detail"]
+
 			data = {}
 			for header, header_num in header_num_dic.items():
 				if header == "Tracking Number":
 					continue
 				data[header] = row[header_num]
-			simple_ups_data[tracking_num]["detail"].append(data)
+
+			# Batch products by tracking num order
+			# in the same list.
+			if previous_tracking_num == tracking_num:
+				detail_list[len(detail_list) - 1].append(data)
+			else:
+				detail_list.append([data,])
+			previous_tracking_num = tracking_num
 			# print(row_num, simple_ups_data[tracking_num]["detail"])
 		# print(error_row)
