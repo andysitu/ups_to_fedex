@@ -42,4 +42,14 @@ ffile.save_ups_data(data)
 
 
 # with open('ups_detail.csv') as f_detail:
-# 	reader = csv.reader(f_detail)
+# 	reader = csv.reader(f_detail)def get_num_1_service_level(data_inst):
+	num = 0
+	num_x = 0
+	for date in data:
+		for tracking_num in data[date]:
+			num_service_level = data[date][tracking_num].get_num_service_level()
+			if num_service_level == 1:
+				num += 1
+			else:
+				num_x += 1
+	return (num, num_x)
