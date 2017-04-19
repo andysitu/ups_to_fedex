@@ -12,9 +12,17 @@ class UPS_Data():
 	def __init__(self, tracking_num, simple_data_list, detail_data_list):
 		self.tracking_number = tracking_num
 		self.data = self.match_and_converge(simple_data_list, detail_data_list)
-		print(simple_data_list, detail_data_list)
-		print(self.tracking_number, self.data)
-		self.date = self.data[0]["Pickup Date"]
+		# print(self.tracking_number, self.data)
+		# print(simple_data_list, detail_data_list)
+		# print(self.tracking_number, self.data)
+		try:
+			self.date = self.data[0]["Pickup Date"]
+		except IndexError as e:
+			print(e)
+			print("TRACKING NUM " + self.tracking_number)
+			print("SIMPLE DATA LIST" + str(simple_data_list))
+			print("DETAIL DATA LIST" + str(detail_data_list))
+			print("SELF.DATA " + str(self.data))
 
 	def match_and_converge(self, simple_data_list, detail_data_super_list):
 		data_list = []
