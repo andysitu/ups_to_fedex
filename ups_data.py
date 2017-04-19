@@ -2,12 +2,11 @@ import copy, re
 import math
 
 class UPS_Data():
-	# This is for the ups_simple data
+	# self.data is propagated in __init__ by match_and_converge
+	# It has format [{k: prop, detail: [ [{}]. [{}]] }, {etc }]
 	service_level_index = {}
 	charge_type_index = {}
 	charge_symbol_index = {}
-
-
 
 	def __init__(self, tracking_num, simple_data_list, detail_data_list):
 		self.tracking_number = tracking_num
@@ -60,12 +59,16 @@ class UPS_Data():
 		print(self.tracking_number + " " + self.date)
 
 	def input_service_level_index(self):
+	# Takes service level from ups_simple and fills in any
+	# that is not there yet.
 		for d in self.data:
 			service_level = d["Service Level"]
 			if service_level not in self.service_level_index:
 				self.service_level_index[service_level] = None
 
 	def input_charge_type_index(self):
+	# Takes charge type from ups_detail and fills in any
+	# that is not there yet.
 		for d in self.data:
 			for d_detail in d["detail"]:
 				charge_type = d_detail["Charge Type"]
@@ -73,6 +76,8 @@ class UPS_Data():
 					self.charge_type_index[charge_type] = None
 
 	def input_charge_symbol_index(self):
+	# Takes charge symbol from ups_detail and fills in any
+	# that is not there yet.
 		for d in self.data:
 			for d_detail in d["detail"]:
 				charge_symbol = d_detail["Charge Symbol"]
