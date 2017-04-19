@@ -15,9 +15,11 @@ header_dict = {
 
 # Index starts at 0
 # Key: header_infile_name
+# ex: {'Service Level': 11, 'Weight': 9, 'Zone': 10, 'Reference No': 6, 
+# 'Pickup Date': 12, 'Billed Charge': 27, 'Invoice Section': 29}
 header_row_index = {}
 
-ups_data = {}
+raw_ups_data = {}
 
 def f():
 	print(header_row_index)
@@ -28,14 +30,14 @@ def set_header(row):
 		h_row_index[header_infile_name] = row.index(header)
 	return h_row_index
 
-def get_ups_data(row):
-	ups_data = {}
+def get_raw_ups_data(row):
+	raw_ups_data = {}
 	for header_infile_name, header in header_dict.items():
-		ups_data[header_infile_name] = row[ header_row_index[header_infile_name] ] 
-	return ups_data
+		raw_ups_data[header_infile_name] = row[ header_row_index[header_infile_name] ]
+	return raw_ups_data
 
 def read(file_name):
-	ups_data = {}
+	raw_ups_data = {}
 
 	#open ups simple csv file & convert to shelve
 	with open(file_name) as f_simple:
@@ -64,15 +66,18 @@ def read(file_name):
 		# Extract the actual UPS data
 		for row in reader:
 			try:
-				data = get_ups_data(row)
+				data = get_raw_ups_data(row)
 				tracking_num = data["Tracking Number"]
-				if tracking_num not in ups_data:
-					ups_data[tracking_num] = {"simple": []}
-				ups_data[tracking_num]["simple"].append(data)
-				if len(ups_data[ tracking_num]["simple"]) >= 3:
-					print(ups_data[ tracking_num]["simple"])
-				# print(ups_data[tracking_num]["simple"])
+				if tracking_num not in raw_ups_data:
+					raw_ups_data[tracking_num] = {"simple": []}
+				raw_ups_data[tracking_num]["simple"].append(data)
+
+				del(data["Tracking Number"])
+
+				# if len(raw_ups_data[ tracking_num]["simple"]) >= 3:
+				# 	print(raw_ups_data[ tracking_num]["simple"])
+				# print(raw_ups_data[tracking_num]["simple"])
 			except IndexError:
 				pass
 
-	return ups_data
+	return raw_ups_data
