@@ -48,10 +48,10 @@ data = ffile.open_ups_data()
 # 	data_inst.input_charge_type_index()
 # 	data_inst.input_charge_symbol_index()
 
-def get_num_1_service_level(data_inst):
+def get_num_1_service_level(data_insts):
 	num = 0
 	num_x = 0
-	for date in data:
+	for date in data_insts:
 		for tracking_num in data[date]:
 			num_service_level = data[date][tracking_num].get_num_service_level()
 			if num_service_level == 1:
