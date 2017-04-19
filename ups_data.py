@@ -2,12 +2,21 @@ import copy, re
 import math
 
 class UPS_Data():
+	# This is for the ups_simple data
+	service_level_index = {}
+	charge_type_index = {}
+	charge_symbol_index = {}
+
+
+
 	def __init__(self, tracking_num, simple_data_list, detail_data_list):
 		self.tracking_number = tracking_num
-		self.data = self.match(simple_data_list, detail_data_list)
+		self.data = self.match_and_converge(simple_data_list, detail_data_list)
+		print(simple_data_list, detail_data_list)
+		print(self.tracking_number, self.data)
 		self.date = self.data[0]["Pickup Date"]
 
-	def match(self, simple_data_list, detail_data_super_list):
+	def match_and_converge(self, simple_data_list, detail_data_super_list):
 		data_list = []
 		for simple_data in simple_data_list:
 			charge = simple_data["Billed Charge"]
@@ -38,3 +47,29 @@ class UPS_Data():
 
 	def __str__(self):
 		return self.date + " " + self.tracking_number + " " + str(self.data)
+
+	def talk(self):
+		print(self.tracking_number + " " + self.date)
+
+	def input_service_level_index(self):
+		for d in self.data:
+			service_level = d["Service Level"]
+			if service_level not in self.service_level_index:
+				self.service_level_index[service_level] = None
+
+	def input_charge_type_index(self):
+		for d in self.data:
+			for d_detail in d["detail"]:
+				charge_type = d_detail["Charge Type"]
+				if charge_type not in self.charge_type_index:
+					self.charge_type_index[charge_type] = None
+
+	def input_charge_symbol_index(self):
+		for d in self.data:
+			for d_detail in d["detail"]:
+				charge_symbol = d_detail["Charge Symbol"]
+				if charge_symbol not in self.charge_symbol_index:
+					self.charge_symbol_index[charge_symbol] = None
+
+	def get_num_service_level(self):
+		return len(self.data)
