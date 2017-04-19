@@ -60,7 +60,12 @@ def get_num_1_service_level(data_inst):
 				num_x += 1
 	return (num, num_x)
 
-# print(get_num_1_service_level(data))
+def print_service_level(ups_data):
+	data_with_one_level, data_with_many_level = get_num_1_service_level(data)
+	print("Data with one level service: " + str(data_with_one_level))
+	print("Data with adjustments: " + str(data_with_many_level))
+
+print_service_level(data)
 
 def iter_thru_data(data, func, *args):
 	for date in data:
