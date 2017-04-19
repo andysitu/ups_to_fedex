@@ -8,17 +8,8 @@ from ups_data import *
 py_filename = "ups"
 
 def print_raw_ups_data():
-	for ups in ups_data:
-		print(ups_data[ups])
-
-def save_ups_data():
-	ffile.move_dir('saved_data')
-
-	shelfFile = shelve.open(py_filename)
-	shelfFile['ups_data'] = ups_data
-	shelfFile.close()
-
-	ffile.dir_back()
+	for ups in raw_ups_data:
+		print(raw_ups_data[ups])
 
 def convert_raw_data_to_data(raw_ups_data_dic):
 	ups_data_dict = {}
@@ -49,10 +40,6 @@ data = convert_raw_data_to_data(raw_ups_data)
 
 ffile.save_ups_data(data)
 
-# ffile.open_ups_data()
-
-# print_upKs_data()
-# save_ups_data()
 
 # with open('ups_detail.csv') as f_detail:
 # 	reader = csv.reader(f_detail)
