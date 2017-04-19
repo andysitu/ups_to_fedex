@@ -20,7 +20,8 @@ def save_ups_data():
 
 	ffile.dir_back()
 
-def convert_raw_data_to_data(raw_ups_data_dic, func):
+def convert_raw_data_to_data(raw_ups_data_dic):
+	ups_data_dict = {}
 	for tracking_num, data in raw_ups_data_dic.items():
 		simple_data_list = data["simple"]
 		detail_data_super_list = data["detail"]
@@ -28,7 +29,13 @@ def convert_raw_data_to_data(raw_ups_data_dic, func):
 		# print(simple_data_list)
 		# print(detail_data_super_list)
 		ups_data = UPS_Data(tracking_num, simple_data_list, detail_data_super_list)
-		print(ups_data)
+		date = ups_data.date
+		if date in ups_data_dict:
+			ups_data_dict[date][tracking_num] = ups_data
+		else:
+			ups_data_dict[date] = {tracking_num: ups_data,}
+		# print(ups_data)
+	return ups_data_dict
 
 raw_ups_data = ups_reader_simple.read('data/ups_simple.csv')
 
