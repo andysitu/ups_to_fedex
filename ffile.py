@@ -21,8 +21,10 @@ def save_ups_data(ups_data):
 
 def open_ups_data():
 	move_dir("ups_data")
+	d = None
 
 	with shelve.open("ups_data") as db:
 		d = db["data"]
 
 	dir_back()
+	return d
