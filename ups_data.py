@@ -28,13 +28,13 @@ class UPS_Data():
 		data_list = []
 		for simple_data in simple_data_list:
 			charge = simple_data["Billed Charge"]
-			# print(charge)
 			charge_re = re.compile(r"\d+\.\d+")
 			t = charge_re.search(charge)
-			if charge[0] != "(":
+			if charge[0] != "-":
 				conv_charge = float(t[0])
 			else:
 				conv_charge = -float(t[0])
+			# print(charge, conv_charge)
 			simple_data["Billed Charge"] = conv_charge
 
 			for detail_data_list in detail_data_super_list:
