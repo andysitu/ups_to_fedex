@@ -11,11 +11,14 @@ def print_raw_ups_data():
 	for ups in raw_ups_data:
 		print(raw_ups_data[ups])
 
-def convert_raw_data_to_data(raw_ups_data_dic):
+def convert_raw_data_to_data(raw_ups_data_dic, conv_more_than_one_service_level=True):
 	ups_data_dict = {}
 	for tracking_num, data in raw_ups_data_dic.items():
 		# print(tracking_num, data)
 		simple_data_list = data["simple"]
+		if not conv_more_than_one_service_level:
+			if len(simple_data_list) > 1:
+				continue
 		detail_data_super_list = data["detail"]
 		# print(simple_data_list)
 		# print(detail_data_super_list)
@@ -36,10 +39,9 @@ ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
 
 make_excel.make(raw_ups_data)
 
-data = convert_raw_data_to_data(raw_ups_data)
+data = convert_raw_data_to_data(raw_ups_data, False)
 
 ffile.save_ups_data(data)
-
 
 data = ffile.open_ups_data()
 
@@ -65,7 +67,7 @@ def print_service_level(ups_data):
 	print("Data with one level service: " + str(data_with_one_level))
 	print("Data with adjustments: " + str(data_with_many_level))
 
-print_service_level(data)
+# print_service_level(data)
 
 def iter_thru_data(data, func, *args):
 	for date in data:
