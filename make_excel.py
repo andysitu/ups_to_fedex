@@ -22,6 +22,8 @@ def output_raw_data(raw_ups_data):
 				# 	sheet[alphabet_list[j * 2] + str(i)] = key
 				# 	sheet[alphabet_list[j * 2 + 1] + str(i)] = str(data[key])
 				i += 1
-	wb.save('test.xlsx')
+	wb.save('ups_raw_data.xlsx')
+
+	ffile.dir_back()
 
 	ffile.dir_back()
