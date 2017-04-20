@@ -21,9 +21,6 @@ header_row_index = {}
 
 raw_ups_data = {}
 
-def f():
-	print(header_row_index)
-
 def set_header(row):
 	h_row_index = {}
 	for header_infile_name, header in header_dict.items():

@@ -4,6 +4,7 @@ import make_excel
 
 import ups_reader_simple, ups_reader_detail
 from ups_data import *
+import fedex_rates
 
 py_filename = "ups"
 
