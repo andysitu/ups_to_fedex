@@ -45,10 +45,10 @@ ffile.save_ups_data(data)
 
 data = ffile.open_ups_data()
 
-# def run_data_inst(data_inst):
-# 	data_inst.input_service_level_index()
-# 	data_inst.input_charge_type_index()
-# 	data_inst.input_charge_symbol_index()
+def run_data_inst(data_inst):
+	data_inst.input_service_level_index()
+	data_inst.input_charge_type_index()
+	data_inst.input_charge_symbol_index()
 
 def get_num_1_service_level(data_insts):
 	num = 0
@@ -74,21 +74,22 @@ def iter_thru_data(data, func, *args):
 		for tracking_num in data[date]:
 			run_data_inst(data[date][tracking_num])
 
-# iter_thru_data(data, run_data_inst)
+iter_thru_data(data, run_data_inst)
 
-# service_level_index = UPS_Data.service_level_index
-# for service_level in service_level_index:
-# 	print(service_level)
-# print("")
+print("Service Level Index")
+service_level_index = UPS_Data.service_level_index
+for service_level in service_level_index:
+	print(service_level)
+print("")
 
-# print("CHARGE SYMBOL")
-# charge_symbol_index = UPS_Data.charge_symbol_index
-# for charge_symbol in charge_symbol_index:
-# 	print(charge_symbol)
-# print("")
+print("CHARGE SYMBOL Index")
+charge_symbol_index = UPS_Data.charge_symbol_index
+for charge_symbol in charge_symbol_index:
+	print(charge_symbol)
+print("")
 
-# print("CHARGE TYPE")
-# charge_type_index = UPS_Data.charge_type_index
-# for charge_type in charge_type_index:
-# 	print(charge_type)
-# print("")
+print("CHARGE TYPE Index")
+charge_type_index = UPS_Data.charge_type_index
+for charge_type in charge_type_index:
+	print(charge_type)
+print("")
