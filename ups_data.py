@@ -114,4 +114,4 @@ class UPS_Data():
 		rate = 0
 		for data_obj in self.data:
 			rate += data_obj["Billed Charge"]
-		retun rate
+		return rate
