@@ -11,7 +11,7 @@ def print_raw_ups_data():
 	for ups in raw_ups_data:
 		print(raw_ups_data[ups])
 
-def convert_raw_data_to_data(raw_ups_data_dic, conv_more_than_one_service_level=True):
+def convert_raw_data_to_data_obj(raw_ups_data_dic, conv_more_than_one_service_level=True):
 	ups_data_dict = {}
 	for tracking_num, data in raw_ups_data_dic.items():
 		# print(tracking_num, data)
@@ -39,11 +39,17 @@ ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
 
 make_excel.output_raw_data(raw_ups_data)
 
-data = convert_raw_data_to_data(raw_ups_data, False)
+data = convert_raw_data_to_data_obj(raw_ups_data, False)
 
-ffile.save_ups_data(data)
+# for date, data_dic in data.items():
+# 	print(k)
+# 	print(v)	
 
-data = ffile.open_ups_data()
+make_excel.output_conv_ups_data(data)
+
+# ffile.save_ups_data(data)
+
+# data = ffile.open_ups_data()
 
 def run_data_inst(data_inst):
 	data_inst.input_service_level_index()
