@@ -86,6 +86,8 @@ class UPS_Data():
 		return len(self.data)
 
 	def get_simple_datalist_str(self):
+	# Gets the simple ups data and outputs it into a 
+	# list containing strings.
 		simple_list = []
 
 		for data_obj in self.data:
@@ -97,6 +99,8 @@ class UPS_Data():
 		return simple_list
 
 	def get_detail_datalist_str(self):
+	# Gets the detail ups detail and outputs it into a 
+	# list containing strings.
 		detail_list = []
 
 		for data_obj in self.data: 

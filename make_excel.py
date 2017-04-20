@@ -4,6 +4,7 @@ import ffile
 alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'K', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 def output_raw_data(raw_ups_data):
+	# outputs raw ups data into excel file
 	ffile.move_dir("excel")
 
 	wb = openpyxl.Workbook()
@@ -27,6 +28,7 @@ def output_raw_data(raw_ups_data):
 	ffile.dir_back()
 
 def output_conv_ups_data(ups_data):
+	# outputs ups data into excel file
 	ffile.move_dir("excel")
 	
 	wb = openpyxl.Workbook()
