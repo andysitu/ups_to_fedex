@@ -84,3 +84,30 @@ class UPS_Data():
 
 	def get_num_service_level(self):
 		return len(self.data)
+
+	def get_simple_datalist_str(self):
+		simple_list = []
+
+		for data_obj in self.data:
+			data_string = ""
+			for k, v in data_obj.items():
+				if k != 'detail':
+					data_string += str(k) + " " + str(v) + " "
+			simple_list.append(data_string)
+		return simple_list
+
+	def get_detail_datalist_str(self):
+		detail_list = []
+
+		for data_obj in self.data: 
+			#self.data is a list containing data_obj's
+			for data_detail_obj in data_obj["detail"]:
+				detail_list.append(str(data_detail_obj))
+
+		return detail_list
+
+	def get_rate(self):
+		rate = 0
+		for data_obj in self.data:
+			rate += data_obj["Billed Charge"]
+		retun rate
