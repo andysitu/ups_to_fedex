@@ -25,6 +25,7 @@ class UPS_Data():
 
 	def match_and_converge(self, simple_data_list, detail_data_super_list):
 		data_list = []
+
 		for simple_data in simple_data_list:
 			charge = simple_data["Billed Charge"]
 			charge_re = re.compile(r"\d+\.\d+")
@@ -53,10 +54,7 @@ class UPS_Data():
 		return data_list
 
 	def __str__(self):
-		return self.date + " " + self.tracking_number + " " + str(self.data)
-
-	def talk(self):
-		print(self.tracking_number + " " + self.date)
+		return str(self.data)
 
 	def input_service_level_index(self):
 	# Takes service level from ups_simple and fills in any
