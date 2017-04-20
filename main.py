@@ -37,7 +37,7 @@ ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
 
 # print_raw_ups_data()
 
-make_excel.make(raw_ups_data)
+make_excel.output_raw_data(raw_ups_data)
 
 data = convert_raw_data_to_data(raw_ups_data, False)
 

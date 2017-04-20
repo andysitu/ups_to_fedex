@@ -3,14 +3,14 @@ import ffile
 
 alphabet_list = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'K', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
-def make(ups_data):
+def output_raw_data(raw_ups_data):
 	ffile.move_dir("excel")
 
 	wb = openpyxl.Workbook()
 	sheet = wb.active
 	i = 1
 
-	for tracking_num, data_types in ups_data.items():
+	for tracking_num, data_types in raw_ups_data.items():
 		sheet['A' + str(i)] = tracking_num
 		i += 1
 		for data_type, data_list in data_types.items():
