@@ -26,4 +26,31 @@ def output_raw_data(raw_ups_data):
 
 	ffile.dir_back()
 
+def output_conv_ups_data(ups_data):
+	ffile.move_dir("excel")
+	
+	wb = openpyxl.Workbook()
+	sheet = wb.active
+	i = 1
+
+	for date, data_dic in ups_data.items():
+		sheet['A' + str(i)] = date
+		i += 1
+		for tracking_num, data_obj in data_dic.items():
+			sheet['A' + str(i)] = tracking_num
+			i += 1
+
+			simple_data_list = data_obj.get_simple_datalist_str()
+			for s in simple_data_list:
+				sheet['A' + str(i)] = s
+				i += 1
+
+			sheet['A' + str(i)] = "detail"
+			i += 1
+			detail_data_list = data_obj.get_detail_datalist_str()
+			for d in detail_data_list:
+				sheet['A' + str(i)] = d
+				i += 1
+	wb.save('ups_data.xlsx')
+
 	ffile.dir_back()
