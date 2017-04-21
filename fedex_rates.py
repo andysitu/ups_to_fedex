@@ -1,6 +1,11 @@
 import openpyxl, ffile
 
-def open_file(file_name):
+def save_fedex_rates(rates):
+	rates =  process_excel_fedex(file_name)
+	ffile.save_fedex_rates(rates)
+	return rates
+
+def process_excel_fedex(file_name="fedex_rates.xlsx"):
 	ffile.move_dir("data")
 
 	wb = openpyxl.load_workbook(file_name)
@@ -8,7 +13,7 @@ def open_file(file_name):
 
 	rate_dic = {}
 
-	for delivery_name, para_list in fedex_rate_index.items():
+	for delivery_name, para_list in fedex_rate_proc_index.items():
 		sheet = wb.get_sheet_by_name(delivery_name)
 		rates = proc_sheet_for_rates(sheet, *para_list)
 		# print(delivery_name)
@@ -22,6 +27,10 @@ def open_file(file_name):
 	ffile.dir_back()
 
 	return rate_dic
+
+def get_rates():
+	r = ffile.open_fedex_rates()
+	return r
 
 column_letters = [
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
@@ -68,7 +77,7 @@ def proc_sheet_for_rates(sheet, zone_row_num=2, rate_start_row_num=6, total_colu
 				weight_dic[weight][zone] = price
 	return weight_dic
 
-fedex_rate_index = {	
+fedex_rate_proc_index = {	
 # This is for the parameters to use in proc_sheet_for_rates
 # Will be iterated to match with the sheet names of the
 # 	fedex excel files of the rates in each sheet.
@@ -87,3 +96,4 @@ fedex_rate_index = {
 	# 'Deferred Smart Post 1-16 oz': None,
 	# 'Deferred Smart Post 1-70 lbs': None,
 }
+
