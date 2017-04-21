@@ -6,17 +6,22 @@ def open_file(file_name):
 	wb = openpyxl.load_workbook(file_name)
 	sheetnames_list = wb.get_sheet_names()
 
+	rate_dic = {}
+
 	for delivery_name, para_list in fedex_rate_index.items():
 		sheet = wb.get_sheet_by_name(delivery_name)
 		rates = proc_sheet_for_rates(sheet, *para_list)
-		print(delivery_name)
-		print(rates)
+		# print(delivery_name)
+		# print(rates)
+		rate_dic[delivery_name] = rates
 
 	# sheet = wb.get_sheet_by_name('Standard Overnight')
 	# rates = proc_sheet_for_rates(sheet)
 	# print(rates)
 
 	ffile.dir_back()
+
+	return rate_dic
 
 column_letters = [
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 
