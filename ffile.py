@@ -36,3 +36,23 @@ def open_ups_data():
 
 	dir_back(2)
 	return d
+
+def save_fedex_rates(fedex_data):
+	move_dir("data")
+	move_dir("fedex_rates")
+
+	with shelve.open("fedex_rates") as db:
+		db["data"] = fedex_data
+
+	dir_back(2)
+
+def open_fedex_rates():
+	move_dir("data")
+	move_dir("fedex_rates")
+	d = None
+
+	with shelve.open("fedex_rates") as db:
+		d = db["data"]
+
+	dir_back(2)
+	return d
