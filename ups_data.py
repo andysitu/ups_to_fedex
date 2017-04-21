@@ -4,6 +4,10 @@ import math
 class UPS_Data():
 	# self.data is propagated in __init__ by match_and_converge
 	# It has format [{k: prop, detail: [ [{}]. [{}]] }, {etc }]
+
+	# An UPS_Data instance is made for each tracking num.
+	# self.data contains a list containing dic of each simple
+	# ups data by the service level.
 	service_level_index = {}
 	charge_type_index = {}
 	charge_symbol_index = {}
@@ -117,6 +121,11 @@ class UPS_Data():
 		return rate
 
 	def get_rate_data(self):
+	# Format data as 
+	# [{
+	#	"simple" {"Service Level": "ex", "Billed Charge": 53.5}, 
+	#	"detail": [{"Charge Type": "ex", "Billed Charge": 53.5}]
+	# }, ]
 		s_data_list = []
 		data = self.data
 		for d_dic in data:
