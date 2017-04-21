@@ -121,4 +121,5 @@ class Fedex_List():
 			for detail_ups_obj  in ups_data["detail"]:
 				charge_type = detail_ups_obj["Charge Type"]
 				if charge_type not in self.ups_charge_type_index:
-					raise Exception("Index Charge not seen. " + charge_type)
+					msg = "Index Charge not seen: " + charge_type
+					raise Exception(msg)
