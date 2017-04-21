@@ -11,9 +11,9 @@ def move_dir(folder_name):
 		os.mkdir(folder_name)
 		os.chdir(folder_name)
 
-def dir_back():
-	os.chdir('..')
 def dir_back(num_times = 1):
+	# Moves back to a previous dir.
+	# num_times is num of prev dir ('..') to move.
 	for i in range(num_times):
 		os.chdir('..')
 
@@ -34,4 +34,5 @@ def open_ups_data():
 	with shelve.open("ups_data") as db:
 		d = db["data"]
 
-	return d	dir_back(2)
+	dir_back(2)
+	return d
