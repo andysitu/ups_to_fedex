@@ -1,5 +1,7 @@
 import openpyxl, ffile
 
+rates = None
+
 def save_fedex_rates(rates):
 	ffile.save_fedex_rates(rates)
 	return rates
@@ -27,8 +29,10 @@ def process_excel_fedex(file_name="fedex_rates.xlsx"):
 
 	return rate_dic
 
-def get_rates():
+def open_rates():
+	global rates
 	r = ffile.open_fedex_rates()
+	rates = r
 	return r
 
 column_letters = [
@@ -96,3 +100,10 @@ fedex_rate_proc_index = {
 	# 'Deferred Smart Post 1-70 lbs': None,
 }
 
+def get_rate(fedex_service_name, weight, zone):
+	global rates
+	if rates == None:
+		rates = process_excel_fedex()
+		save_fedex_rates(rates)
+		rates = open_rates()
+	return rates[fedex_service_name][weight][zone]
