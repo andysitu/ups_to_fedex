@@ -18,6 +18,7 @@ def dir_back(num_times = 1):
 		os.chdir('..')
 
 def save_ups_data(ups_data):
+	move_dir("data")
 	move_dir("ups_data")
 
 	with shelve.open("ups_data") as db:
@@ -26,6 +27,7 @@ def save_ups_data(ups_data):
 	dir_back(2)
 
 def open_ups_data():
+	move_dir("data")
 	move_dir("ups_data")
 	d = None
 
