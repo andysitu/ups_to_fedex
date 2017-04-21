@@ -141,6 +141,7 @@ class UPS_Data():
 			s_data_dic["simple"] = s_simple
 			s_simple["Billed Charge"] = d_dic["Billed Charge"]
 			s_simple["Service Level"] = d_dic["Service Level"]
+			s_simple["Invoice Section"] = d_dic["Invoice Section"]
 
 			s_detail_list = []
 			s_data_dic["detail"] = s_detail_list
