@@ -96,6 +96,7 @@ class Fedex_List():
 	# }
 
 	fedex_data_dic = {}
+
 	def add_data(self, date, ups_tracking_num, ups_rate_data_list):
 		if date not in self.fedex_data_dic:
 			self.fedex_data_dic[date] = {}
@@ -106,11 +107,14 @@ class Fedex_List():
 				# print(ups_tracking_num)
 				f_d = Fedex_Data(date, ups_rate_data_list)
 				fx_d_dic[ups_tracking_num] = f_d
+				self.index_charge_type(ups_rate_data_list)
+				return True
 		else:
 			e_msg = "fedex list already has an existing"
 			e_msg += " data instance with ups "
 			e_msg += "tracking num of " + ups_tracking_num
 			raise Exception(e_msg)
+		return False
 
 	def filter_ups_simple_data_list(self, ups_rate_data_list):
 		status = True
@@ -127,3 +131,10 @@ class Fedex_List():
 
 	def check_invoice_section(self, invoice_section):
 		return self.invoice_section_index[invoice_section]
+
+	def index_charge_type(self, ups_rate_data_list):
+		for ups_data in ups_rate_data_list:
+			for detail_ups_obj  in ups_data["detail"]:
+				charge_type = detail_ups_obj["Charge Type"]
+				if charge_type not in self.ups_charge_type_index:
+					raise Exception("Index Charge not seen. " + charge_type)
