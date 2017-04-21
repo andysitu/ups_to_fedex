@@ -9,6 +9,7 @@ class UPS_Data():
 	# self.data contains a list containing dic of each simple
 	# ups data by the service level.
 	service_level_index = {}
+	invoice_section_index = {}
 	charge_type_index = {}
 	charge_symbol_index = {}
 
@@ -67,6 +68,12 @@ class UPS_Data():
 			service_level = d["Service Level"]
 			if service_level not in self.service_level_index:
 				self.service_level_index[service_level] = None
+
+	def input_invoice_section_index(self):
+		for d in self.data:
+			invoice_section = d["Invoice Section"]
+			if invoice_section not in self.invoice_section_index:
+				self.invoice_section_index[invoice_section] = None
 
 	def input_charge_type_index(self):
 	# Takes charge type from ups_detail and fills in any

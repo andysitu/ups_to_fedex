@@ -4,7 +4,7 @@ import make_excel
 
 import ups_reader_simple, ups_reader_detail
 from ups_data import *
-import fedex_rates
+import fedex_rates, fedex_converter, fedex_list
 
 py_filename = "ups"
 
@@ -38,19 +38,15 @@ ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
 
 # print_raw_ups_data()
 
-make_excel.output_raw_data(raw_ups_data)
+# make_excel.output_raw_data(raw_ups_data)
 
-data = convert_raw_data_to_data_obj(raw_ups_data, False)
+ups_converted_data = convert_raw_data_to_data_obj(raw_ups_data, False)
 
-# for date, data_dic in data.items():
-# 	print(k)
-# 	print(v)	
+# make_excel.output_conv_ups_data(data)
 
-make_excel.output_conv_ups_data(data)
+ffile.save_ups_data(ups_converted_data)
 
-# ffile.save_ups_data(data)
-
-# data = ffile.open_ups_data()
+ups_converted_data = ffile.open_ups_data()
 
 def get_num_1_service_level(data_insts):
 	num = 0
@@ -76,18 +72,25 @@ def iter_thru_data(data, func, *args):
 		for tracking_num in data[date]:
 			func(data[date][tracking_num])
 
-def print_indexes():
+def print_indexes(ups_converted_data):
 	def run_data_inst(data_inst):
 		data_inst.input_service_level_index()
+		data_inst.input_invoice_section_index()
 		data_inst.input_charge_type_index()
 		data_inst.input_charge_symbol_index()
 
-	iter_thru_data(data, run_data_inst)
+	iter_thru_data(ups_converted_data, run_data_inst)
 
 	print("Service Level Index")
 	service_level_index = UPS_Data.service_level_index
 	for service_level in service_level_index:
 		print(service_level)
+	print("")
+
+	print("Invoice Section Index")
+	invoice_section_index = UPS_Data.invoice_section_index
+	for invoice_section in invoice_section_index:
+		print(invoice_section)
 	print("")
 
 	print("CHARGE SYMBOL Index")
@@ -102,4 +105,13 @@ def print_indexes():
 		print(charge_type)
 	print("")
 
-print_indexes()
+print_indexes(ups_converted_data)
+
+# FEDEX RATES
+# rates =  fedex_rates.open_file("fedex_rates.xlsx")
+# ffile.save_fedex_rates(rates)
+# r = ffile.open_fedex_rates()
+
+fx_list = fedex_list.Fedex_List()
+
+fedex_converter.convert(ups_converted_data, fx_list, 1)
