@@ -115,3 +115,25 @@ class UPS_Data():
 		for data_obj in self.data:
 			rate += data_obj["Billed Charge"]
 		return rate
+
+	def get_rate_data(self):
+		s_data_list = []
+		data = self.data
+		for d_dic in data:
+			s_data_dic = {}
+			s_simple = {}
+			s_data_dic["simple"] = s_simple
+			s_simple["Billed Charge"] = d_dic["Billed Charge"]
+			s_simple["Service Level"] = d_dic["Service Level"]
+
+			s_detail_list = []
+			s_data_dic["detail"] = s_detail_list
+			for d_detail_dic in  d_dic["detail"]:
+				s_detail_dic = {}
+				s_detail_dic["Charge Type"] = d_detail_dic["Charge Type"]
+				s_detail_dic["Billed Charge"] = d_detail_dic["Billed Charge"]
+				s_detail_list.append(s_detail_dic)
+
+			s_data_list.append(s_data_dic)
+
+		return s_data_list
