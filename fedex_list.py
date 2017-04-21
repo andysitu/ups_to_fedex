@@ -102,7 +102,8 @@ class Fedex_List():
 		fx_d_dic = self.fedex_data_dic[date]
 		#Check if tracking_num exists. If so, then throw error in else.
 		if ups_tracking_num not in fx_d_dic:
-			if self.check_service_level(ups_rate_data_list):
+			if self.filter_ups_simple_data_list(ups_rate_data_list):
+				# print(ups_tracking_num)
 				f_d = Fedex_Data(date, ups_rate_data_list)
 				fx_d_dic[ups_tracking_num] = f_d
 		else:
@@ -111,10 +112,18 @@ class Fedex_List():
 			e_msg += "tracking num of " + ups_tracking_num
 			raise Exception(e_msg)
 
-	def check_service_level(self, ups_rate_data_list):
+	def filter_ups_simple_data_list(self, ups_rate_data_list):
+		status = True
 		for ups_rate_data in ups_rate_data_list:
 			service_level = ups_rate_data["simple"]["Service Level"]
-			if self.service_level_index[service_level]:
-				return True
-			else:
-				return False
+			invoice_section = ups_rate_data["simple"]["Invoice Section"]
+			status = self.check_service_level(service_level) and self.check_invoice_section(invoice_section)
+			# if status:
+			# 	print("Service Level: ", service_level, " Invoice Section: ", invoice_section)
+		return status
+
+	def check_service_level(self, service_level):
+		return self.service_level_index[service_level]
+
+	def check_invoice_section(self, invoice_section):
+		return self.invoice_section_index[invoice_section]
