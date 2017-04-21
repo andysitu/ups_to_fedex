@@ -10,7 +10,8 @@ class Fedex_List():
 			self.fedex_data_dic[date] = {}
 		fx_d_dic = self.fedex_data_dic[date]
 		if ups_tracking_num not in fx_d_dic:
-			fx_d_dic[ups_tracking_num] = Fedex_Data(date, ups_rate_data)
+			f_d = Fedex_Data(date, ups_rate_data)
+			fx_d_dic[ups_tracking_num] = f_d
 		else:
 			e_msg = "fedex list already has an existing"
 			e_msg += " data instance with ups "
