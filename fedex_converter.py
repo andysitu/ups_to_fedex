@@ -21,3 +21,10 @@ service_level_index = {
 	"Worldwide Standard": False,
 	"Ground Return to Sender": False,
 }
+
+def convert(ups_data):
+	for date, data_track_num_obj in ups_data.items():
+		for track_num, data_obj in data_track_num_obj.items():
+			data_obj.get_rate_data()
+
+
