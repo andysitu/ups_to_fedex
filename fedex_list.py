@@ -12,4 +12,8 @@ class Fedex_List():
 		if ups_tracking_num not in fedex_data_date_dic:
 			fx_d_dic[ups_tracking_num] = Fedex_Data(date)
 		else:
-			raise Exception("fedex list already has an existing data instance with ups tracking num of " + ups_tracking_num)
+			e_msg = "fedex list already has an existing"
+			e_msg += " data instance with ups "
+			e_msg += "tracking num of " + ups_tracking_num
+			raise Exception(e_msg)
+
