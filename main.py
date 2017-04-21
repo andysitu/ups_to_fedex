@@ -108,10 +108,14 @@ def print_indexes(ups_converted_data):
 print_indexes(ups_converted_data)
 
 # FEDEX RATES
-# rates =  fedex_rates.open_file("fedex_rates.xlsx")
-# ffile.save_fedex_rates(rates)
-# r = ffile.open_fedex_rates()
+rates = fedex_rates.process_excel_fedex()
+fedex_rates.save_fedex_rates(rates)
+rates = fedex_rates.get_rates()
+# print(rates)
 
 fx_list = fedex_list.Fedex_List()
 
 fedex_converter.convert(ups_converted_data, fx_list, 1)
+
+for charge_type in fx_list.ups_charge_type_index:
+	print(charge_type)

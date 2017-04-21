@@ -1,7 +1,6 @@
 import openpyxl, ffile
 
 def save_fedex_rates(rates):
-	rates =  process_excel_fedex(file_name)
 	ffile.save_fedex_rates(rates)
 	return rates
 
