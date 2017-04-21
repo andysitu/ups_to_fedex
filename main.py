@@ -65,7 +65,7 @@ def get_num_1_service_level(data_insts):
 	return (num, num_x)
 
 def print_service_level(ups_data):
-	data_with_one_level, data_with_many_level = get_num_1_service_level(data)
+	data_with_one_level, data_with_many_level = get_num_1_service_level(ups_data)
 	print("Data with one level service: " + str(data_with_one_level))
 	print("Data with adjustments: " + str(data_with_many_level))
 
