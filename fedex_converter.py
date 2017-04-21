@@ -14,9 +14,10 @@ service_level_index = {
 	"Ground": False,
 	# Usually adjustments
 	"Residential Surcharge": False,
+	#Adjustments
 	"Expedited": False,
 	"Standard Shipment": False,
 	"Worldwide Express": False,
 	"Worldwide Standard": False,
 	"Ground Return to Sender": False,
-}# 	Fuel Surcharge
+}
