@@ -1,32 +1,11 @@
 from fedex_data import Fedex_Data
+import copy
 
 class Fedex_List():
 	# def __init__(self):
 	# 	self.pickup_date = pickup_date
 
-	service_level_index = {
-		"Ground Commercial": True,
-		"Ground Hundredweight": False,
-		"Ground Residential": True,
-		"2nd Day Air Commercial": True,
-		"2nd Day Air Residential": True,
-		"UPS SurePost - 1 LB or Greater": True,
-
-		"Worldwide Expedited": False,
-		"Ground Undeliverable Return": False,
-		# Probably Adjustments
-		"Residential": False,
-		# Probably Adjustments
-		"Ground": False,
-		# Usually adjustments
-		"Residential Surcharge": False,
-		#Adjustments
-		"Expedited": False,
-		"Standard Shipment": False,
-		"Worldwide Express": False,
-		"Worldwide Standard": False,
-		"Ground Return to Sender": False,
-	}
+	service_level_index = copy.deepcopy(Fedex_Data.service_level_index)
 
 	invoice_section_index = {
 		"Outbound": True,
@@ -34,7 +13,7 @@ class Fedex_List():
 		"Void Credits": False,
 	}
 
-	ups_charge_type_index = Fedex_Data.ups_charge_type_index
+	ups_charge_type_index = copy.deepcopy(Fedex_Data.ups_charge_type_index)
 
 	# charge_type_filter = {
 	# 	"Ground Commercial"
@@ -82,6 +61,7 @@ class Fedex_List():
 	fedex_data_dic = {}
 
 	def add_data(self, date, ups_tracking_num, ups_rate_data_list):
+		# print(ups_rate_data_list)
 		if date not in self.fedex_data_dic:
 			self.fedex_data_dic[date] = {}
 		fx_d_dic = self.fedex_data_dic[date]
