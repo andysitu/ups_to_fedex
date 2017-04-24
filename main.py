@@ -4,7 +4,7 @@ import make_excel
 
 import ups_reader_simple, ups_reader_detail
 from ups_data import *
-import fedex_rates, fedex_converter, fedex_list
+import fedex_rates, fedex_list
 
 py_filename = "ups"
 
@@ -110,12 +110,14 @@ print_indexes(ups_converted_data)
 # FEDEX RATES
 rates = fedex_rates.process_excel_fedex()
 fedex_rates.save_fedex_rates(rates)
-rates = fedex_rates.get_rates()
-# print(rates)
+rates = fedex_rates.open_rates()
+# print(fedex_rates.rates)
+print(fedex_rates.get_rate('Priority Overnight', 1, 7))
+
 
 fx_list = fedex_list.Fedex_List()
 
-fedex_converter.convert(ups_converted_data, fx_list, 1)
+fx_list.convert_ups_to_fdx(ups_converted_data, 1)
 
 for charge_type in fx_list.ups_charge_type_index:
 	print(charge_type)
