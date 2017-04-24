@@ -103,3 +103,20 @@ class Fedex_List():
 				if charge_type not in self.ups_charge_type_index:
 					msg = "Index Charge not seen: " + charge_type
 					raise Exception(msg)
+
+	def convert_ups_to_fdx(self, ups_data, max_service_level_num, count_status = False):
+		count = 0
+		count_x = 0
+		for date, data_track_num_obj in ups_data.items():
+			for track_num, ups_data_obj in data_track_num_obj.items():
+				formatted_ups_data = ups_data_obj.get_rate_data()
+				# add_status = True, if Fedex_Dat was created
+				add_status = self.add_data(date, track_num, formatted_ups_data)
+				if count_status:
+					if add_status:
+						count += 1
+					else:
+						count_x += 1
+				# print(formatted_ups_data)
+		if count_status:
+			print(count, count_x)
