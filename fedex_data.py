@@ -65,6 +65,8 @@ class Fedex_Data():
 		"Non-Machinable": False,
 		"Delivery Signature": False,
 		"Additional Handling Surcharge": False,
+		#This is false since it's calculated after everything
+		"Fuel Surcharge": False,
 	}
 
 	fedex_delivery_type = {
