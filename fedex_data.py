@@ -102,3 +102,11 @@ class Fedex_Data():
 			billed_charge = detail_dic["Billed Charge"]
 			# if len(detail_list) > 2:
 			# 	print(charge_type, billed_charge)
+
+	def convert_ups_to_fedex_charge_type(self, ups_charge_type):
+		fedex_charge_type = self.ups_to_fedex_charge_type_index[ups_charge_type]
+		return fedex_charge_type
+
+	def get_fedex_calc_function(self, ups_charge_type):
+		fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
+		return self.fedex_charge_type_to_func_index[fedex_charge_type]
