@@ -83,7 +83,6 @@ class Fedex_Data():
 
 	def __init__(self, date, ups_rate_data_list):
 		self.date = date
-		ups_rate_data_list
 		self.process_ups_data(date, ups_rate_data_list)
 
 	def process_ups_data(self, date, ups_rate_data_list):
@@ -91,17 +90,23 @@ class Fedex_Data():
 
 	def convert_first_ups_rate_data_to_fedex(self, date, ups_rate_data_list):
 		ups_rate_data = ups_rate_data_list[0]
-		# print(ups_rate_data)
 
 		weight = ups_rate_data["simple"]["Weight"]
 		zone = ups_rate_data["simple"]["Zone"]
+		service_level = ups_rate_data["simple"]["Service Level"]
 
 		detail_list = ups_rate_data['detail']
 		# print(detail_list)
+
+		fedex_charge_dic = {}
 		
 		for detail_dic in detail_list:
 			charge_type = detail_dic["Charge Type"]
 			billed_charge = detail_dic["Billed Charge"]
+
+			fedex_charge_type = self.convert_ups_to_fedex_charge_type(charge_type)
+			fedex_calc_funct = self.get_fedex_calc_function(charge_type)
+			# fedex_rate = fedex_calc_funct
 			# if len(detail_list) > 2:
 			# 	print(charge_type, billed_charge)
 
