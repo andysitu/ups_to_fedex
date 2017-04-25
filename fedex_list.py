@@ -5,7 +5,7 @@ class Fedex_List():
 	# def __init__(self):
 	# 	self.pickup_date = pickup_date
 
-	service_level_index = copy.deepcopy(Fedex_Data.service_level_index)
+	ups_service_level_index = copy.deepcopy(Fedex_Data.ups_service_level_index)
 
 	invoice_section_index = {
 		"Outbound": True,

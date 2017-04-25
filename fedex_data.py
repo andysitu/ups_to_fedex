@@ -2,7 +2,7 @@ import fedex_rates
 
 class Fedex_Data():
 
-	service_level_index = {
+	ups_service_level_index = {
 		"Ground Commercial": True,
 		"Ground Hundredweight": False,
 		"Ground Residential": True,
