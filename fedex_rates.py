@@ -107,3 +107,63 @@ def get_rate(fedex_service_name, weight, zone):
 		save_fedex_rates(rates)
 		rates = open_rates()
 	return rates[fedex_service_name][weight][zone]
+
+def calc_ground_commercial(weight, zone):
+	return get_rate('Ground', weight, zone)
+
+def calc_ground_residential(weight, zone):
+	return calc_ground_commercial(weight, zone) + calc_residential_surcharge()
+
+def calc_2_day_air_commercial(weight, zone):
+	return get_rate('2 Day', weight, zone)
+
+def calc_smart_post_1lb_plus(weight, zone):
+	return get_rate('Smart Post 1-70 lbs', weight, zone)
+
+def calc_residential_surcharge():
+	res_surcharge = 3.45
+	discount = 0.50
+	return res_surcharge - discount
+
+def calc_oversize_charge():
+	oversize_charge = 72.50
+	discount = 0.00
+	return oversize_charge - discount
+
+def calc_add_handling():
+	add_handling = 11.00
+	discount = add_handling * 0.25
+	return add_handling - discount
+
+def calc_delivery_area_surcharge(service_type, residential, extended):
+	# type refers to residential or commercial
+	if type == "Ground":
+		if residential:
+			if extended:
+				delivery_area_surcharge = 4.2
+			else:
+				delivery_area_surcharge = 3.9
+		else:
+			delivery_area_surcharge = 2.45
+	elif type == 'Priority Overnight' or type =='Standard Overnight' or type == '2 Day AM' or type == '2 Day':
+		if residential:
+			if extended:
+				delivery_area_surcharge = 4.2
+			else:
+				delivery_area_surcharge = 3.9
+		else:
+			delivery_area_surcharge = 2.6
+	elif type == "Home Delivery":
+		if extended:
+			delivery_area_surcharge = 4.2
+		else:
+			delivery_area_surcharge = 3.35
+	elif type == 'Smart Post 1-16 oz' or type == 'Smart Post 1-70 lbs':
+		delivery_area_surcharge = 1.00
+	else:
+		msg = "Unknown service_type " + service_type
+		print(msg)
+
+	discount = delivery_area_surcharge * 0.25
+
+	return delivery_area_surcharge - discount
