@@ -85,9 +85,10 @@ class Fedex_List():
 		for ups_rate_data in ups_rate_data_list:
 			service_level = ups_rate_data["simple"]["Service Level"]
 			invoice_section = ups_rate_data["simple"]["Invoice Section"]
-			status = self.check_service_level(service_level) and self.check_invoice_section(invoice_section)
+			zone = int(ups_rate_data['simple']['Zone'])
+			status = self.check_service_level(service_level) and self.check_invoice_section(invoice_section) and self.check_zone(zone)
 			# if status:
-			# 	print("Service Level: ", service_level, " Invoice Section: ", invoice_section)
+			# 	print("Service Level: ", service_level, " Invoice Section: ", invoice_section, " Zone: ", zone)
 		return status
 
 	def check_service_level(self, service_level):
@@ -95,6 +96,10 @@ class Fedex_List():
 
 	def check_invoice_section(self, invoice_section):
 		return self.invoice_section_index[invoice_section]
+
+	def check_zone(self, zone):
+	# zone should be an int
+		return zone >= 2 and zone <= 8
 
 	def index_charge_type(self, ups_rate_data_list):
 		for ups_data in ups_rate_data_list:
