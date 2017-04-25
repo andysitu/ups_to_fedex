@@ -48,8 +48,11 @@ class Fedex_List():
 			# 	print("Service Level: ", service_level, " Invoice Section: ", invoice_section, " Zone: ", zone)
 		return status
 
-	def check_service_level(self, service_level):
-		return self.service_level_index[service_level]
+	def check_service_level(self, ups_service_level):
+		if ups_service_level != False:
+			return False
+		else:
+			return True
 
 	def check_invoice_section(self, invoice_section):
 		return self.invoice_section_index[invoice_section]
