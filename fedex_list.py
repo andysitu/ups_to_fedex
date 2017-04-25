@@ -15,49 +15,6 @@ class Fedex_List():
 
 	ups_to_fedex_charge_type_index = copy.deepcopy(Fedex_Data.ups_to_fedex_charge_type_index)
 
-	# charge_type_filter = {
-	# 	"Ground Commercial"
-	# 	"Fuel Surcharge"
-	# 	"Ground Hundredweight"
-	# 	"Additional Handling"
-	# 	"Ground Residential"
-	# 	"Residential Surcharge"
-	# 	"Delivery Area Surcharge"
-	# 	"2nd Day Air Commercial"
-	# 	"Delivery Area Surcharge - Extended"
-	# 	"Delivery Confirmation Signature"
-	# 	"2nd Day Air Residential"
-	# 	"Worldwide Expedited"
-	# 	"Extended Area Surcharge"
-	# 	"Ground Undeliverable Return"
-	# 	"UPS SurePost - 1 lb or Greater"
-	# 	"Remote Area Surcharge"
-	# 	"Shipment Residential Surcharge"
-	# 	"Delivery Confirmation Response"
-	# 	"Residential Adjustment"
-	# 	"Shipping Charge Correction UPS SurePost - 1 LB or Greater"
-	# 	"Shipping Charge Correction Fuel Surcharge"
-	# 	"Shipping Charge Correction Additional Handling"
-	# 	"Shipping Charge Correction Ground"
-	# 	"Shipping Charge Correction Large Package Surcharge"
-	# 	"Large Package Surcharge"
-	# 	"Not Previously Billed Canada Residential Surcharge"
-	# 	"Not Previously Billed Fuel Surcharge"
-	# 	"Void Ground Residential"
-	# 	"Void Residential Surcharge"
-	# 	"Void Delivery Area Surcharge"
-	# 	"Void Fuel Surcharge"
-	# 	"Shipping Charge Correction Expedited"
-	# 	"Standard Shipment"
-	# 	"Address Correction Ground"
-	# 	"Worldwide Express"
-	# 	"Address Correction Expedited"
-	# 	"Worldwide Standard"
-	# 	"Ground Return to Sender"
-	# 	"Return To Sender - Phone Request"
-	# 	"Non-machinable Charge"
-	# }
-
 	fedex_data_dic = {}
 
 	def add_data(self, date, ups_tracking_num, ups_rate_data_list):
