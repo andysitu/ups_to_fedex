@@ -93,3 +93,12 @@ class Fedex_Data():
 
 		weight = ups_rate_data["simple"]["Weight"]
 		zone = ups_rate_data["simple"]["Zone"]
+
+		detail_list = ups_rate_data['detail']
+		# print(detail_list)
+		
+		for detail_dic in detail_list:
+			charge_type = detail_dic["Charge Type"]
+			billed_charge = detail_dic["Billed Charge"]
+			# if len(detail_list) > 2:
+			# 	print(charge_type, billed_charge)
