@@ -167,3 +167,24 @@ def calc_delivery_area_surcharge(service_type, residential, extended):
 	discount = delivery_area_surcharge * 0.25
 
 	return delivery_area_surcharge - discount
+
+def calc_signature():
+	signature_rate = 4.5
+	discount = signature_rate * 0.25
+	return signature_rate - discount
+
+def calc_nonmachinable_charge():
+	nonmachinable_charge = 2.5
+	return nonmachinable_charge
+
+def calc_fuel_surcharge(self):
+	print("HELLO")
+
+def get_fuel_rate(delivery_type, year, month, date):
+	if delivery_type == "Express":
+
+	elif delivery_type == "Ground":
+
+	else:
+		msg = "ERROR: delivery type " + delivery_type + " is seen." 
+		raise Exception(msg)
