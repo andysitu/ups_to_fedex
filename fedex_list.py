@@ -13,7 +13,7 @@ class Fedex_List():
 		"Void Credits": False,
 	}
 
-	ups_charge_type_index = copy.deepcopy(Fedex_Data.ups_charge_type_index)
+	ups_to_fedex_charge_type_index = copy.deepcopy(Fedex_Data.ups_to_fedex_charge_type_index)
 
 	# charge_type_filter = {
 	# 	"Ground Commercial"
@@ -106,7 +106,7 @@ class Fedex_List():
 		for ups_data in ups_rate_data_list:
 			for detail_ups_obj  in ups_data["detail"]:
 				charge_type = detail_ups_obj["Charge Type"]
-				if charge_type not in self.ups_charge_type_index:
+				if charge_type not in self.ups_to_fedex_charge_type_index:
 					msg = "Index Charge not seen: " + charge_type
 					# print(msg)
 					# self.ups_charge_type_index[charge_type] = None

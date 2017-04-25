@@ -120,7 +120,7 @@ def calc_2_day_air_commercial(weight, zone):
 def calc_smart_post_1lb_plus(weight, zone):
 	return get_rate('Smart Post 1-70 lbs', weight, zone)
 
-def calc_residential_surcharge():
+def calc_residential_charge():
 	res_surcharge = 3.45
 	discount = 0.50
 	return res_surcharge - discount
