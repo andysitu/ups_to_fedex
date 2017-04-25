@@ -87,9 +87,9 @@ class Fedex_Data():
 		self.process_ups_data(date, ups_rate_data_list)
 
 	def process_ups_data(self, date, ups_rate_data_list):
-		self.convert_first_ups_rate_data(ups_rate_data_list)
+		self.convert_first_ups_rate_data_to_fedex(date, ups_rate_data_list)
 
-	def convert_first_ups_rate_data(self, ups_rate_data_list):
+	def convert_first_ups_rate_data_to_fedex(self, date, ups_rate_data_list):
 		ups_rate_data = ups_rate_data_list[0]
 		# print(ups_rate_data)
 
