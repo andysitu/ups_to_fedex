@@ -102,11 +102,14 @@ class Fedex_List():
 		return zone >= 2 and zone <= 8
 
 	def index_charge_type(self, ups_rate_data_list):
+	# Used in add_data
 		for ups_data in ups_rate_data_list:
 			for detail_ups_obj  in ups_data["detail"]:
 				charge_type = detail_ups_obj["Charge Type"]
 				if charge_type not in self.ups_charge_type_index:
 					msg = "Index Charge not seen: " + charge_type
+					# print(msg)
+					# self.ups_charge_type_index[charge_type] = None
 					raise Exception(msg)
 
 	def convert_ups_to_fdx(self, ups_data, max_service_level_num, count_status = False):

@@ -119,5 +119,8 @@ fx_list = fedex_list.Fedex_List()
 
 fx_list.convert_ups_to_fdx(ups_converted_data, 1)
 
+print("UPS USED CHARGE TYPES")
 for charge_type in fx_list.ups_charge_type_index:
 	print(charge_type)
+
+# print(fedex_rates.calc_ground_commercial(4, 4))
