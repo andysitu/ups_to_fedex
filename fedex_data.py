@@ -1,3 +1,5 @@
+import fedex_rates
+
 class Fedex_Data():
 
 	service_level_index = {
@@ -31,12 +33,9 @@ class Fedex_Data():
 		"Ground Residential": None,
 		"Residential Surcharge": None,
 		"Delivery Area Surcharge": None,
-		"2nd Day Air Commercial": None,
 		"Delivery Area Surcharge - Extended": None,
 		"Delivery Confirmation Signature": None,
-		"2nd Day Air Residential": None,
 		"UPS SurePost - 1 lb or Greater": None,
-		"Remote Area Surcharge": None,
 		"Delivery Confirmation Response": None,
 		"Large Package Surcharge": None,
 		"Non-machinable Charge": None,
