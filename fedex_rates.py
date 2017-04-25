@@ -1,5 +1,8 @@
 import openpyxl, ffile
 
+import re
+import datetime
+
 rates = None
 
 def save_fedex_rates(rates):
@@ -108,6 +111,7 @@ def get_rate(fedex_service_name, weight, zone):
 		rates = open_rates()
 	return rates[fedex_service_name][weight][zone]
 
+
 def calc_ground_commercial(weight, zone):
 	return get_rate('Ground', weight, zone)
 
@@ -177,21 +181,14 @@ def calc_nonmachinable_charge():
 	nonmachinable_charge = 2.5
 	return nonmachinable_charge
 
-def calc_fuel_surcharge(self):
-	print("HELLO")
-
-def get_fuel_rate(delivery_type, year, month, date):
-	if delivery_type == "Express":
-
-	elif delivery_type == "Ground":
-
-	else:
-		msg = "ERROR: delivery type " + delivery_type + " is seen." 
-		raise Exception(msg)
+def calc_fuel_surcharge(self, date, charge_type_list):
+	print(date)
+	print(charge_type_list)
 
 # Fuel rate percentages are stored in [Express_value, Ground_value]
 
 fuel_rate_index = {
+# Each date is for the entire week.
 	"1/2/2017": [2.50, 4.00],
 	"1/9/2017": [2.50, 4.00],
 	"1/16/2017": [2.50, 4.00],
@@ -210,3 +207,58 @@ fuel_rate_index = {
 	"4/17/2017": [3.50, 4.50],
 	"4/24/2017": [3.75, 4.50],
 }
+
+def get_date_from_string(date_string):
+	#Format will be in mm/dd/yyyy format
+	date_re_pattern = "(?P<month>\d+)\\(?P<day>\d+)\\(?P<year>\d+)"
+	r = re.match(r"(?P<month>\d+)\/(?P<day>\d+)\/(?P<year>\d+)", date_string)
+	month = int(r.group('month'))
+	year = int(r.group('year'))
+	day = int(r.group('day'))
+	return {"year": year, "month": month, "day": day,}
+
+def get_string_from_date(year, month, day):
+	return str(month) + "/" + str(day) + "/" + str(year)
+
+def fill_fuel_rates():
+	# Fills fuel_rate_dic with the rates in fuel_rate_index
+
+	# it fills a total days of fill_num_days + 1
+	fill_num_days = 6
+	for date_str, rate_list in fuel_rate_index.items():
+		date_dic = get_date_from_string(date_str)
+		year = date_dic["year"]
+		month = date_dic["month"]
+		day = date_dic["day"]
+
+		put_data_into_fuel_rate_dic(year, month, day, rate_list)
+
+		d = datetime.date(year, month, day)
+		print(d)
+
+		for i in range(1, fill_num_days + 1):
+			new_d = d + datetime.timedelta(days=i)
+			new_year = new_d.year
+			new_month = new_d.month
+			new_day = new_d.day
+			put_data_into_fuel_rate_dic(new_year, new_month, new_day, rate_list)
+
+def put_data_into_fuel_rate_dic(year, month, day, data):
+	if year not in fuel_rate_dic:
+		fuel_rate_dic[year] = {}
+	if month not in fuel_rate_dic[year]:
+		fuel_rate_dic[year][month]= {}
+	fuel_rate_dic[year][month][day] = data
+
+def get_fuel_rate(year, month, day, delivery_type):
+	fuel_list = fuel_rate_dic[year][month][day]
+	if delivery_type == "Express":
+		return fuel_list[0]
+	elif delivery_type == "Ground":
+		return fuel_list[1]
+	else:
+		msg = "ERROR: delivery type " + delivery_type + " is seen." 
+		raise Exception(msg)
+
+fuel_rate_dic = {}
+
