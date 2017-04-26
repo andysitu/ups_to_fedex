@@ -3,13 +3,12 @@ import fedex_rates
 class Fedex_Data():
 
 	ups_service_level_index = {
-		"Ground Commercial": True,
+		"Ground Commercial": "Ground",
 		"Ground Hundredweight": False,
-		"Ground Residential": True,
-		"2nd Day Air Commercial": True,
-		"2nd Day Air Residential": True,
-		"UPS SurePost - 1 LB or Greater": True,
-
+		"Ground Residential": "Home Delivery",
+		"2nd Day Air Commercial": '2 Day',
+		"2nd Day Air Residential": '2 Day',
+		"UPS SurePost - 1 LB or Greater": 'Smart Post 1-70 lbs',
 		"Worldwide Expedited": False,
 		"Ground Undeliverable Return": False,
 		# Probably Adjustments
