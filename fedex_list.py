@@ -49,10 +49,10 @@ class Fedex_List():
 		return status
 
 	def check_service_level(self, ups_service_level):
-		if ups_service_level != False:
-			return False
-		else:
+		if self.ups_service_level_index[ups_service_level] != False:
 			return True
+		else:
+			return False
 
 	def check_invoice_section(self, invoice_section):
 		return self.invoice_section_index[invoice_section]
