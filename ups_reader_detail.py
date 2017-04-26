@@ -46,6 +46,12 @@ def add_details(file_name, simple_ups_data):
 				# error_row += 1
 				continue
 
+			#Check if Billed Charge is 0
+			billed_charge = float(row[header_num_dic["Billed Charge"]])
+			# print(billed_charge == 0, billed_charge)
+			if billed_charge == 0:
+				continue
+
 			data_dic = {}
 
 			try:
