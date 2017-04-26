@@ -187,9 +187,30 @@ def calc_nonmachinable_charge(weight, zone):
 	nonmachinable_charge = 2.5
 	return nonmachinable_charge
 
-def calc_fuel_surcharge(self, date, charge_type_list):
-	print(date)
-	print(charge_type_list)
+def calc_fuel_surcharge(date, fedex_detail_data_list, delivery_type, add_fuel_surcharge_index):
+	#date is a string 'mm/dd/yyyy'
+	#add_fuel_surcharge_index has True for those charge types where the total
+	# is calculated with for the percentage calculation with fuel shortage
+	fedex_total = 0
+	fuel_dic = {"Charge Type": "Fuel Surcharge", }
+	date_dic = get_date_from_string(date)
+
+	year = date_dic["year"]
+	month = date_dic["month"]
+	day = date_dic["day"]
+
+	# print(fedex_detail_data_list)
+	for fedex_data_dic in fedex_detail_data_list:
+		charge_type = fedex_data_dic["Charge Type"]
+		charge_rate = fedex_data_dic["Billed Charge"]
+		if add_fuel_surcharge_index[charge_type]:
+			fedex_total += charge_rate
+	fuel_surcharge_percent = get_fuel_rate(year, month, day, delivery_type) / 100.0
+
+	rate = fedex_total * fuel_surcharge_percent
+
+	fuel_dic["Billed Charge"] = rate
+	return fuel_dic
 
 # Fuel rate percentages are stored in [Express_value, Ground_value]
 
