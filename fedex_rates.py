@@ -240,7 +240,6 @@ def fill_fuel_rates():
 		put_data_into_fuel_rate_dic(year, month, day, rate_list)
 
 		d = datetime.date(year, month, day)
-		print(d)
 
 		for i in range(1, fill_num_days + 1):
 			new_d = d + datetime.timedelta(days=i)
@@ -259,12 +258,11 @@ def put_data_into_fuel_rate_dic(year, month, day, data):
 def get_fuel_rate(year, month, day, delivery_type):
 	fuel_list = fuel_rate_dic[year][month][day]
 	if delivery_type == "Express":
-		return fuel_list[0]
+		return float(fuel_list[0])
 	elif delivery_type == "Ground":
-		return fuel_list[1]
+		return float(fuel_list[1])
 	else:
 		msg = "ERROR: delivery type " + delivery_type + " is seen." 
 		raise Exception(msg)
 
 fuel_rate_dic = {}
-
