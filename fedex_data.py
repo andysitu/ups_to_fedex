@@ -49,6 +49,7 @@ class Fedex_Data():
 
 	ups_to_fedex_charge_type_index = {
 		"Ground Commercial": "Ground",
+		# "Ground Hundredweight": "Ground",
 		"Fuel Surcharge": "Fuel Surcharge",
 		"Additional Handling": "Additional Handling Surcharge",
 		"Ground Residential": "Home Delivery",
