@@ -143,7 +143,8 @@ def calc_add_handling(weight, zone):
 
 def calc_delivery_area_surcharge(service_type, residential, extended):
 	# type refers to residential or commercial
-	if type == "Ground":
+	delivery_area_surcharge = 0
+	if service_type == "Ground":
 		if residential:
 			if extended:
 				delivery_area_surcharge = 4.2
@@ -151,7 +152,7 @@ def calc_delivery_area_surcharge(service_type, residential, extended):
 				delivery_area_surcharge = 3.9
 		else:
 			delivery_area_surcharge = 2.45
-	elif type == 'Priority Overnight' or type =='Standard Overnight' or type == '2 Day AM' or type == '2 Day':
+	elif service_type == 'Priority Overnight' or service_type =='Standard Overnight' or service_type == '2 Day AM' or service_type == '2 Day':
 		if residential:
 			if extended:
 				delivery_area_surcharge = 4.2
@@ -159,13 +160,13 @@ def calc_delivery_area_surcharge(service_type, residential, extended):
 				delivery_area_surcharge = 3.9
 		else:
 			delivery_area_surcharge = 2.6
-	elif type == "Home Delivery":
+	elif service_type == "Home Delivery":
 		if extended:
 			delivery_area_surcharge = 4.2
 		else:
 			delivery_area_surcharge = 3.35
-	elif type == 'Smart Post 1-16 oz' or type == 'Smart Post 1-70 lbs':
 		delivery_area_surcharge = 1.00
+	elif service_type == 'Smart Post 1-16 oz' or service_type == 'Smart Post 1-70 lbs':
 	else:
 		msg = "Unknown service_type " + service_type
 		print(msg)
