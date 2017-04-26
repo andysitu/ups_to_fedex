@@ -25,6 +25,15 @@ class Fedex_Data():
 		"Ground Return to Sender": False,
 	}
 
+	ups_service_level_residential_index = {
+	# If True, then it's residential
+		"Ground Commercial": False,
+		"Ground Hundredweight": False,
+		"Ground Residential": True,
+		"2nd Day Air Commercial": False,
+		"2nd Day Air Residential": True,
+	}
+
 	fedex_charge_type_to_func_index = {
 		"Ground": fedex_rates.calc_ground_commercial,
 		"Fuel Surcharge": fedex_rates.calc_fuel_surcharge,
