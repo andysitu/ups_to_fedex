@@ -46,7 +46,8 @@ class UPS_Data():
 				total_charge = 0
 
 				for detail_data in detail_data_list:
-					total_charge += float(detail_data["Billed Charge"])
+					charge = float(detail_data["Billed Charge"])
+					total_charge += charge
 					# print(conv_charge, total_charge, conv_charge == total_charge)
 
 				# Match simple & detail data by total billed charge
@@ -140,7 +141,7 @@ class UPS_Data():
 			s_simple = {}
 			s_data_dic["simple"] = s_simple
 
-			s_simple["Billed Charge"] = d_dic["Billed Charge"]
+			s_simple["Billed Charge"] = float(d_dic["Billed Charge"])
 			s_simple["Service Level"] = d_dic["Service Level"]
 			s_simple["Invoice Section"] = d_dic["Invoice Section"]
 			s_simple["Weight"] = d_dic["Weight"]
@@ -151,7 +152,7 @@ class UPS_Data():
 			for d_detail_dic in  d_dic["detail"]:
 				s_detail_dic = {}
 				s_detail_dic["Charge Type"] = d_detail_dic["Charge Type"]
-				s_detail_dic["Billed Charge"] = d_detail_dic["Billed Charge"]
+				s_detail_dic["Billed Charge"] = float(d_detail_dic["Billed Charge"])
 				s_detail_list.append(s_detail_dic)
 
 			s_data_list.append(s_data_dic)
