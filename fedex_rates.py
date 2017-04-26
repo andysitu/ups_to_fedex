@@ -104,6 +104,8 @@ fedex_rate_proc_index = {
 }
 
 def get_rate(fedex_service_name, weight, zone):
+	weight = int(weight)
+	zone = int(zone)
 	global rates
 	if rates == None:
 		rates = process_excel_fedex()
@@ -116,7 +118,7 @@ def calc_ground_commercial(weight, zone):
 	return get_rate('Ground', weight, zone)
 
 def calc_ground_residential(weight, zone):
-	return calc_ground_commercial(weight, zone) + calc_residential_surcharge()
+	return calc_ground_commercial(weight, zone) + calc_residential_charge(weight, zone)
 
 def calc_2_day_air_commercial(weight, zone):
 	return get_rate('2 Day', weight, zone)
@@ -124,17 +126,17 @@ def calc_2_day_air_commercial(weight, zone):
 def calc_smart_post_1lb_plus(weight, zone):
 	return get_rate('Smart Post 1-70 lbs', weight, zone)
 
-def calc_residential_charge():
+def calc_residential_charge(weight, zone):
 	res_surcharge = 3.45
 	discount = 0.50
 	return res_surcharge - discount
 
-def calc_oversize_charge():
+def calc_oversize_charge(weight, zone):
 	oversize_charge = 72.50
 	discount = 0.00
 	return oversize_charge - discount
 
-def calc_add_handling():
+def calc_add_handling(weight, zone):
 	add_handling = 11.00
 	discount = add_handling * 0.25
 	return add_handling - discount
@@ -172,12 +174,12 @@ def calc_delivery_area_surcharge(service_type, residential, extended):
 
 	return delivery_area_surcharge - discount
 
-def calc_signature():
+def calc_signature(weight, zone):
 	signature_rate = 4.5
 	discount = signature_rate * 0.25
 	return signature_rate - discount
 
-def calc_nonmachinable_charge():
+def calc_nonmachinable_charge(weight, zone):
 	nonmachinable_charge = 2.5
 	return nonmachinable_charge
 
