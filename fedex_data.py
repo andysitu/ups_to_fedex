@@ -68,7 +68,7 @@ class Fedex_Data():
 		"Home Delivery": True,
 		"Residential Delivery Charge": True,
 		"Delivery Area Surcharge": True,
-		"SmartPost - 1 lb or Greater": True,
+		'Smart Post 1-70 lbs': True,
 		"Oversize Charge": True,
 		"Non-Machinable": False,
 		"Delivery Signature": False,
