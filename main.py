@@ -42,7 +42,7 @@ ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
 
 ups_converted_data = convert_raw_data_to_data_obj(raw_ups_data, False)
 
-# make_excel.output_conv_ups_data(data)
+# make_excel.output_conv_ups_data(ups_converted_data)
 
 ffile.save_ups_data(ups_converted_data)
 
@@ -106,6 +106,8 @@ def print_indexes(ups_converted_data):
 	print("")
 
 print_indexes(ups_converted_data)
+
+fedex_rates.fill_fuel_rates()
 
 # FEDEX RATES
 rates = fedex_rates.process_excel_fedex()
