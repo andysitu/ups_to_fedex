@@ -165,8 +165,11 @@ def calc_delivery_area_surcharge(service_type, residential, extended):
 			delivery_area_surcharge = 4.2
 		else:
 			delivery_area_surcharge = 3.35
-		delivery_area_surcharge = 1.00
 	elif service_type == 'Smart Post 1-16 oz' or service_type == 'Smart Post 1-70 lbs':
+		if extended:
+			delivery_area_surcharge = 1.50
+		else:
+			delivery_area_surcharge = 1.00
 	else:
 		msg = "Unknown service_type " + service_type
 		print(msg)
