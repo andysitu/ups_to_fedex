@@ -1,4 +1,6 @@
 import fedex_rates
+import re
+import copy
 
 class Fedex_Data():
 
@@ -95,29 +97,76 @@ class Fedex_Data():
 		self.process_ups_data(date, ups_rate_data_list)
 
 	def process_ups_data(self, date, ups_rate_data_list):
-		self.convert_first_ups_rate_data_to_fedex(date, ups_rate_data_list)
+		data_dic = self.convert_first_ups_rate_data_to_fedex(date, ups_rate_data_list)
+		self.weight = data_dic["Weight"]
+		self.zone = data_dic["Zone"]
+		self.date = data_dic["Date"]
+		self.ups = [data_dic["ups"],]
+		self.fedex = [data_dic["fedex"],]
+		self.num_service = len(self.fedex)
+
+	def get_first_dataset(self):
+		return {
+			"Weight": self.weight,
+			"Zone": self.zone,
+			"Date": self.date,
+			"ups": copy.deepcopy(self.ups[0]),
+			"fedex": copy.deepcopy(self.fedex[0]),
+			"Number of Services": self.num_service,
+		}
+
 
 	def convert_first_ups_rate_data_to_fedex(self, date, ups_rate_data_list):
+		data_dic = {}
+
 		ups_rate_data = ups_rate_data_list[0]
 
-		weight = ups_rate_data["simple"]["Weight"]
-		zone = ups_rate_data["simple"]["Zone"]
-		service_level = ups_rate_data["simple"]["Service Level"]
+		weight = int(ups_rate_data["simple"]["Weight"])
+		zone = int(ups_rate_data["simple"]["Zone"])
+		ups_service_level = ups_rate_data["simple"]["Service Level"]
 
-		detail_list = ups_rate_data['detail']
+		ups_detail_list = ups_rate_data['detail']
 		# print(detail_list)
+		# print(date)
 
-		fedex_charge_dic = {}
+		fedex_charge_list = []
 		
-		for detail_dic in detail_list:
-			charge_type = detail_dic["Charge Type"]
-			billed_charge = detail_dic["Billed Charge"]
+		for ups_detail_dic in ups_detail_list:
+			ups_charge_type = ups_detail_dic["Charge Type"]
+			if ups_charge_type == 'Fuel Surcharge':
+				continue
+			billed_charge = ups_detail_dic["Billed Charge"]
 
-			fedex_charge_type = self.convert_ups_to_fedex_charge_type(charge_type)
-			fedex_calc_funct = self.get_fedex_calc_function(charge_type)
-			# fedex_rate = fedex_calc_funct
+			fedex_rate_dic = self.calc_fedex_rate(weight, zone, ups_charge_type, ups_service_level, ups_detail_list)
+			fedex_charge_list.append(fedex_rate_dic)
 			# if len(detail_list) > 2:
 			# 	print(charge_type, billed_charge)
+
+		#Calculate fuel surcharge at the end
+		fedex_service_level = self.ups_service_level_index[ups_service_level]
+		delivery_type = self.fedex_delivery_type[fedex_service_level]
+		fuel_dic = fedex_rates.calc_fuel_surcharge(date, fedex_charge_list, delivery_type, self.add_fuel_surcharge_index)
+		fedex_charge_list.append(fuel_dic)
+
+		fedex_data = {}
+		ups_data = {}
+		ups_data["Charges List"] = ups_detail_list
+		ups_data["Service Level"] = ups_service_level
+		ups_total_rate = self.calc_total(ups_detail_list)
+		ups_data["Total Charge"] = ups_total_rate
+		fedex_data["Charges List"] = fedex_charge_list
+		fedex_data["Service Level"] = fedex_service_level
+		fedex_total_rate = self.calc_total(fedex_charge_list)
+		fedex_data["Total Charge"] = fedex_total_rate
+
+		data_dic["fedex"] = fedex_data
+		data_dic["ups"] = ups_data
+		data_dic["Date"] = date
+		data_dic["Weight"] = weight
+		data_dic["Zone"] = zone
+		# print(data_dic)
+		return data_dic
+
 
 	def convert_ups_to_fedex_charge_type(self, ups_charge_type):
 		fedex_charge_type = self.ups_to_fedex_charge_type_index[ups_charge_type]
@@ -126,3 +175,38 @@ class Fedex_Data():
 	def get_fedex_calc_function(self, ups_charge_type):
 		fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
 		return self.fedex_charge_type_to_func_index[fedex_charge_type]
+
+	def calc_fedex_rate(self, weight, zone, ups_charge_type, ups_service_level, ups_detail_list):
+	# Returns a dict containing 'Billed Charge', 'Charge Type', and 
+
+		fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
+		fedex_calc_funct = self.get_fedex_calc_function(ups_charge_type)
+		fedex_service_level = self.ups_service_level_index[ups_service_level]
+		extended_status = re.search(r"Extended", ups_service_level)
+
+		if fedex_charge_type == "Delivery Area Surcharge":
+			residential_status = self.get_residential_status(ups_detail_list)
+			rate = fedex_calc_funct(fedex_service_level, residential_status, extended_status)
+		elif fedex_charge_type == "Fuel Surcharge":
+		# It should be skipped beforehand, since it needs to be calculated at the end.
+			pass
+			# rate = fedex_calc_funct(date, ups_detail_list)
+		else:
+			rate = fedex_calc_funct(weight, zone)
+		return {'Billed Charge': rate, 'Charge Type': fedex_charge_type, 'Service Level': fedex_service_level}
+
+	def get_residential_status(self, ups_detail_list):
+		# Gets residential status by checking "Resident" is in any of the
+		# charge types through the ups detail list
+		for ups_detail_dict in ups_detail_list:
+			ups_charge_type = ups_detail_dict["Charge Type"]
+			extended_status = re.search(r"Resident", ups_charge_type)
+			if extended_status:
+				return True
+		return False
+
+	def calc_total(self, data_list):
+		total = 0.00
+		for d in data_list:
+			total += float(d["Billed Charge"])
+		return total
