@@ -70,6 +70,7 @@ class Fedex_List():
 					msg = "Index Charge not seen: " + charge_type
 					# print(msg)
 					# self.ups_charge_type_index[charge_type] = None
+					# print(self.ups_to_fedex_charge_type_index)
 					raise Exception(msg)
 
 	def convert_ups_to_fdx(self, ups_data, max_service_level_num, count_status = False):
@@ -88,3 +89,25 @@ class Fedex_List():
 				# print(formatted_ups_data)
 		if count_status:
 			print(count, count_x)
+
+	def get_dates(self):
+		return self.fedex_data_dic.keys()
+
+	def get_ups_tracking_nums(self, date):
+		tracking_num_list = []
+		data_dic =self.fedex_data_dic[date]
+		for tracking_num, data in data_dic.items():
+			tracking_num_list.append(tracking_num)
+
+		return tracking_num_list
+
+	def get_all_ups_tracking_nums(self):
+		tracking_num_list= []
+		dates_list = self.get_dates()
+		for date in dates_list:
+			tracking_num_list += self.get_ups_tracking_nums(date)
+		return tracking_num_list
+
+	def get_first_dataset(self, date, tracking_num):
+		data_inst = self.fedex_data_dic[date][tracking_num]
+		return data_inst.get_first_dataset()
