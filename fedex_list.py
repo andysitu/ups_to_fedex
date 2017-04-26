@@ -5,14 +5,13 @@ class Fedex_List():
 	# def __init__(self):
 	# 	self.pickup_date = pickup_date
 
-	ups_service_level_index = copy.deepcopy(Fedex_Data.ups_service_level_index)
-
 	invoice_section_index = {
 		"Outbound": True,
 		"Adjustments & Other Charges": False,
 		"Void Credits": False,
 	}
 
+	ups_service_level_index = copy.deepcopy(Fedex_Data.ups_service_level_index)
 	ups_to_fedex_charge_type_index = copy.deepcopy(Fedex_Data.ups_to_fedex_charge_type_index)
 
 	fedex_data_dic = {}
@@ -44,6 +43,7 @@ class Fedex_List():
 			invoice_section = ups_rate_data["simple"]["Invoice Section"]
 			zone = int(ups_rate_data['simple']['Zone'])
 			status = self.check_service_level(service_level) and self.check_invoice_section(invoice_section) and self.check_zone(zone)
+			# print(self.check_service_level(service_level), self.check_invoice_section(invoice_section), self.check_zone(zone), status)
 			# if status:
 			# 	print("Service Level: ", service_level, " Invoice Section: ", invoice_section, " Zone: ", zone)
 		return status
