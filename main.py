@@ -116,13 +116,16 @@ rates = fedex_rates.open_rates()
 # print(fedex_rates.rates)
 print(fedex_rates.get_rate('Priority Overnight', 1, 7))
 
-
 fx_list = fedex_list.Fedex_List()
 
 fx_list.convert_ups_to_fdx(ups_converted_data, 1)
 
 print("UPS USED CHARGE TYPES")
-for charge_type in fx_list.ups_charge_type_index:
+for charge_type in fx_list.ups_to_fedex_charge_type_index:
 	print(charge_type)
 
 # print(fedex_rates.calc_ground_commercial(4, 4))
+# fedex_rates.fill_fuel_rates()
+# print(fedex_rates.fuel_rate_dic)
+
+make_excel.output_fedex_ups_dat(fx_list)
