@@ -25,6 +25,13 @@ class Fedex_Data():
 		"Worldwide Express": False,
 		"Worldwide Standard": False,
 		"Ground Return to Sender": False,
+
+		'Shipment Residential Surcharge': False,
+		"Standard to Canada": False,
+		"Worldwide Saver": False,
+
+		#Not sure about this
+		"2nd Day Air": False,
 	}
 
 	ups_service_level_residential_index = {
