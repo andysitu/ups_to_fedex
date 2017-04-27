@@ -20,7 +20,13 @@ def convert_raw_data_to_data_obj(raw_ups_data_dic, conv_more_than_one_service_le
 		if not conv_more_than_one_service_level:
 			if len(simple_data_list) > 1:
 				continue
-		detail_data_super_list = data["detail"]
+		# print(tracking_num, data)
+		try:
+			detail_data_super_list = data["detail"]
+		except KeyError:
+			msg = tracking_num + " was missing in detail."
+			print(msg)
+			continue
 		# print(simple_data_list)
 		# print(detail_data_super_list)
 		ups_data = UPS_Data(tracking_num, simple_data_list, detail_data_super_list)
