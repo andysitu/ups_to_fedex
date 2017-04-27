@@ -2,6 +2,8 @@ import csv, math
 
 # Gives the column for excel file
 header_index = {
+	#"N" seems to be inaccurate as the multiple packages
+	# would have the same tracking num in "N"
 	"Tracking Number": "U",
 	"Charge Type": "AT",
 	"Charge Symbol": "AR",
