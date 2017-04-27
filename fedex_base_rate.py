@@ -7,6 +7,14 @@ column_letters = [
 ]
 
 def convert_file(filename, folder_name):
+	""" 
+	Opens an excel file containing standard base Fedex rates and will
+		convert it to the appropriate values based on the discount
+		and the absolute minimum. Will change the excel file itself.
+	The excel filel will have first row containing zone information,
+		and the first column containing weights.
+	"""
+
 	weight_column = 'A'
 
 	ffile.move_dir(folder_name)
@@ -62,12 +70,14 @@ def match_sheet_names(sheet_name):
 			return sheet_name_regex_delivery_type_index[regex]
 
 def find_zones(sheet_value):
-	# Gets a sheet value (ex: "Zone 5-14")
-	# Returns a dict containing "start" and "end"
-	#	which corresponds to the starting zone and ending.
-	# It would be {"start": 5, "end": 14} in the ex.
-	# If it's just 1 zone, then it would just return
-	#	dic with just "start".
+	"""
+	Gets a sheet value (ex: "Zone 5-14")
+	Returns a dict containing "start" and "end"
+		which corresponds to the starting zone and ending.
+	It would be {"start": 5, "end": 14} in the ex.
+	If it's just 1 zone, then it would just return
+		dic with just "start".
+	"""
 	multiple_zone_re = r"(\d+)-(\d+)"
 	zone_re = r"(\d)+"
 
@@ -84,10 +94,12 @@ def find_zones(sheet_value):
 		return {"start": match_2[0],}
 
 def process_column_zone_index(column_index, zone_dic, col_letter):
-	# zone_dic referse to the dictinoary returned by find_zones
-	# Indexes key to zone number and value to column letter.
-	# If mult_zones (ex: 4-15) will have each zone corresponding
-	#	to the same column letter
+	"""
+	zone_dic refers to the dictionary returned by find_zones
+	Indexes key to zone number and value to column letter.
+	If mult_zones (ex: 4-15) will have each zone corresponding
+		to the same column letter.
+	"""
 	start = int(zone_dic['start'])
 
 	if "end" not in zone_dic:
