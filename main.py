@@ -116,7 +116,7 @@ print_indexes(ups_converted_data)
 fedex_rates.fill_fuel_rates()
 
 # FEDEX RATES
-rates = fedex_rates.process_excel_fedex()
+rates = fedex_rates.process_excel_fedex("fedex_standard_list_base_rate.xlsx")
 fedex_rates.save_fedex_rates(rates)
 rates = fedex_rates.open_rates()
 # print(fedex_rates.rates)
