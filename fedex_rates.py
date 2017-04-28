@@ -54,10 +54,10 @@ def get_zone_dic(zone_list, col_letters_list, zone_limit = 8):
 	
 	return zone_dic
 
-def proc_sheet_for_rates(sheet, zone_row_num=2, rate_start_row_num=6, total_columns=11):
+def proc_sheet_for_rates(sheet, zone_row_num, rate_start_row_num, total_columns):
 # Skip row 3, b/c Envelopes are usually not used for overnight.
 	max_rows = sheet.max_row
-	max_columns = sheet.max_column
+	max_columns = total_columns
 	col_letters = column_letters[:total_columns]
 
 	zone_list = []
