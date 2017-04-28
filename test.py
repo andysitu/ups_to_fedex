@@ -9,6 +9,11 @@ def test_equal(val1, val2):
 
 
 fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_no_earned.xlsx")
+fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_1st_earned.xlsx", 1500000.00)
+fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_2nd_earned.xlsx", 2500000.00)
+fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_3rd_earned.xlsx", 3500000.00)
+fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_4th_earned.xlsx", 4500000.00)
+fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_5th_earned.xlsx", 15500000.00)
 
 
 test_equal(fedex_base_rate.calc_earned_discount(1000000), 0.04)
