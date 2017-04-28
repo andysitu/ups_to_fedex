@@ -270,7 +270,10 @@ def calc_smartpost_lb(zone, weight, full_rate, annual_charge, type_status):
 
 	if "end" not in zone_dic:
 		column_index[start] = col_letter
+def test_min_charge(rate, delivery_name_key):
+	#Delivery_name refers to the keys used in min_charges
+	min_charge = min_charges_dic[delivery_name_key]
+	if rate < min_charge:
+		return min_charge
 	else:
-		end = int(zone_dic['end'])
-		for zone_num in range(start, end + 1):
-			column_index[zone_num] = col_letter
+		return rate
