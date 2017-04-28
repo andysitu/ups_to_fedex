@@ -87,15 +87,17 @@ fedex_rate_proc_index = {
 # This is for the parameters to use in proc_sheet_for_rates
 # Will be iterated to match with the sheet names of the
 # 	fedex excel files of the rates in each sheet.
-	'Priority Overnight': [2,6,10],
-	'Standard Overnight': [2,6,10],
-	'2 Day AM': [2,6,10],
-	'2 Day': [2,6,11],
-	'Express Saver (3 Day)': [2,3,8],
-	'Ground': [2,3,8],
-	'Home Delivery': [2,3,8],
-	'Smart Post 1-16 oz': [2,3,8],
-	'Smart Post 1-70 lbs': [2,3,8],
+
+ # zone_row_num, rate_start_row_num, total_columns
+	'Priority Overnight': [1,3,8],
+	'Standard Overnight': [1,3,8],
+	'2 Day AM': [1,3,8],
+	'2 Day': [1,3,8],
+	'Express Saver (3 Day)': [1,3,8],
+	'Ground': [1,2,8],
+	'Home Delivery': [1,2,8],
+	'Smart Post 1-16 oz': [1,2,8],
+	'Smart Post 1-70 lbs': [1,2,8],
 
 	#Tese are delivery to weird areas
 
