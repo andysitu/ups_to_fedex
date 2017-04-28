@@ -75,11 +75,14 @@ def proc_sheet_for_rates(sheet, zone_row_num=2, rate_start_row_num=6, total_colu
 	for row in range(rate_start_row_num, max_rows + 1):
 		weight = 1
 		for letter, zone in zone_dic.items():
+			cell_loc = letter + str(row)
+
 			if letter == 'A':
-				weight = sheet[letter + str(row)].value
+				weight = sheet[cell_loc].value
 				weight_dic[weight] = {}
 			else:
-				price = sheet[letter + str(row)].value
+				# print(cell_loc)
+				price = sheet[cell_loc].value
 				weight_dic[weight][zone] = price
 	return weight_dic
 
