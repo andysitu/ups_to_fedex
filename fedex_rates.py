@@ -118,7 +118,7 @@ def calc_ground_commercial(weight, zone):
 	return get_rate('Ground', weight, zone)
 
 def calc_ground_residential(weight, zone):
-	return calc_ground_commercial(weight, zone) + calc_residential_charge(weight, zone)
+	return calc_ground_commercial(weight, zone)
 
 def calc_2_day_air_commercial(weight, zone):
 	return get_rate('2 Day', weight, zone)
