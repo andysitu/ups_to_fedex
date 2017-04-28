@@ -270,6 +270,27 @@ def calc_smartpost_lb(zone, weight, full_rate, annual_charge, type_status):
 
 	if "end" not in zone_dic:
 		column_index[start] = col_letter
+min_charges_dic = {
+# POSSIBILITY OF AUTOMATING THIS
+	"priority_overnight_envelope": 10.50,
+	"priority_overnight": 13.75,
+	"overnight_envelope": 10.25,
+	'overnight': 11.90,
+	'2day_am': 6.30,
+	'2day_am_envelope': 6.26,
+	'2day': 5.45,
+	'2day_envelope': 5.50,
+	'express_saver_envelope': 4.80,
+	'express_saver': 4.80,
+	"ground_home_2_to_8": (7.25 - 0.50),
+	"ground_home_9": 27.69,
+	"ground_home_17": 27.69,
+	"smartpost_oz_2_to_8": (7.25 - 3.00),
+	"smartpost_oz_9_10_17_99": (17.01 - 9.00),
+	"smartpost_lb_2_to_8": (7.25 - 2.00),
+	"smartpost_lb_9_10_17_26_99": (17.01 - 6.00),
+}
+
 def test_min_charge(rate, delivery_name_key):
 	#Delivery_name refers to the keys used in min_charges
 	min_charge = min_charges_dic[delivery_name_key]
