@@ -61,10 +61,15 @@ def proc_sheet_for_rates(sheet, zone_row_num, rate_start_row_num, total_columns)
 	col_letters = column_letters[:total_columns]
 
 	zone_list = []
+	zone_re = r"(\d+)"
 	# Get Zones on second row
 	for letter in col_letters:
-		zone = sheet[letter + str(zone_row_num)].value
-		zone_list.append(zone)
+
+		zone_str = str(sheet[letter + str(zone_row_num)].value)
+		zone_results = re.search(zone_re, zone_str)
+		if zone_results != None:
+			zone = int(zone_results[0])
+			zone_list.append(zone)
 
 		# if zone == 8:
 			# break
