@@ -47,10 +47,13 @@ def get_zone_dic(zone_list, col_letters_list, zone_limit = 8):
 	zone_dic = {}
 
 	for i, letter in enumerate(col_letters_list):
-		zone_dic[letter] = zone_list[i]
+		if letter == 'A':
+			zone_dic[letter] = 1
+		else:
+			zone_dic[letter] = zone_list[i-1]
 
-		if zone_list[i] == zone_limit:
-			break
+			if zone_list[i-1] == zone_limit:
+				break
 	
 	return zone_dic
 
