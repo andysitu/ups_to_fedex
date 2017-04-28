@@ -113,7 +113,13 @@ def get_rate(fedex_service_name, weight, zone):
 		rates = process_excel_fedex()
 		save_fedex_rates(rates)
 		rates = open_rates()
-	return rates[fedex_service_name][weight][zone]
+	try:
+		return rates[fedex_service_name][weight][zone]
+	except KeyError:
+		print(rates[fedex_service_name])
+		print(fedex_service_name)
+		print(weight)
+		print(zone)
 
 
 def calc_ground_commercial(weight, zone):
