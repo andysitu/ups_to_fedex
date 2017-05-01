@@ -24,6 +24,7 @@ class Fedex_Data():
 		"Standard Shipment": False,
 		"Worldwide Express": False,
 		"Worldwide Standard": False,
+		"Worldwide Expedited Shipment": False,
 		"Ground Return to Sender": False,
 
 		'Shipment Residential Surcharge': False,
