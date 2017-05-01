@@ -6,7 +6,8 @@ import ups_reader_simple, ups_reader_detail
 from ups_data import *
 import fedex_rates, fedex_list
 
-py_filename = "ups"
+ups_invoice_date = input("What is the invoice date?")
+earned = input("what earned?")
 
 def print_raw_ups_data():
 	for ups in raw_ups_data:
@@ -38,9 +39,13 @@ def convert_raw_data_to_data_obj(raw_ups_data_dic, conv_more_than_one_service_le
 		# print(ups_data)
 	return ups_data_dict
 
-raw_ups_data = ups_reader_simple.read('data/ups_simple.csv')
+simple_ups_filename = 'data/' + ups_invoice_date + ' ups_simple.csv'
 
-ups_reader_detail.add_details('data/ups_detail.csv', raw_ups_data)
+raw_ups_data = ups_reader_simple.read(simple_ups_filename)
+
+detail_ups_filename = 'data/' + ups_invoice_date + ' ups_detail.csv'
+
+ups_reader_detail.add_details(detail_ups_filename, raw_ups_data)
 
 # print_raw_ups_data()
 
@@ -116,7 +121,9 @@ print_indexes(ups_converted_data)
 fedex_rates.fill_fuel_rates()
 
 # FEDEX RATES
-rates = fedex_rates.process_excel_fedex("fedex_standard_list_base_rate.xlsx")
+
+fedex_rate_filename = "fedex_discount_rates_" + earned + "_earned.xlsx"
+rates = fedex_rates.process_excel_fedex(fedex_rate_filename)
 fedex_rates.save_fedex_rates(rates)
 rates = fedex_rates.open_rates()
 # print(fedex_rates.rates)
@@ -134,4 +141,4 @@ for charge_type in fx_list.ups_to_fedex_charge_type_index:
 # fedex_rates.fill_fuel_rates()
 # print(fedex_rates.fuel_rate_dic)
 
-make_excel.output_fedex_ups_dat(fx_list)
+make_excel.output_fedex_ups_dat(fx_list, ups_invoice_date, earned)
