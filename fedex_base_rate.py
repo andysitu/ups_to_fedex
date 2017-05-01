@@ -253,7 +253,7 @@ def calc_express_saver(zone, weight, full_rate, annual_charge, type_status):
 def calc_ground(zone, weight, full_rate, annual_charge, type_status):
 	earned_discount = calc_earned_discount(annual_charge, True)
 
-	if zone >= 2 or zone <= 8:
+	if zone >= 2 and zone <= 8:
 		if weight < 11:
 			discount = 0.30
 		elif weight < 31.0:
