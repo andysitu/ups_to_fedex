@@ -189,7 +189,7 @@ class Fedex_Data():
 		fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
 		fedex_calc_funct = self.get_fedex_calc_function(ups_charge_type)
 		fedex_service_level = self.ups_service_level_index[ups_service_level]
-		extended_status = re.search(r"Extended", ups_service_level)
+		extended_status = re.search(r"Extended", ups_charge_type)
 
 		if fedex_charge_type == "Delivery Area Surcharge":
 			residential_status = self.get_residential_status(ups_detail_list)
