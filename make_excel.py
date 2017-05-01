@@ -57,7 +57,7 @@ def output_conv_ups_data(ups_data):
 
 	ffile.dir_back()
 
-def output_fedex_ups_dat(fedex_list_inst):
+def output_fedex_ups_dat(fedex_list_inst, ups_invoice_date, earned):
 	dates_list =  fedex_list_inst.get_dates()
 
 	ffile.move_dir("excel")
@@ -118,7 +118,6 @@ def output_fedex_ups_dat(fedex_list_inst):
 			sheet[ups_col_letter + str(i)] = "UPS"
 			sheet[ups_rate_col_letter + str(i)] = tracking_num
 			sheet[fedex_col_letter + str(i)] = "Fedex"
-			sheet[date_col_letter + str(i)] = ""
 
 			i += 1
 
@@ -171,6 +170,8 @@ def output_fedex_ups_dat(fedex_list_inst):
 			# 	print(ups_charges_list)
 			# 	print(fedex_charges_list)
 
-	wb.save('ups_and_fedex_data.xlsx')
+	save_filename = ups_invoice_date + ' ups_and_fedex_data ' + earned + '_earned.xlsx'
+
+	wb.save(save_filename)
 
 	ffile.dir_back()
