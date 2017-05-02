@@ -11,4 +11,4 @@ The invoices should have the names of [date] ups_detail.csv and [date] ups_simpl
 
 The fedex rates should be in excel form and should also be in ups_to_fedex/data. It should have the name of "fedex_standard_list_base_rate.xlsx". A copy of it is also in the root directory. To convert this to the discount fedex rates, """ python test.py """ should be used.
 
-To convert the rates, """ python main.py """ shhould be used to actually convert the rates.
+To convert the rates, """ python main.py """ should be used to actually convert the rates.
