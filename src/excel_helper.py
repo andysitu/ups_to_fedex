@@ -1,4 +1,6 @@
-alphabet_dic = {	'A': 1, 'B': 2, 'C':3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11,
+import math
+
+alphabet_dic = {'A': 1, 'B': 2, 'C':3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9, 'J': 10, 'K': 11,
 				'L': 12, 'M': 13, 'N': 14, 'O': 15, 'P': 16, 'Q': 17, 'R': 18, 'S': 19, 'T': 20, 'U': 21,
 				'V': 22, 'W': 23, 'X': 24, 'Y': 25, 'Z': 26,}
 
@@ -41,3 +43,28 @@ def get_column_num(letters):
 	for i, letter in enumerate(letter_list):
 		total += math.pow(26, i) * alphabet_dic[letter]
 	return int(total)
+
+def get_column_letters(column_num):
+	""" 
+	Input: int of column number
+	Output: string of the column (used for excel, e.g. 'AAA')
+	"""
+	column_letters = ''
+	
+	# Get highest exponential power
+	num_pow = 0
+	for i in range(10):
+		base = math.pow(26, i)
+		remainder = column_num / base
+		if remainder <= 26:
+			num_pow = i
+			break
+	total = column_num
+
+	for i in range(num_pow, -1, -1):
+		base = math.pow(26, i)
+		letter_num = int(total / base)
+		total -= letter_num * base
+		column_letters += rev_alphabet_dic[letter_num]
+
+	return column_letters
