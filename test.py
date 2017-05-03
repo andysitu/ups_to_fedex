@@ -1,4 +1,4 @@
-import src.excel_helper
+from src import excel_helper
 
 def test_equal(val1, val2):
 	if val1 == val2:
