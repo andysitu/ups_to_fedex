@@ -85,30 +85,6 @@ def match_sheet_names(sheet_name):
 		if result != None:
 			return sheet_name_regex_delivery_type_index[regex]
 
-def find_zones(sheet_value):
-	"""
-	Gets a sheet value (ex: "Zone 5-14")
-	Returns a dict containing "start" and "end"
-		which corresponds to the starting zone and ending.
-	It would be {"start": 5, "end": 14} in the ex.
-	If it's just 1 zone, then it would just return
-		dic with just "start".
-	"""
-	multiple_zone_re = r"(\d+)-(\d+)"
-	zone_re = r"(\d)+"
-
-	sheet_str = str(sheet_value)
-	
-	match_1 = re.search(multiple_zone_re, sheet_str)
-	match_2 = re.search(zone_re, sheet_str)
-	if match_1 != None:
-		return {
-			"start": match_1[1], 
-			"end": match_1[2],
-		}
-	elif match_2 != None:
-		return {"start": match_2[0],}
-
 def process_column_zone_index(column_index, zone_dic, col_letter):
 	"""
 	zone_dic refers to the dictionary returned by find_zones
