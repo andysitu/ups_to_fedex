@@ -15,9 +15,10 @@ def get_zone(sheet_value):
 	Gets a sheet value (ex: "Zone 5-14")
 	Returns {"start": [num],
 			["end": [num]]}
-		"end" is present only with zones that have a range.
+	If there is no range, then start value will equal end.
+	Num is in string format.
 	"""
-	multiple_zone_re = r"(\d+)-(\d+)"
+	multiple_zone_re = r"(\d+)\s*-\s*(\d+)"
 	zone_re = r"(\d)+"
 
 	sheet_str = str(sheet_value)
