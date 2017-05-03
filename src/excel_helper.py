@@ -36,6 +36,32 @@ def get_zone(sheet_value):
 	else:
 		return None
 
+def get_zones(sheet):
+	"""
+	Input: sheet from wb of openpyxl
+	Returns the dict of the start and end of the zones.
+		Returns None for the weight column.
+	Output: { [weight_column_letter]: 'weight',
+			  [zone_column_letter]: 
+				{"start": [num], "end": [num] }
+			}
+	"""
+	zone_row = '1'
+	zone_index = {}
+	max_columns = sheet.max_column
+	for i in range(1, max_columns + 1):
+		column_letter = get_column_letters(i)
+		if column_letter == weight_column:
+			zone_index[column_letter] = 'weight'
+		else:
+			cell_location = column_letter + zone_row
+			zone_str = sheet[cell_location].value
+
+			zone_dic = get_zone(zone_str)
+
+			zone_index[column_letter] = zone_dic
+	return zone_index
+	
 def get_column_num(letters):
 	"""
 	Input: letters str (e.g. "AAB")

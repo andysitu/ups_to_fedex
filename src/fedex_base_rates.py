@@ -13,9 +13,5 @@ def open_file(filename, folder_name):
 
 	ffile.dir_back()
 
-
 def save_file(filename):
 	pass
-
-def get_zones(sheet):
-	print(sheet)
