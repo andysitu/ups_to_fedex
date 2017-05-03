@@ -31,7 +31,8 @@ def get_zone(sheet_value):
 			"end": match_1[2],
 		}
 	elif match_2 != None:
-		return {"start": match_2[0],}
+		return {"start": match_2[0],
+				"end": match_2[0]}
 	else:
 		return None
 
