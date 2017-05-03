@@ -10,14 +10,6 @@ header_index = {
 	"Billed Charge": "BA",
 }
 
-def get_header_num(letters):
-	letter_list = list(letters)[::-1]
-
-	total = 0
-	for i, letter in enumerate(letter_list):
-		total += math.pow(26, i) * alphabet_list[letter]
-	return int(total - 1)
-
 def make_header_num_dic(header_index):
 	header_num_dic = {}
 	for header, header_letters in header_index.items():
