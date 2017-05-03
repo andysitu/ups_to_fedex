@@ -33,11 +33,11 @@ def get_zone(sheet_value):
 def get_column_num(letters):
 	"""
 	Input: letters str (e.g. "AAB")
-	Output: int of the column number. Starts with 0.
+	Output: int of the column number. Starts with 1.
 	"""
 	letter_list = list(letters)[::-1]
 
 	total = 0
 	for i, letter in enumerate(letter_list):
-		total += math.pow(26, i) * alphabet_list[letter]
-	return int(total - 1)
+		total += math.pow(26, i) * alphabet_dic[letter]
+	return int(total)
