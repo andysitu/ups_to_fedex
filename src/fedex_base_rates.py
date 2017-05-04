@@ -1,6 +1,19 @@
 import ffile
 import openpyxl
 from . import excel_helper
+import re
+
+new_filename_base = "fedex_discounted_rates"
+file_type = ".xlsx"
+
+new_filenames =  {
+	new_filename_base + "_no_earned" + file_type: 0.00,
+	new_filename_base + "_1st_earned" + file_type: 1500000,
+	new_filename_base + "_2nd_earned" + file_type: 2500000,
+	new_filename_base + "_3rd_earned" + file_type: 3500000,
+	new_filename_base + "_4th_earned" + file_type: 4500000,
+	new_filename_base + "_5th_earned" + file_type: 15000000,
+}
 
 def convert_file(filename, folder_name, new_filename, annual_charge):
 	ffile.move_dir(folder_name)
