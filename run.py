@@ -1,3 +1,4 @@
-from src import fedex_base_rates
+from src import fedex_base_rates, excel_helper
+from src import main
 
-fedex_rates.open_file("fedex_standard_list_base_rate.xlsx", "fedex_files")
+# fedex_base_rates.get_discounted_rate_files()
