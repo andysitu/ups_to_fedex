@@ -10,7 +10,7 @@ def open_file(filename, folder_name):
 
 	for sheet_name in sheet_names:
 		sheet = wb.get_sheet_by_name(sheet_name)
-		zone_dic = excel_helper.get_zones(sheet)
+		zones_dic = excel_helper.get_zones(sheet)
 		# print(zone_dic)
 
 		num_rows = sheet.max_row
@@ -23,6 +23,26 @@ def open_file(filename, folder_name):
 
 def save_file(filename):
 	pass
+
+def match_sheet_names(sheet_name):
+	s_name = sheet_name.lower()
+	sheet_name_regex_delivery_type_index = {
+		r"priority overnight": calc_pri_overnight,
+		r'standard overnight': calc_overnight,
+		r'2 day am': calc_2day_am,
+		r'2 day': calc_2day,
+		r'express saver': calc_express_saver,
+		r'ground': calc_ground,
+		r'home': calc_ground,
+		r'smart post.*1-16 oz': calc_smartpost_oz,
+		r'smart post.*lbs': calc_smartpost_lb,
+	}
+
+	for regex in sheet_name_regex_delivery_type_index:
+		result = re.search(regex, s_name)
+		# print(regex, sheet_name_regex_delivery_type_index[regex], result)
+		if result != None:
+			return sheet_name_regex_delivery_type_index[regex]
 
 
 #Functions to calculate the discounted rates

@@ -62,25 +62,6 @@ def convert_file(filename, folder_name, new_filename ='fedex_rates.xlsx', annual
 	wb.save(new_filename)
 	ffile.dir_back()
 
-def match_sheet_names(sheet_name):
-	s_name = sheet_name.lower()
-	sheet_name_regex_delivery_type_index = {
-		r"priority overnight": calc_pri_overnight,
-		r'standard overnight': calc_overnight,
-		r'2 day am': calc_2day_am,
-		r'2 day': calc_2day,
-		r'express saver': calc_express_saver,
-		r'ground': calc_ground,
-		r'home': calc_ground,
-		r'smart post.*1-16 oz': calc_smartpost_oz,
-		r'smart post.*lbs': calc_smartpost_lb,
-	}
-
-	for regex in sheet_name_regex_delivery_type_index:
-		result = re.search(regex, s_name)
-		# print(regex, sheet_name_regex_delivery_type_index[regex], result)
-		if result != None:
-			return sheet_name_regex_delivery_type_index[regex]
 
 def process_column_zone_index(column_index, zone_dic, col_letter):
 	"""
