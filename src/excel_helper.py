@@ -42,8 +42,7 @@ def get_zones(sheet):
 	Input: sheet from wb of openpyxl
 	Returns the dict of the start and end of the zones.
 		Returns None for the weight column.
-	Output: { [weight_column_letter]: 'weight',
-			  [zone_column_letter]: 
+	Output: { [zone_column_letter]: 
 				{"start": [num], "end": [num] }
 			}
 	"""
@@ -61,7 +60,6 @@ def get_zones(sheet):
 
 			zone_index[column_letter] = zone_dic
 	return zone_index
-	
 def get_column_num(letters):
 	"""
 	Input: letters str (e.g. "AAB")
