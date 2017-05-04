@@ -7,8 +7,9 @@ simple_ups_fieldnames = {
 	"zone": "Zone",
 	# "Reference No": "Reference No.1",
 	"pickup_date": "Pickup Date",
-	"billed_charge": "Billed Charge",
+	"charge": "Billed Charge",
 	"invoice_section": "Invoice Section",
+	"incentive": "Incentive Credit"
 }
 
 def read_simple_ups(simple_ups_filename, folder_name):
@@ -47,8 +48,15 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 		for row in reader:
 			tracking_num = row[tracking_num_column]
-			simple_ups_data.append(extract_data(row))
+			ups_data = extract_data(row)
+			value = ups_data["incentive"]
+			simple_ups_data.append(ups_data)
+			# print(row)
+
 
 	ffile.dir_back()
 
 	return simple_ups_data
+
+def read_detail_ups():
+	pass
