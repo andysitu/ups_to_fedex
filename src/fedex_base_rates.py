@@ -3,6 +3,8 @@ import openpyxl
 from . import excel_helper
 import re
 
+fedex_base_rate_filename = "fedex_standard_list_base_rate.xlsx"
+folder_name = "fedex_rates"
 new_filename_base = "fedex_discounted_rates"
 file_type = ".xlsx"
 
@@ -16,11 +18,8 @@ new_filenames =  {
 }
 
 def get_discounted_rate_files():
-	filename = "fedex_standard_list_base_rate.xlsx"
-	folder_name = "fedex_files"
-
 	for new_filename, annual_charge in new_filenames.items():
-		convert_file(filename, folder_name, new_filename, annual_charge)
+		convert_file(fedex_base_rate_filename, folder_name, new_filename, annual_charge)
 
 def convert_file(filename, folder_name, new_filename, annual_charge):
 	ffile.move_dir(folder_name)
