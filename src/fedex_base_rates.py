@@ -2,7 +2,7 @@ import ffile
 import openpyxl
 from . import excel_helper
 
-def open_file(filename, folder_name):
+def convert_file(filename, folder_name, new_filename, annual_charge):
 	ffile.move_dir(folder_name)
 
 	wb = openpyxl.load_workbook(filename)
@@ -11,14 +11,32 @@ def open_file(filename, folder_name):
 	for sheet_name in sheet_names:
 		sheet = wb.get_sheet_by_name(sheet_name)
 		zones_dic = excel_helper.get_zones(sheet)
+
+		calc_func = get_calc_func(sheet_name)
+
 		# print(zone_dic)
 
 		num_rows = sheet.max_row
 		weight_column = excel_helper.weight_column
+
 		for row_num in range( int(excel_helper.zone_row) + 1, num_rows + 1):
 			weight = sheet[weight_column + str(row_num)].value
-			print(weight)
-			# for col_letter, zone
+			# print(weight)
+			for column_letter, zone_dic in zones_dic.items():
+				if column_letter == weight_column:
+					continue
+
+				zone = zone_dic["start"]
+
+				cell_loc = column_letter + str(row_num)
+
+				# print(column_letter, zone_dic)
+				full_rate = sheet[cell_loc].value
+				# print(full_rate)
+				new_rate = process_rate(calc_func, zone, weight, full_rate, annual_charge)
+				sheet[cell_loc] = new_rate
+
+	wb.save(new_filename)
 	ffile.dir_back()
 
 def save_file(filename):
