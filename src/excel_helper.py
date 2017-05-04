@@ -9,6 +9,7 @@ rev_alphabet_dic = {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G', 8: '
 					22: 'V', 23: 'W', 24: 'X', 25: 'Y', 26: 'Z',}
 
 weight_column = 'A'
+zone_row = '1'
 
 def get_zone(sheet_value):
 	"""
@@ -46,7 +47,6 @@ def get_zones(sheet):
 				{"start": [num], "end": [num] }
 			}
 	"""
-	zone_row = '1'
 	zone_index = {}
 	max_columns = sheet.max_column
 	for i in range(1, max_columns + 1):
