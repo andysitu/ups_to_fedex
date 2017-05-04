@@ -44,6 +44,21 @@ def get_calc_func(sheet_name):
 		if result != None:
 			return sheet_name_regex_delivery_type_index[regex]
 
+def process_rate(calc_func, zone, weight, full_rate, annual_charge):
+	zone = int(zone)
+	type_status = False
+	if full_rate == '-':
+		return '-'
+	if type(weight) is not int:
+		weight = weight.lower()
+		env_re = r"envelope"
+		over_re = r'oversize'
+		if re.search(env_re, weight) != None:
+			type_status = "weight"
+		elif re.search(over_re, weight) != None:
+			type_status = "oversize"
+	new_rate = calc_func(zone, weight, full_rate, annual_charge, type_status)
+	return new_rate
 
 #Functions to calculate the discounted rates
 def calc_earned_discount(annual_charge, ground_or_home = False):
