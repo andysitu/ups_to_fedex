@@ -15,6 +15,13 @@ new_filenames =  {
 	new_filename_base + "_5th_earned" + file_type: 15000000,
 }
 
+def get_discounted_rate_files():
+	filename = "fedex_standard_list_base_rate.xlsx"
+	folder_name = "fedex_files"
+
+	for new_filename, annual_charge in new_filenames.items():
+		convert_file(filename, folder_name, new_filename, annual_charge)
+
 def convert_file(filename, folder_name, new_filename, annual_charge):
 	ffile.move_dir(folder_name)
 
