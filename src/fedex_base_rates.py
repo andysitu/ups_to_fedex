@@ -24,7 +24,7 @@ def open_file(filename, folder_name):
 def save_file(filename):
 	pass
 
-def match_sheet_names(sheet_name):
+def get_calc_func(sheet_name):
 	s_name = sheet_name.lower()
 	sheet_name_regex_delivery_type_index = {
 		r"priority overnight": calc_pri_overnight,
