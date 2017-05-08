@@ -58,5 +58,73 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 	return simple_ups_data
 
-def read_detail_ups():
-	pass
+detail_ups_index = {
+	#"N" seems to be inaccurate as the multiple packages
+	# would have the same tracking num in "N"
+	"tracking_num": "U",
+	"charge_type": "AT",
+	# "Charge Symbol": "AR",
+	"billed_charge": "BA",
+	"incentive_credit": "AZ",
+}
+
+def get_detail_fieldnames_index():
+	f_index = {}
+	for fieldname, column_letter in detail_ups_index.items():
+		column_num = excel_helper.get_column_num(column_letter)
+		f_index[fieldname] = column_num
+	return f_index
+
+def read_detail_ups(detail_ups_filename, folder_name):
+	detail_ups_data = {}
+
+	fieldnames_index = {}
+	prev_track_num = ""
+
+	def extract_data_from_row(row):
+		# Extracts data from the row of csv file using
+		# fieldnames_index dic which gives which and what columns to extract
+		ups_detail_dic = {}
+		for fieldname, column_num in fieldnames_index.items():
+			ups_detail_dic[fieldname] = row[column_num]
+		return ups_detail_dic
+
+	ffile.move_dir(folder_name)
+
+	fieldnames_index = get_detail_fieldnames_index()
+
+	with open(detail_ups_filename) as f_detail:
+		reader = csv.reader(f_detail)
+
+		for row in reader:
+			detail_ups_dic = extract_data_from_row(row)
+
+			# skip those without tracking number or with 0 billed charge
+			tracking_num = detail_ups_dic["tracking_num"]
+			if tracking_num == "":
+				continue
+
+			billed_charge = detail_ups_dic["billed_charge"]
+			if billed_charge == 0:
+				continue
+
+			if tracking_num not in detail_ups_data:
+				detail_ups_data[tracking_num] = [[detail_ups_data,]]
+			else:
+				d_list = detail_ups_data[tracking_num]
+				if prev_track_num == tracking_num:
+					# print(d_list[len(d_list) -1])
+					d_list[len(d_list) -1].append(detail_ups_data)
+				else:
+					d_list.append([detail_ups_data,])
+			# print(tracking_num, prev_track_num, tracking_num == prev_track_num, tracking_num not in detail_ups_data)
+			prev_track_num = tracking_num
+
+
+				# print(detail_ups_dic)
+	# print(fieldnames_index)
+	ffile.dir_back()
+
+	# print(detail_ups_data['1Z0019850396816706'])
+
+	return detail_ups_data
