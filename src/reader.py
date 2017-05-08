@@ -10,7 +10,8 @@ simple_ups_fieldnames = {
 	"pickup_date": "Pickup Date",
 	"billed_charge": "Billed Charge",
 	"invoice_section": "Invoice Section",
-	"incentive_credit": "Incentive Credit"
+	"incentive_credit": "Incentive Credit",
+	"invoice_date": "Invoice Date",
 }
 
 def read_simple_ups(simple_ups_filename, folder_name):
