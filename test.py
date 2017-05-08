@@ -7,7 +7,9 @@ def test_equal(val1, val2):
 		msg = str(val1) + ' and ' + str(val2) +" are not equal."
 		raise Exception(msg)
 
-test_equal(excel_helper.get_column_num("AAA"), 703)
+test_equal(excel_helper.get_column_num("U"), 20)
+test_equal(excel_helper.get_column_num("BA"), 52)
+test_equal(excel_helper.get_column_num("AAA"), 702)
 test_equal(excel_helper.get_column_letters(1), 'A')
 test_equal(excel_helper.get_column_letters(16), 'P')
 
