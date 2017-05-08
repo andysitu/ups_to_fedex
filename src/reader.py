@@ -109,14 +109,15 @@ def read_detail_ups(detail_ups_filename, folder_name):
 				continue
 
 			if tracking_num not in total_detail_ups_data:
-				total_detail_ups_data[tracking_num] = [[total_detail_ups_data,]]
+				total_detail_ups_data[tracking_num] = [[detail_ups_dic,]]
 			else:
 				d_list = total_detail_ups_data[tracking_num]
 				if prev_track_num == tracking_num:
 					# print(d_list[len(d_list) -1])
-					d_list[len(d_list) -1].append(total_detail_ups_data)
+					last_ups_detail_list = d_list[len(d_list) -1]
+					last_ups_detail_list.append(detail_ups_dic)
 				else:
-					d_list.append([total_detail_ups_data,])
+					d_list.append([detail_ups_dic,])
 			# print(tracking_num, prev_track_num, tracking_num == prev_track_num, tracking_num not in total_detail_ups_data)
 			prev_track_num = tracking_num
 
