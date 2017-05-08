@@ -89,6 +89,19 @@ def read_detail_ups(detail_ups_filename, folder_name):
 			ups_detail_dic[fieldname] = row[column_num]
 		return ups_detail_dic
 
+	def filter_data(detail_ups):
+		# Input: detail_ups_dic
+		# Return True if this detail_ups_dic should be added.
+		# False otherwise.
+		tracking_num = detail_ups["tracking_num"]
+		billed_charge = detail_ups["billed_charge"]
+		if tracking_num == "":
+			return False
+		elif billed_charge == 0:
+			return False
+		else:
+			return True
+
 	ffile.move_dir(folder_name)
 
 	fieldnames_index = get_detail_fieldnames_index()
@@ -100,12 +113,9 @@ def read_detail_ups(detail_ups_filename, folder_name):
 			detail_ups_dic = extract_data_from_row(row)
 
 			tracking_num = detail_ups_dic["tracking_num"]
-			billed_charge = detail_ups_dic["billed_charge"]
 
 			# skip those without tracking number or with 0 billed charge
-			if tracking_num == "":
-				continue
-			if billed_charge == 0:
+			if not filter_data(detail_ups_dic):
 				continue
 
 			if tracking_num not in total_detail_ups_data:
