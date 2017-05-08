@@ -7,9 +7,9 @@ simple_ups_fieldnames = {
 	"zone": "Zone",
 	# "Reference No": "Reference No.1",
 	"pickup_date": "Pickup Date",
-	"charge": "Billed Charge",
+	"billed_charge": "Billed Charge",
 	"invoice_section": "Invoice Section",
-	"incentive": "Incentive Credit"
+	"incentive_credit": "Incentive Credit"
 }
 
 def read_simple_ups(simple_ups_filename, folder_name):
@@ -49,7 +49,7 @@ def read_simple_ups(simple_ups_filename, folder_name):
 		for row in reader:
 			tracking_num = row[tracking_num_column]
 			ups_data = extract_data(row)
-			value = ups_data["incentive"]
+			value = ups_data["incentive_credit"]
 			simple_ups_data.append(ups_data)
 			# print(row)
 
