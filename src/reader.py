@@ -99,11 +99,12 @@ def read_detail_ups(detail_ups_filename, folder_name):
 		for row in reader:
 			detail_ups_dic = extract_data_from_row(row)
 
-			# skip those without tracking number or with 0 billed charge
 			tracking_num = detail_ups_dic["tracking_num"]
+			billed_charge = detail_ups_dic["billed_charge"]
+
+			# skip those without tracking number or with 0 billed charge
 			if tracking_num == "":
 				continue
-			billed_charge = detail_ups_dic["billed_charge"]
 			if billed_charge == 0:
 				continue
 
