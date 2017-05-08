@@ -60,6 +60,7 @@ def get_zones(sheet):
 
 			zone_index[column_letter] = zone_dic
 	return zone_index
+
 def get_column_num(letters):
 	"""
 	Input: letters str (e.g. "AAB")
@@ -70,7 +71,7 @@ def get_column_num(letters):
 	total = 0
 	for i, letter in enumerate(letter_list):
 		total += math.pow(26, i) * alphabet_dic[letter]
-	return int(total)
+	return int(total - 1)
 
 def get_column_letters(column_num):
 	""" 
