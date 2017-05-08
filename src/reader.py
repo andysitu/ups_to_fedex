@@ -18,7 +18,7 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 	ffile.move_dir(folder_name)
 
-	simple_ups_data = {}
+	total_simple_ups_data = {}
 
 	def get_fieldnames(row):
 		fieldnames_dic = {}
@@ -49,14 +49,14 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 		for row in reader:
 			tracking_num = row[tracking_num_column]
-			ups_data = extract_data(row)
 			value = ups_data["incentive_credit"]
-			simple_ups_data[tracking_num] = ups_data
+			simple_ups_data = extract_data(row)
+			total_simple_ups_data[tracking_num] = simple_ups_data
 
 
 	ffile.dir_back()
 
-	return simple_ups_data
+	return total_simple_ups_data
 
 detail_ups_index = {
 	#"N" seems to be inaccurate as the multiple packages
