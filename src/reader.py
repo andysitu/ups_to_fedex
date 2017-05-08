@@ -17,7 +17,7 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 	ffile.move_dir(folder_name)
 
-	simple_ups_data = []
+	simple_ups_data = {}
 
 	def get_fieldnames(row):
 		fieldnames_dic = {}
@@ -50,8 +50,7 @@ def read_simple_ups(simple_ups_filename, folder_name):
 			tracking_num = row[tracking_num_column]
 			ups_data = extract_data(row)
 			value = ups_data["incentive_credit"]
-			simple_ups_data.append(ups_data)
-			# print(row)
+			simple_ups_data[tracking_num] = ups_data
 
 
 	ffile.dir_back()
