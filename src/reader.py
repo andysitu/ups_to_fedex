@@ -21,6 +21,17 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 	total_simple_ups_data = {}
 
+	def filter_data(simple_ups):
+	# Input: detail_ups_dic
+	# Return True if this detail_ups_dic should be added.
+	# False otherwise.
+		tracking_num = simple_ups["tracking_num"]
+		if tracking_num == "":
+			return False
+		else:
+			return True
+
+
 	def get_fieldnames(row):
 		fieldnames_dic = {}
 		for infile_name, file_fieldname in simple_ups_fieldnames.items():
@@ -51,6 +62,8 @@ def read_simple_ups(simple_ups_filename, folder_name):
 		for row in reader:
 			tracking_num = row[tracking_num_column]
 			simple_ups_data = extract_data(row)
+			if not filter_data(simple_ups_data):
+				continue
 			if tracking_num not in total_simple_ups_data:
 				total_simple_ups_data[tracking_num] = [simple_ups_data,]
 			else:
