@@ -47,11 +47,14 @@ Temporary Items
 .apdisk
 
 
+# Folders containing specific data files
 ups_invoices
 ups_data
 data
 excel
 saved_data
 __pycache__
-
 fedex_rates
+
+# PYCHARM
+.idea
