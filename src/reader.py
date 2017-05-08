@@ -76,7 +76,7 @@ def get_detail_fieldnames_index():
 	return f_index
 
 def read_detail_ups(detail_ups_filename, folder_name):
-	detail_ups_data = {}
+	total_detail_ups_data = {}
 
 	fieldnames_index = {}
 	prev_track_num = ""
@@ -103,21 +103,20 @@ def read_detail_ups(detail_ups_filename, folder_name):
 			tracking_num = detail_ups_dic["tracking_num"]
 			if tracking_num == "":
 				continue
-
 			billed_charge = detail_ups_dic["billed_charge"]
 			if billed_charge == 0:
 				continue
 
-			if tracking_num not in detail_ups_data:
-				detail_ups_data[tracking_num] = [[detail_ups_data,]]
+			if tracking_num not in total_detail_ups_data:
+				total_detail_ups_data[tracking_num] = [[total_detail_ups_data,]]
 			else:
-				d_list = detail_ups_data[tracking_num]
+				d_list = total_detail_ups_data[tracking_num]
 				if prev_track_num == tracking_num:
 					# print(d_list[len(d_list) -1])
-					d_list[len(d_list) -1].append(detail_ups_data)
+					d_list[len(d_list) -1].append(total_detail_ups_data)
 				else:
-					d_list.append([detail_ups_data,])
-			# print(tracking_num, prev_track_num, tracking_num == prev_track_num, tracking_num not in detail_ups_data)
+					d_list.append([total_detail_ups_data,])
+			# print(tracking_num, prev_track_num, tracking_num == prev_track_num, tracking_num not in total_detail_ups_data)
 			prev_track_num = tracking_num
 
 
@@ -125,6 +124,6 @@ def read_detail_ups(detail_ups_filename, folder_name):
 	# print(fieldnames_index)
 	ffile.dir_back()
 
-	# print(detail_ups_data['1Z0019850396816706'])
+	# print(total_detail_ups_data['1Z0019850396816706'])
 
-	return detail_ups_data
+	return total_detail_ups_data
