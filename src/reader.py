@@ -50,9 +50,11 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 		for row in reader:
 			tracking_num = row[tracking_num_column]
-			value = ups_data["incentive_credit"]
 			simple_ups_data = extract_data(row)
-			total_simple_ups_data[tracking_num] = simple_ups_data
+			if tracking_num not in total_simple_ups_data:
+				total_simple_ups_data[tracking_num] = [simple_ups_data,]
+			else:
+				total_simple_ups_data[tracking_num].append(simple_ups_data)
 
 
 	ffile.dir_back()
