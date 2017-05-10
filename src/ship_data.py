@@ -14,20 +14,3 @@ class Ship_Data():
 
 			print(total_bill_charge)
 
-	def convert_charge_string_to_float(self, charge_string):
-		"""
-		:param charge_string: string from CSV ups simple file (ex. -$5.55)
-		:return: float of the charge_value
-		"""
-		charge = 0.00
-		# charge_re = re.compile(r"(\-*).*(\d+\.\d+)")
-		bill_charge_re = re.compile(r"\d+\.\d+")
-		charge_re_result = (bill_charge_re.search(charge_string))[0]
-
-		if charge_string[0] == '-':
-		# Negative charge values have a negative sign (eg "-4.24")
-			charge = -float(charge_re_result)
-		else:
-			charge = float(charge_re_result)
-
-		return charge
