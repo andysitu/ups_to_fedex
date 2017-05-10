@@ -14,6 +14,8 @@ class Ship_Data():
 		length_list =len(simple_ups_data_list)
 
 	def create_ups_ship_data(self, simple_ups_data_list, total_detail_ups_data_list):
-		simple_ups_data = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data_list)
-		detail_ups_data = ups_ship_data.Detail_UPS_Ship_Data(total_detail_ups_data_list)
-		pass
+		for simple_ups_data in simple_ups_data_list:
+			simple_ups_data = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
+		for detail_ups_data_list in total_detail_ups_data_list:
+			for detail_ups_data in detail_ups_data_list:
+				d_ups_data = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
