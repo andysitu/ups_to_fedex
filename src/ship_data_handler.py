@@ -10,7 +10,7 @@ class Ship_Data_Handler():
             detail_ups_data_list = total_detail_ups_detail[track_num]
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
-                ship_data.Ship_Data(simple_ups_data_list, detail_ups_data_list)
+                ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
         # for track_num, ups_data_dic in detail_ups_detail.items():
         #     print(simple_ups_data[track_num])
 
