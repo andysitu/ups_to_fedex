@@ -60,3 +60,51 @@ class Ship_Data():
 			self.total_detail_ups_data_instances_dic[num] = [detail_ups_instance, ]
 		else:
 			self.total_detail_ups_data_instances_dic[num].append(detail_ups_instance)
+
+
+	ups_to_fedex_service_level_index = {
+		"Ground Commercial": "Ground",
+		"Ground Hundredweight": False,
+		"Ground Residential": "Home Delivery",
+		"2nd Day Air Commercial": '2 Day',
+		"2nd Day Air Residential": '2 Day',
+		"UPS SurePost - 1 LB or Greater": 'Smart Post 1-70 lbs',
+		"Worldwide Expedited": False,
+		"Ground Undeliverable Return": False,
+		# Probably Adjustments
+		"Residential": False,
+		# Probably Adjustments
+		"Ground": False,
+		# Usually adjustments
+		"Residential Surcharge": False,
+		# Adjustments
+		"Expedited": False,
+		"Standard Shipment": False,
+		"Worldwide Express": False,
+		"Worldwide Standard": False,
+		"Worldwide Expedited Shipment": False,
+		"Ground Return to Sender": False,
+
+		'Shipment Residential Surcharge': False,
+		"Standard to Canada": False,
+		"Worldwide Saver": False,
+
+		# Not sure about this
+		"2nd Day Air": False,
+	}
+
+	ups_to_fedex_charge_type_index = {
+		"Ground Commercial": "Ground",
+		# "Ground Hundredweight": "Ground",
+		"Fuel Surcharge": "Fuel Surcharge",
+		"Additional Handling": "Additional Handling Surcharge",
+		"Ground Residential": "Home Delivery",
+		"Residential Surcharge": "Residential Delivery Charge",
+		"Delivery Area Surcharge": "Delivery Area Surcharge",
+		"Delivery Area Surcharge - Extended": "Delivery Area Surcharge",
+		"Delivery Confirmation Signature": "Delivery Signature",
+		"UPS SurePost - 1 lb or Greater": 'Smart Post 1-70 lbs',
+		"Delivery Confirmation Response": "Delivery Signature",
+		"Large Package Surcharge": "Oversize Charge",
+		"Non-machinable Charge": "Non-Machinable",
+	}
