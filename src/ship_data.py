@@ -7,6 +7,19 @@ class Ship_Data():
 		# print(simple_ups_data_list)
 		# print(total_detail_ups_data_list)
 		self.tracking_num = tracking_num
+
+		self.simple_ups_data_instances = {}
+
+		# Values consists of list scontaining detail_ups_instances
+		# Each list corresponds to the key (num) with the'
+		# simple_ups_data_instances
+		self.total_detail_ups_data_instances_dic = {}
+
+		# id for simple_ups_data. It goes up by self.add_simple_ups_data
+		# It will be used for id of simple_ups_data and detail_ups_data
+		#	Also, will match them together.
+		self.num = 0
+
 		self.create_ups_ship_data(simple_ups_data_list, total_detail_ups_data_list)
 
 	def match_simple_and_detail_ups(self, simple_ups_data_list, total_detail_ups_data_list):
