@@ -29,6 +29,18 @@ class Ship_Data():
 	def create_ups_ship_data(self, simple_ups_data_list, total_detail_ups_data_list):
 		for simple_ups_data in simple_ups_data_list:
 			simple_ups_data = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
+
 		for detail_ups_data_list in total_detail_ups_data_list:
 			for detail_ups_data in detail_ups_data_list:
 				d_ups_data = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
+
+	def add_simple_ups_data(self, simple_ups_instance):
+		self.simple_ups_data_inst[self.num] = simple_ups_instance
+		self.num += 1
+		return self.num - 1
+
+	def add_detail_ups_data(self, num, detail_ups_instance):
+		if num not in self.total_detail_ups_data_instances_dic:
+			self.total_detail_ups_data_instances_dic[num] = [detail_ups_instance, ]
+		else:
+			self.total_detail_ups_data_instances_dic[num].append(detail_ups_instance)
