@@ -22,7 +22,7 @@ class Ship_Data():
 		#	Also, will match them together.
 		self.num = 0
 
-		self.create_ups_ship_data(simple_ups_data_list, total_detail_ups_data_list)
+		self.match_simple_and_detail_ups(simple_ups_data_list, total_detail_ups_data_list)
 
 	def match_simple_and_detail_ups(self, simple_ups_data_list, total_detail_ups_data_list):
 		# Not used since anything with length > 1 is filtered out in ship_data_handler
