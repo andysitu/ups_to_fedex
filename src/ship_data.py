@@ -24,7 +24,7 @@ class Ship_Data():
 
 		for simple_ups_data in simple_ups_data_list:
 			detail_data_list = self.match_simple_and_detail_ups(simple_ups_data, total_detail_ups_data_list)
-			self.create_and_add_ups_ship_data(simple_ups_data, detail_data_list)
+			num_id = self.create_and_add_ups_ship_data(simple_ups_data, detail_data_list)
 
 	def match_simple_and_detail_ups(self, simple_ups_data, total_detail_ups_data_list):
 		# Not used since anything with length > 1 is filtered out in ship_data_handler
@@ -46,6 +46,7 @@ class Ship_Data():
 		for detail_ups_data in detail_ups_data_list:
 			detail_ups_instance = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
 			self.add_detail_ups_data_index(num_id, detail_ups_instance)
+		return num_id
 
 	def add_simple_ups_data_to_index(self, simple_ups_instance):
 		self.simple_ups_data_instances[self.num] = simple_ups_instance
