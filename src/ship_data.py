@@ -41,13 +41,13 @@ class Ship_Data():
 					detail_data_inst = ups_ship_data.Detail_UPS_Ship_Data()
 					del(detail_data_list)
 
-	def create_ups_ship_data(self, simple_ups_data_list, total_detail_ups_data_list):
-		for simple_ups_data in simple_ups_data_list:
-			simple_ups_data = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
+	def create_and_add_ups_ship_data(self, simple_ups_data, detail_ups_data_list):
+		simple_ups_instance = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
+		num_id = self.add_simple_ups_data_to_index(simple_ups_instance)
 
-		for detail_ups_data_list in total_detail_ups_data_list:
-			for detail_ups_data in detail_ups_data_list:
-				d_ups_data = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
+		for detail_ups_data in detail_ups_data_list:
+			detail_ups_instance = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
+			self.add_detail_ups_data_index(num_id, detail_ups_instance)
 
 	def add_simple_ups_data_to_index(self, simple_ups_instance):
 		self.simple_ups_data_instances[self.num] = simple_ups_instance
