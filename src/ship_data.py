@@ -11,11 +11,13 @@ class Ship_Data():
 		self.tracking_num = tracking_num
 
 		self.simple_ups_data_instances = {}
+		self.simple_fedex_data_instances = {}
 
 		# Values consists of list scontaining detail_ups_instances
 		# Each list corresponds to the key (num) with the'
 		# simple_ups_data_instances
 		self.total_detail_ups_data_instances_dic = {}
+		self.total_detail_fedex_data_instances_dic = {}
 
 		# id for simple_ups_data. It goes up by self.add_simple_ups_data
 		# It will be used for id of simple_ups_data and detail_ups_data
