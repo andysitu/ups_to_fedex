@@ -49,12 +49,12 @@ class Ship_Data():
 			for detail_ups_data in detail_ups_data_list:
 				d_ups_data = ups_ship_data.Detail_UPS_Ship_Data(detail_ups_data)
 
-	def add_simple_ups_data(self, simple_ups_instance):
-		self.simple_ups_data_inst[self.num] = simple_ups_instance
+	def add_simple_ups_data_to_index(self, simple_ups_instance):
+		self.simple_ups_data_instances[self.num] = simple_ups_instance
 		self.num += 1
 		return self.num - 1
 
-	def add_detail_ups_data(self, num, detail_ups_instance):
+	def add_detail_ups_data_index(self, num, detail_ups_instance):
 		if num not in self.total_detail_ups_data_instances_dic:
 			self.total_detail_ups_data_instances_dic[num] = [detail_ups_instance, ]
 		else:
