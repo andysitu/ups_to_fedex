@@ -1,5 +1,7 @@
 import re
 from . import ups_ship_data
+from . import excel_helper
+import math
 
 class Ship_Data():
 # Assume that only outbound charges will be used, meaning no adjustments.
@@ -24,7 +26,20 @@ class Ship_Data():
 
 	def match_simple_and_detail_ups(self, simple_ups_data_list, total_detail_ups_data_list):
 		# Not used since anything with length > 1 is filtered out in ship_data_handler
-		length_list =len(simple_ups_data_list)
+		for simple_ups_data in simple_ups_data_list:
+			total_billed_charge = excel_helper.convert_charge_string_to_float(simple_ups_data_list["billed_charge"])
+			for detail_data_list in total_detail_ups_data_list:
+				total_charge = 0
+
+				for detail_ups_data in detail_data_list:
+					detail_ups_charge = excel_helper.convert_charge_string_to_float(detail_ups_data["billed_charge"])
+					total_charge += detail_ups_charge
+
+				if math.isclose(total_billed_charge, total_charge, abs_tot=0.001):
+					simple_data_inst = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
+					self.add_simple_ups_data(simple_data_inst)
+					detail_data_inst = ups_ship_data.Detail_UPS_Ship_Data()
+					del(detail_data_list)
 
 	def create_ups_ship_data(self, simple_ups_data_list, total_detail_ups_data_list):
 		for simple_ups_data in simple_ups_data_list:
