@@ -35,7 +35,7 @@ class Ship_Data():
 					detail_ups_charge = excel_helper.convert_charge_string_to_float(detail_ups_data["billed_charge"])
 					total_charge += detail_ups_charge
 
-				if math.isclose(total_billed_charge, total_charge, abs_tot=0.001):
+				if math.isclose(total_billed_charge, total_charge, abs_tol=0.001):
 					simple_data_inst = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
 					self.add_simple_ups_data(simple_data_inst)
 					detail_data_inst = ups_ship_data.Detail_UPS_Ship_Data()
