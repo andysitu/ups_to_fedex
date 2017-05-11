@@ -36,10 +36,7 @@ class Ship_Data():
 					total_charge += detail_ups_charge
 
 				if math.isclose(total_billed_charge, total_charge, abs_tol=0.001):
-					simple_data_inst = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
-					self.add_simple_ups_data(simple_data_inst)
-					detail_data_inst = ups_ship_data.Detail_UPS_Ship_Data()
-					del(detail_data_list)
+					self.create_and_add_ups_ship_data(simple_ups_data, detail_data_list)
 
 	def create_and_add_ups_ship_data(self, simple_ups_data, detail_ups_data_list):
 		simple_ups_instance = ups_ship_data.Simple_UPS_Ship_Data(simple_ups_data)
