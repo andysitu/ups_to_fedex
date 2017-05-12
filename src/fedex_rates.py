@@ -78,25 +78,25 @@ def proc_sheet_for_rates(sheet):
 
 def get_fedex_calc_function(self, fedex_charge_type):
     if fedex_charge_type == "Ground":
-        return self.calc_ground_commercial,
+        return self.calc_ground_commercial
     elif fedex_charge_type == "Fuel Surcharge":
-        return self.calc_fuel_surcharge,
+        return self.calc_fuel_surcharge
     elif fedex_charge_type == "Additional Handling Surcharge":
-        return self.calc_add_handling,
+        return self.calc_add_handling
     elif fedex_charge_type == "Home Delivery":
-        return self.calc_ground_residential,
+        return self.calc_ground_residential
     elif fedex_charge_type == "Residential Delivery Charge":
-        return self.calc_residential_charge,
+        return self.calc_residential_charge
     elif fedex_charge_type == "Delivery Area Surcharge":
-        return self.calc_delivery_area_surcharge,
+        return self.calc_delivery_area_surcharge
     elif fedex_charge_type == "Delivery Signature":
-        return self.calc_signature,
+        return self.calc_signature
     elif fedex_charge_type == 'Smart Post 1-70 lbs':
-        return self.calc_smart_post_1lb_plus,
+        return self.calc_smart_post_1lb_plus
     elif fedex_charge_type == "Oversize Charge":
-        return self.calc_oversize_charge,
+        return self.calc_oversize_charge
     elif fedex_charge_type == "Non-Machinable":
-        return self.calc_nonmachinable_charge,
+        return self.calc_nonmachinable_charge
     elif fedex_charge_type == "2 Day":
         return self.calc_2_day
 
