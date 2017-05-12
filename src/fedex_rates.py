@@ -97,6 +97,8 @@ def get_fedex_calc_function(self, fedex_charge_type):
         return self.calc_oversize_charge,
     elif fedex_charge_type == "Non-Machinable":
         return self.calc_nonmachinable_charge,
+    elif fedex_charge_type == "2 Day":
+        return self.calc_2_day
 
 
 # Calculate the rates for fedex charges
@@ -125,7 +127,7 @@ def calc_ground_residential(weight, zone):
     return calc_ground_commercial(weight, zone)
 
 
-def calc_2_day_air_commercial(weight, zone):
+def calc_2_day(weight, zone):
     return get_rate('2 Day', weight, zone)
 
 
