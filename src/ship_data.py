@@ -29,6 +29,11 @@ class Ship_Data():
 			num_id = self.create_and_add_ups_ship_data(simple_ups_data, detail_data_list)
 
 	def match_simple_and_detail_ups(self, simple_ups_data, total_detail_ups_data_list):
+		"""
+		:param simple_ups_data: dictionary of one ups_data 
+		:param total_detail_ups_data_list: list of total detail ups_data of one tracking num
+		:return: detail ups data list that matches the simple_ups_data by billed charge
+		"""
 		# Not used since anything with length > 1 is filtered out in ship_data_handler
 		total_billed_charge = excel_helper.convert_charge_string_to_float(simple_ups_data["billed_charge"])
 		for detail_data_list in total_detail_ups_data_list:
