@@ -100,6 +100,8 @@ class Ship_Data():
 
 	ups_to_fedex_charge_type_index = {
 		"Ground Commercial": "Ground",
+		"2nd Day Air Residential": "2 Day",
+		"2nd Day Air Commercial": "2 Day",
 		# "Ground Hundredweight": "Ground",
 		"Fuel Surcharge": "Fuel Surcharge",
 		"Additional Handling": "Additional Handling Surcharge",
