@@ -10,6 +10,7 @@ rev_alphabet_dic = {1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G', 8: '
 
 weight_column = 'A'
 zone_row = '1'
+rate_start_row = 2
 
 def get_zone(sheet_value):
 	"""
