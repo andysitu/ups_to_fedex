@@ -116,7 +116,7 @@ class Ship_Data():
 		"Non-machinable Charge": "Non-Machinable",
 	}
 
-	def convert_to_fedex_ship_data(self, simple_ups_inst, detail_ups_inst_list):
+	def process_fedex_ship_data(self, num_id, simple_ups_inst, detail_ups_inst_list):
 		ups_service_level = simple_ups_inst.service_level
 		ups_weight = simple_ups_inst.weight
 		ups_total_charge = simple_ups_inst.total_bill_charge
