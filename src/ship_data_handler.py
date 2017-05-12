@@ -22,10 +22,17 @@ class Ship_Data_Handler():
         if len(simple_ups_data_list) > 1:
             return False
 
+        # Assumes that simple_ups_data_list is length 1 because
+        # previous line filters it out.
         for simple_ups_data in simple_ups_data_list:
             invoice_section = simple_ups_data["invoice_section"]
+            ups_service_level = simple_ups_data["service_level"]
+
             if invoice_section== "Outbound":
-                return True
+                if ship_data.Ship_Data.convert_ups_to_fedex_service_level(ups_service_level):
+                    return True
+                else:
+                    return False
             elif invoice_section == "Adjustments & Other Charges":
                 return False
             elif invoice_section == "Adjustments":
