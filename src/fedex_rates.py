@@ -3,6 +3,10 @@ import ffile
 import openpyxl
 
 def process_excel_fedex(earned_num = 0):
+    """
+    Input: earned_num(float), signifying the earned discount obtained.
+    Output: rate_dic  -> [ sheet/ delivery name ] [ weight(dic) ][zone] = rate(float) 
+    """
     ffile.move_dir("fedex_rates")
 
     earned_string = ''
@@ -30,19 +34,7 @@ def process_excel_fedex(earned_num = 0):
     for sheet_name in sheet_names_list:
         sheet = wb.get_sheet_by_name(sheet_name)
         rates = proc_sheet_for_rates(sheet)
-
-
-    # for delivery_name, para_list in fedex_rate_proc_index.items():
-    #     sheet = wb.get_sheet_by_name(delivery_name)
-    #     rates = proc_sheet_for_rates(sheet)
-    #     # print(delivery_name)
-		# # print(rates)
-    #     rate_dic[delivery_name] = rates
-
-    # sheet = wb.get_sheet_by_name('Standard Overnight')
-	# rates = proc_sheet_for_rates(sheet)
-	# print(rates)
-
+        rate_dic[sheet_name] = rates
 
     ffile.dir_back()
 
