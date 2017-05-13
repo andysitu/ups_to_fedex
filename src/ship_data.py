@@ -28,6 +28,10 @@ class Ship_Data():
 			detail_data_list = self.match_simple_and_detail_ups(simple_ups_data, total_detail_ups_data_list)
 			num_id = self.create_and_add_ups_ship_data(simple_ups_data, detail_data_list)
 
+			simple_data_inst = self.simple_ups_data_instances[num_id]
+			detail_data_inst_list = self.total_detail_ups_data_instances_dic[num_id]
+			self.process_fedex_ship_data(num_id, simple_data_inst, detail_data_inst_list)
+
 	def match_simple_and_detail_ups(self, simple_ups_data, total_detail_ups_data_list):
 		"""
 		:param simple_ups_data: dictionary of one ups_data 
