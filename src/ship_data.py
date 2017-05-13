@@ -139,6 +139,8 @@ class Ship_Data():
 
 			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst)
 
+
+	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
 		return self.ups_to_fedex_service_level_index[ups_service_level]
 
