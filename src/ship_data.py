@@ -1,5 +1,5 @@
 import re
-from . import ups_ship_data
+from . import ups_ship_data, fedex_ship_data
 from . import excel_helper
 import math
 
@@ -118,18 +118,26 @@ class Ship_Data():
 
 	def process_fedex_ship_data(self, num_id, simple_ups_inst, detail_ups_inst_list):
 		ups_service_level = simple_ups_inst.service_level
-		ups_weight = simple_ups_inst.weight
-		ups_total_charge = simple_ups_inst.total_bill_charge
-		ups_zone = simple_ups_inst.zone
 
-		fedex_service_level = self.convert_ups_to_fedex_charge_type(ups_service_level)
+		fedex_service_level = self.convert_ups_to_fedex_service_level(ups_service_level)
+
+		ups_weight = simple_ups_inst.weight
+		ups_zone = simple_ups_inst.zone
+		ups_pickup_date = simple_ups_inst.pickup_date
+
+		simple_parameter_list = [fedex_service_level, ups_weight, ups_zone, ups_pickup_date]
+
+		fedex_simple_data_inst = self.create_fedex_simple_ship_data(*simple_parameter_list)
+
+		self.add_fedex_simple_inst_to_index(num_id, fedex_simple_data_inst)
 
 		for detail_ups_data in detail_ups_inst_list:
 			ups_charge_type = detail_ups_data.charge_type
-			ups_charge = detail_ups_data.billed_charge
-			if ups_charge_type == "Fuel Surcharge":
-				continue
-			fedex_charge_type = self.ups_to_fedex_charge_type_index(ups_charge_type)
+			fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
+
+			fedex_detail_inst = self.create_fedex_detail_ship_data(fedex_charge_type)
+
+			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst)
 
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
 		return self.ups_to_fedex_service_level_index[ups_service_level]
