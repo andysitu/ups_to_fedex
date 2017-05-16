@@ -52,3 +52,25 @@ class Ship_Data_Handler():
             else:
                 msg = "filter_ship_data of Ship_Data_Handler seen unknown invoice section " + invoice_section
                 raise Exception(msg)
+
+    def get_fedex_rate_data(self, track_num, fedex_rates_dic):
+        ship_data_inst = self._ship_data_dic[track_num]
+        num_id_lists = ship_data_inst.num_index
+        rates_list = []
+
+        for num_id in num_id_lists:
+            rate_dic = ship_data_inst.get_fedex_rates(num_id, fedex_rates_dic)
+            rates_list.append(rate_dic)
+
+        return rates_list
+
+    def get_ups_rate_data(self, track_num):
+        ship_data_inst = self._ship_data_dic[track_num]
+        num_id_lists = ship_data_inst.num_index
+        rates_list = []
+
+        for num_id in num_id_lists:
+            rate_dic = ship_data_inst.get_ups_rates(num_id)
+            rates_list.append(rate_dic)
+
+        return rates_list
