@@ -1,6 +1,7 @@
 from . import excel_helper
 import ffile
 import openpyxl
+import re, datetime
 
 def process_excel_fedex(earned_num = 0):
     """
@@ -197,32 +198,70 @@ def calc_nonmachinable_charge(weight, zone):
     nonmachinable_charge = 2.5
     return nonmachinable_charge
 
+add_fuel_surcharge_index = {
+	# Charge types with True are calculated in fuel surcharge percentage
+		"Ground": True,
+		"Home Delivery": True,
+		"Residential Delivery Charge": True,
+		"Delivery Area Surcharge": True,
+		'Smart Post 1-70 lbs': True,
+		"Oversize Charge": True,
+		"Non-Machinable": False,
+		"Delivery Signature": False,
+		"Additional Handling Surcharge": False,
+		#This is false since it's calculated after everything
+		"Fuel Surcharge": False,
+	}
 
-def calc_fuel_surcharge(date, fedex_detail_data_list, delivery_type, add_fuel_surcharge_index):
+def add_fuel_surcharge(charge_type):
+    return add_fuel_surcharge_index[charge_type]
+
+def calc_fuel_surcharge(date, total_billed_amount, service_level):
     # date is a string 'mm/dd/yyyy'
     # add_fuel_surcharge_index has True for those charge types where the total
     # is calculated with for the percentage calculation with fuel shortage
     fedex_total = 0
     fuel_dic = {"Charge Type": "Fuel Surcharge", }
-    date_dic = get_date_from_string(date)
+    date_dic = convert_date_to_monday(date)
 
     year = date_dic["year"]
     month = date_dic["month"]
     day = date_dic["day"]
 
-    # print(fedex_detail_data_list)
-    for fedex_data_dic in fedex_detail_data_list:
-        charge_type = fedex_data_dic["Charge Type"]
-        charge_rate = fedex_data_dic["Billed Charge"]
-        if add_fuel_surcharge_index[charge_type]:
-            fedex_total += charge_rate
+    delivery_type = fedex_delivery_type[service_level]
+
     fuel_surcharge_percent = get_fuel_rate(year, month, day, delivery_type) / 100.0
 
-    rate = fedex_total * fuel_surcharge_percent
+    return fuel_surcharge_percent * total_billed_amount
 
-    fuel_dic["Billed Charge"] = rate
-    return fuel_dic
 
+
+def get_fuel_rate(year, month, day, delivery_type):
+    date_string = str(month) + "/" + str(day) + "/" + str(year)
+    fuel_list = fuel_rate_index[date_string]
+    if delivery_type == "Express":
+        return float(fuel_list[0])
+    elif delivery_type == "Ground":
+        return float(fuel_list[1])
+    else:
+        msg = "ERROR: delivery type " + delivery_type + " is seen."
+        raise Exception(msg)
+
+
+def convert_date_to_monday(date_string):
+    # Format will be in mm/dd/yyyy format
+    date_re_pattern = "(?P<month>\d+)\\(?P<day>\d+)\\(?P<year>\d+)"
+    r = re.match(r"(?P<month>\d+)\/(?P<day>\d+)\/(?P<year>\d+)", date_string)
+    month = int(r.group('month'))
+    year = int(r.group('year'))
+    day = int(r.group('day'))
+
+    original_date = datetime.date(year, month, day)
+    weekday = original_date.weekday()
+    date_diff = datetime.timedelta(days=weekday)
+    new_date = original_date - date_diff
+
+    return {"year": new_date.year, "month": new_date.month, "day": new_date.day, }
 
 # Fuel rate percentages are stored in [Express_value, Ground_value]
 
@@ -248,3 +287,15 @@ fuel_rate_index = {
     "5/01/2017": [3.50, 4.50],
     "5/08/2017": [3.00, 4.50],
 }
+
+fedex_delivery_type = {
+    'Priority Overnight': "Express",
+    'Standard Overnight': "Express",
+    '2 Day AM': "Express",
+    '2 Day': "Express",
+    'Express Saver (3 Day)': "Express",
+    'Ground': "Ground",
+    'Home Delivery': "Ground",
+    'Smart Post 1-16 oz': "Ground",
+    'Smart Post 1-70 lbs': "Ground",
+	}
