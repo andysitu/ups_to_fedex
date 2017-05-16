@@ -5,12 +5,14 @@ class Ship_Data_Handler():
         self._ship_data_dic = {}
         pass
 
-    def process(self, total_simple_ups_data, total_detail_ups_detail):
+    def process(self, total_simple_ups_data, total_detail_ups_detail, rates_dic):
         for track_num, simple_ups_data_list in total_simple_ups_data.items():
             detail_ups_data_list = total_detail_ups_detail[track_num]
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
                 s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
+                s_data.get_fedex_rates(rates_dic)
+                self._ship_data_dic[track_num] = s_data
         # for track_num, ups_data_dic in detail_ups_detail.items():
         #     print(simple_ups_data[track_num])
 
