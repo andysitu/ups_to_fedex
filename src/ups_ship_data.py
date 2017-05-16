@@ -12,9 +12,6 @@ class Simple_UPS_Ship_Data():
         self.incentive_credit = excel_helper.convert_charge_string_to_float(simple_ups_data["incentive_credit"])
         self.invoice_date = simple_ups_data["invoice_date"]
 
-    def get_date(self):
-        return self.pickup_date
-
 class Detail_UPS_Ship_Data():
     def __init__(self, detail_ups_data):
         self.charge_type = detail_ups_data["charge_type"]
