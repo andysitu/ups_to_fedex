@@ -155,6 +155,18 @@ class Ship_Data():
 
 			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst, i)
 
+
+	def get_residential_status(self, num_id):
+		# Gets residential status by checking "Resident" is in any of the
+		# charge types through the total_ups detail list
+		detail_ups_data_inst_list = self.total_detail_ups_data_instances_dic[num_id]
+		for ups_detail_inst in detail_ups_data_inst_list:
+			ups_charge_type = ups_detail_inst.get_charge_type()
+			extended_status = re.search(r"Resident", ups_charge_type)
+			if extended_status:
+				return True
+		return False
+
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
 		return self.ups_to_fedex_service_level_index[ups_service_level]
