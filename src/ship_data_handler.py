@@ -1,20 +1,19 @@
 from . import ship_data
 
 class Ship_Data_Handler():
-    def __init__(self, invoice_date_str, total_simple_ups_data, total_detail_ups_detail, rates_dic):
+    def __init__(self, invoice_date_str, total_simple_ups_data, total_detail_ups_detail):
         self._ship_data_dic = {}
         self.invoice_date_string = invoice_date_str
-        self.process(total_simple_ups_data, total_detail_ups_detail, rates_dic)
         self.track_num_index = []
+        self.process(total_simple_ups_data, total_detail_ups_detail)
         pass
 
-    def process(self, total_simple_ups_data, total_detail_ups_detail, rates_dic):
+    def process(self, total_simple_ups_data, total_detail_ups_detail):
         for track_num, simple_ups_data_list in total_simple_ups_data.items():
             detail_ups_data_list = total_detail_ups_detail[track_num]
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
                 s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
-                s_data.get_fedex_rates(0, rates_dic)
                 self._ship_data_dic[track_num] = s_data
                 self.track_num_index.append(track_num)
         # for track_num, ups_data_dic in detail_ups_detail.items():
