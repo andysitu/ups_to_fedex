@@ -168,12 +168,12 @@ class Ship_Data():
 				return True
 		return False
 
-	def get_fedex_rates(self, num_id, rates_dic):
+	def get_fedex_rates(self, num_id, fedex_rates_dic):
 		"""
 		Input: rates_dic -> [delivery_name][weight][zone]
 		Output: List containing dictionaries of calc. fedex charges from detail 
 		"""
-
+		rates_list = []
 		simple_fedex_inst = self.simple_fedex_data_instances[num_id]
 		detail_fedex_inst_list = self.total_detail_fedex_data_instances_dic[num_id]
 
@@ -191,6 +191,7 @@ class Ship_Data():
 		fuel_surcharge_index = 0
 
 		for i, detail_fedex_inst in enumerate(detail_fedex_inst_list):
+			calc_rate_dic = {}
 			fedex_charge_type = detail_fedex_inst.charge_type
 			fedex_calc_funct = fedex_rates.get_fedex_calc_function(fedex_charge_type)
 
@@ -199,6 +200,7 @@ class Ship_Data():
 				extended_status = re.search(r"Extended", ups_charge_type)
 				rate = fedex_calc_funct(fedex_service_level, residential_status, extended_status)
 			elif fedex_charge_type == "Fuel Surcharge":
+				rate = None
 				fuel_surcharge_index = i
 			# rate = fedex_calc_funct(date, ups_detail_list)
 			elif fedex_charge_type == "Residential Delivery Charge" or fedex_charge_type == "Additional Handling Surcharge":
@@ -206,13 +208,18 @@ class Ship_Data():
 			elif fedex_charge_type == "Delivery Signature" or fedex_charge_type == "Oversize Charge" or fedex_charge_type == "Non-Machinable":
 				rate = fedex_calc_funct(weight, zone)
 			else:
-				rate = fedex_calc_funct(weight, zone, rates_dic)
+				rate = fedex_calc_funct(weight, zone, fedex_rates_dic)
 
 			if fedex_rates.add_fuel_surcharge(fedex_charge_type):
 				total_amount_for_fuel_surcharge_calc += rate
 
+			calc_rate_dic["billed_charge"] = rate
+			calc_rate_dic["charge_type"] = fedex_charge_type
+
+			rates_list.append(calc_rate_dic)
 		fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
 		print(total_amount_for_fuel_surcharge_calc, fuel_surcharge)
+		rates_list[fuel_surcharge_index]["billed_charge"] = fuel_surcharge
 
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
