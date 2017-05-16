@@ -71,7 +71,7 @@ def proc_sheet_for_rates(sheet):
             if letter == excel_helper.weight_column:
                 continue
             cell_loc = letter + str(row)
-            zone = zone_dic["start"]
+            zone = int(zone_dic["start"])
             rate = sheet[cell_loc].value
             weight_dic[weight][zone] = rate
     return weight_dic
