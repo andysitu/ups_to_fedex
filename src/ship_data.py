@@ -168,44 +168,51 @@ class Ship_Data():
 				return True
 		return False
 
-	def get_fedex_rates(self, rates_dic):
-		for num_id, simple_fedex_inst in self.simple_fedex_data_instances.items():
-			detail_fedex_inst_list = self.total_detail_fedex_data_instances_dic[num_id]
-			residential_status = self.get_residential_status(num_id)
-			date = simple_fedex_inst.get_date()
-			weight = simple_fedex_inst.get_weight()
-			zone = int(simple_fedex_inst.get_zone())
+	def get_fedex_rates(self, num_id, rates_dic):
+		"""
+		Input: rates_dic -> [delivery_name][weight][zone]
+		Output: List containing dictionaries of calc. fedex charges from detail 
+		"""
 
-			total_amount_for_fuel_surcharge_calc = 0.00
+		simple_fedex_inst = self.simple_fedex_data_instances[num_id]
+		detail_fedex_inst_list = self.total_detail_fedex_data_instances_dic[num_id]
 
-			rate = 0
+		residential_status = self.get_residential_status(num_id)
+		date = simple_fedex_inst.get_date()
+		weight = simple_fedex_inst.get_weight()
+		zone = int(simple_fedex_inst.get_zone())
 
-			fedex_service_level = simple_fedex_inst.service_level
+		total_amount_for_fuel_surcharge_calc = 0.00
 
-			for i, detail_fedex_inst in enumerate(detail_fedex_inst_list):
-				fedex_charge_type = detail_fedex_inst.charge_type
-				fedex_calc_funct = fedex_rates.get_fedex_calc_function(fedex_charge_type)
+		rate = 0
 
-				if fedex_charge_type == "Delivery Area Surcharge":
-					ups_charge_type = self.total_detail_ups_data_instances_dic[num_id][i].charge_type
-					extended_status = re.search(r"Extended", ups_charge_type)
-					rate = fedex_calc_funct(fedex_service_level, residential_status, extended_status)
-				elif fedex_charge_type == "Fuel Surcharge":
-					# It should be skipped beforehand, since it needs to be calculated at the end.
-					continue
-				# rate = fedex_calc_funct(date, ups_detail_list)
-				elif fedex_charge_type == "Residential Delivery Charge" or fedex_charge_type == "Additional Handling Surcharge":
-					rate = fedex_calc_funct(weight, zone)
-				elif fedex_charge_type == "Delivery Signature" or fedex_charge_type == "Oversize Charge" or fedex_charge_type == "Non-Machinable":
-					rate = fedex_calc_funct(weight, zone)
-				else:
-					rate = fedex_calc_funct(weight, zone, rates_dic)
+		fedex_service_level = simple_fedex_inst.service_level
 
-				if fedex_rates.add_fuel_surcharge(fedex_charge_type):
-					total_amount_for_fuel_surcharge_calc += rate
+		fuel_surcharge_index = 0
 
-			fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
-			print(total_amount_for_fuel_surcharge_calc, fuel_surcharge)
+		for i, detail_fedex_inst in enumerate(detail_fedex_inst_list):
+			fedex_charge_type = detail_fedex_inst.charge_type
+			fedex_calc_funct = fedex_rates.get_fedex_calc_function(fedex_charge_type)
+
+			if fedex_charge_type == "Delivery Area Surcharge":
+				ups_charge_type = self.total_detail_ups_data_instances_dic[num_id][i].charge_type
+				extended_status = re.search(r"Extended", ups_charge_type)
+				rate = fedex_calc_funct(fedex_service_level, residential_status, extended_status)
+			elif fedex_charge_type == "Fuel Surcharge":
+				fuel_surcharge_index = i
+			# rate = fedex_calc_funct(date, ups_detail_list)
+			elif fedex_charge_type == "Residential Delivery Charge" or fedex_charge_type == "Additional Handling Surcharge":
+				rate = fedex_calc_funct(weight, zone)
+			elif fedex_charge_type == "Delivery Signature" or fedex_charge_type == "Oversize Charge" or fedex_charge_type == "Non-Machinable":
+				rate = fedex_calc_funct(weight, zone)
+			else:
+				rate = fedex_calc_funct(weight, zone, rates_dic)
+
+			if fedex_rates.add_fuel_surcharge(fedex_charge_type):
+				total_amount_for_fuel_surcharge_calc += rate
+
+		fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
+		print(total_amount_for_fuel_surcharge_calc, fuel_surcharge)
 
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
