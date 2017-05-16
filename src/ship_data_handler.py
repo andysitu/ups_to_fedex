@@ -5,6 +5,7 @@ class Ship_Data_Handler():
         self._ship_data_dic = {}
         self.invoice_date_string = invoice_date_str
         self.process(total_simple_ups_data, total_detail_ups_detail, rates_dic)
+        self.track_num_index = []
         pass
 
     def process(self, total_simple_ups_data, total_detail_ups_detail, rates_dic):
@@ -15,6 +16,7 @@ class Ship_Data_Handler():
                 s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
                 s_data.get_fedex_rates(0, rates_dic)
                 self._ship_data_dic[track_num] = s_data
+                self.track_num_index.append(track_num)
         # for track_num, ups_data_dic in detail_ups_detail.items():
         #     print(simple_ups_data[track_num])
 
