@@ -101,37 +101,34 @@ def get_fedex_calc_function(fedex_charge_type):
         return calc_2_day
 
 # Calculate the rates for fedex charges
-def get_rate(fedex_service_name, weight, zone):
+def get_rate(fedex_service_name, weight, zone, rates_dic):
     weight = int(weight)
     zone = int(zone)
-    global rates
-    if rates == None:
-        rates = process_excel_fedex()
-        save_fedex_rates(rates)
-        rates = open_rates()
     try:
-        return rates[fedex_service_name][weight][zone]
-    except KeyError:
-        print(rates[fedex_service_name])
+        return rates_dic[fedex_service_name][weight][zone]
+    except KeyError as e:
+        print(rates_dic[fedex_service_name])
+        print("KEY ERROR in get_rate")
         print(fedex_service_name)
         print(weight)
         print(zone)
+        raise(e)
 
 
-def calc_ground_commercial(weight, zone):
-    return get_rate('Ground', weight, zone)
+def calc_ground_commercial(weight, zone, rates_dic):
+    return get_rate('Ground', weight, zone, rates_dic)
 
 
-def calc_ground_residential(weight, zone):
-    return calc_ground_commercial(weight, zone)
+def calc_ground_residential(weight, zone, rates_dic):
+    return calc_ground_commercial(weight, zone, rates_dic)
 
 
-def calc_2_day(weight, zone):
-    return get_rate('2 Day', weight, zone)
+def calc_2_day(weight, zone, rates_dic):
+    return get_rate('2 Day', weight, zone, rates_dic)
 
 
-def calc_smart_post_1lb_plus(weight, zone):
-    return get_rate('Smart Post 1-70 lbs', weight, zone)
+def calc_smart_post_1lb_plus(weight, zone, rates_dic):
+    return get_rate('Smart Post 1-70 lbs', weight, zone, rates_dic)
 
 
 def calc_residential_charge(weight, zone):
