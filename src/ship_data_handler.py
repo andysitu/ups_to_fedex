@@ -28,8 +28,13 @@ class Ship_Data_Handler():
             invoice_section = simple_ups_data["invoice_section"]
             ups_service_level = simple_ups_data["service_level"]
 
+
             if invoice_section== "Outbound":
-                if ship_data.Ship_Data.convert_ups_to_fedex_service_level(ups_service_level):
+                zone_str = simple_ups_data["zone"]
+                if zone_str == '':
+                    return False
+                zone = int(zone_str)
+                if zone <= 8 and zone >= 2 and ship_data.Ship_Data.convert_ups_to_fedex_service_level(ups_service_level):
                     return True
                 else:
                     return False
