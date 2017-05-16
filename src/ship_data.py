@@ -178,9 +178,9 @@ class Ship_Data():
 		detail_fedex_inst_list = self.total_detail_fedex_data_instances_dic[num_id]
 
 		residential_status = self.get_residential_status(num_id)
-		date = simple_fedex_inst.get_date()
-		weight = simple_fedex_inst.get_weight()
-		zone = int(simple_fedex_inst.get_zone())
+		date = simple_fedex_inst.pickup_date
+		weight = simple_fedex_inst.weight
+		zone = int(simple_fedex_inst.zone)
 
 		total_amount_for_fuel_surcharge_calc = 0.00
 

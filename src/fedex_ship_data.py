@@ -9,13 +9,6 @@ class Simple_Fedex_Ship_Data():
         # self.incentive_credit = excel_helper.convert_charge_string_to_float(simple_ups_data["incentive_credit"])
         # self.invoice_date = simple_ups_data["invoice_date"]
 
-    def get_date(self):
-        return self.pickup_date
-    def get_weight(self):
-        return self.weight
-    def get_zone(self):
-        return self.zone
-
 class Detail_Fedex_Ship_Data():
     def __init__(self, charge_type):
         self.charge_type = charge_type
