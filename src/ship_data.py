@@ -219,6 +219,7 @@ class Ship_Data():
 			rates_list.append(calc_rate_dic)
 		fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
 		rates_list[fuel_surcharge_index]["billed_charge"] = fuel_surcharge
+		return rates_list
 
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
