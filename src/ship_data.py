@@ -173,6 +173,16 @@ class Ship_Data():
 				return True
 		return False
 
+	def get_ups_rates(self, num_id):
+		rates_list = []
+		detail_ups_inst_list = self.total_detail_ups_data_instances_dic[num_id]
+		for detail_ups_inst in detail_ups_inst_list:
+			rate_dic = {}
+			rate_dic["billed_charge"] = detail_ups_inst.billed_charge
+			rate_dic["charge_type"] = detail_ups_inst.charge_type
+			rates_list.append(rate_dic)
+		return rates_list
+
 	def get_fedex_rates(self, num_id, fedex_rates_dic):
 		"""
 		Input: rates_dic -> [delivery_name][weight][zone]
