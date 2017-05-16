@@ -23,6 +23,7 @@ class Ship_Data():
 		# It will be used for id of simple_ups_data and detail_ups_data
 		#	Also, will match them together.
 		self.num = 0
+		self.num_id_index = []
 
 		for simple_ups_data in simple_ups_data_list:
 			detail_data_list = self.match_simple_and_detail_ups(simple_ups_data, total_detail_ups_data_list)
@@ -61,7 +62,11 @@ class Ship_Data():
 
 	def add_simple_ups_data_to_index(self, simple_ups_instance):
 		self.simple_ups_data_instances[self.num] = simple_ups_instance
+		self.num_id_index.append(self.num)
+
+		# Subtract by 1 b/c the actual num_id is returned and used
 		self.num += 1
+
 		return self.num - 1
 
 	def add_detail_ups_data_index(self, num, detail_ups_instance):
