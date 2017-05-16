@@ -16,9 +16,7 @@ def process_ups_data(month_string, day_string, year_string, rate_dic):
 	# 	print(len(detail_list))
 	# 	print(detail_list)
 	# 	pass
-	s_data_handler = ship_data_handler.Ship_Data_Handler()
-
-	s_data_handler.process(total_simple_ups_data, total_detail_ups_data, rate_dic)
+	s_data_handler = ship_data_handler.Ship_Data_Handler(date_string, total_simple_ups_data, total_detail_ups_data, rate_dic)
 
 	return s_data_handler
 

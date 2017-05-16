@@ -1,8 +1,10 @@
 from . import ship_data
 
 class Ship_Data_Handler():
-    def __init__(self):
+    def __init__(self, invoice_date_str, total_simple_ups_data, total_detail_ups_detail, rates_dic):
         self._ship_data_dic = {}
+        self.invoice_date_string = invoice_date_str
+        self.process(total_simple_ups_data, total_detail_ups_detail, rates_dic)
         pass
 
     def process(self, total_simple_ups_data, total_detail_ups_detail, rates_dic):
