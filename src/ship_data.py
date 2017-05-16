@@ -129,6 +129,7 @@ class Ship_Data():
 		Processes UPS data need, creates the Fedex Ship Data (Simple & Detail),
 		And adds it to the index dictionaries of the object instance.
 		"""
+
 		ups_service_level = simple_ups_inst.service_level
 
 		fedex_service_level = self.convert_ups_to_fedex_service_level(ups_service_level)
@@ -175,6 +176,8 @@ class Ship_Data():
 			weight = simple_fedex_inst.get_weight()
 			zone = int(simple_fedex_inst.get_zone())
 
+			total_amount_for_fuel_surcharge_calc = 0.00
+
 			rate = 0
 
 			fedex_service_level = simple_fedex_inst.service_level
@@ -197,6 +200,12 @@ class Ship_Data():
 					rate = fedex_calc_funct(weight, zone)
 				else:
 					rate = fedex_calc_funct(weight, zone, rates_dic)
+
+				if fedex_rates.add_fuel_surcharge(fedex_charge_type):
+					total_amount_for_fuel_surcharge_calc += rate
+
+			fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
+			print(total_amount_for_fuel_surcharge_calc, fuel_surcharge)
 
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
