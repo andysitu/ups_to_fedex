@@ -15,6 +15,6 @@ def process_ups_data(date_string):
 	# 	pass
 	s_data_handler = ship_data_handler.Ship_Data_Handler()
 
-	s_data_handler.process(total_simple_ups_data, total_detail_ups_data)
+	s_data_handler.process(total_simple_ups_data, total_detail_ups_data, rate_dic)
 
 process_ups_data("032517")
