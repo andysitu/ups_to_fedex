@@ -143,14 +143,17 @@ class Ship_Data():
 
 		self.add_fedex_simple_inst_to_index(num_id, fedex_simple_data_inst)
 
-		for detail_ups_data in detail_ups_inst_list:
+		detail_ups_length = len(detail_ups_inst_list)
+
+		self.make_empty_fedex_detail_list_index(num_id, detail_ups_length)
+
+		for i, detail_ups_data in enumerate(detail_ups_inst_list):
 			ups_charge_type = detail_ups_data.charge_type
 			fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
 
 			fedex_detail_inst = self.create_fedex_detail_ship_data(fedex_charge_type)
 
-			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst)
-
+			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst, i)
 
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
@@ -168,8 +171,9 @@ class Ship_Data():
 	def add_fedex_simple_inst_to_index(self, num_id, fedex_simple_inst):
 		self.simple_fedex_data_instances[num_id] = fedex_simple_inst
 
-	def add_fedex_detail_inst_to_index(self, num_id, fedex_detail_inst):
-		if num_id not in self.total_detail_fedex_data_instances_dic:
-			self.total_detail_fedex_data_instances_dic[num_id] = [fedex_detail_inst, ]
-		else:
-			self.total_detail_fedex_data_instances_dic[num_id].append(fedex_detail_inst)
+	def make_empty_fedex_detail_list_index(self, num_id, list_length):
+		l = [None,] * list_length
+		self.total_detail_fedex_data_instances_dic[num_id] = l
+
+	def add_fedex_detail_inst_to_index(self, num_id, fedex_detail_inst, i):
+		self.total_detail_fedex_data_instances_dic[num_id][i] = fedex_detail_inst
