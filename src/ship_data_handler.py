@@ -11,7 +11,7 @@ class Ship_Data_Handler():
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
                 s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
-                s_data.get_fedex_rates(rates_dic)
+                s_data.get_fedex_rates(0, rates_dic)
                 self._ship_data_dic[track_num] = s_data
         # for track_num, ups_data_dic in detail_ups_detail.items():
         #     print(simple_ups_data[track_num])
