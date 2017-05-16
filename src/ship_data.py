@@ -121,6 +121,14 @@ class Ship_Data():
 	}
 
 	def process_fedex_ship_data(self, num_id, simple_ups_inst, detail_ups_inst_list):
+		"""
+		:param num_id: int 
+		:param simple_ups_inst: object instance of Simple_UPS_Ship_Data
+		:param detail_ups_inst_list: object instance of Detail_UPS_Ship_Data
+		:return: None
+		Processes UPS data need, creates the Fedex Ship Data (Simple & Detail),
+		And adds it to the index dictionaries of the object instance.
+		"""
 		ups_service_level = simple_ups_inst.service_level
 
 		fedex_service_level = self.convert_ups_to_fedex_service_level(ups_service_level)
