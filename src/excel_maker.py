@@ -1,7 +1,7 @@
 import openpyxl
 import ffile
 
-def make_excel_file(total_data_dic, filename, folder):
+def make_excel_file(total_data_dic, filename, folder, change_sheet_func = None):
     """
     Gets a dic of lists of lists of data to output into cells.
     Each lists will give a new row, and each element in the lists
@@ -24,6 +24,8 @@ def make_excel_file(total_data_dic, filename, folder):
             for x, data in enumerate(row_data_lists):
                 columnNum = x + 1
                 sheet.cell(row=rowNum, column=columnNum).value = data
+        if change_sheet_func != None:
+            change_sheet_func(sheet)
 
     wb.remove_sheet(wb.get_sheet_by_name('Sheet'))
 
