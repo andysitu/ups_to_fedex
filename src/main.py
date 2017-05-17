@@ -66,13 +66,22 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 			if header_dic[header] == i:
 				header_list.append(header)
 
+	track_num_list = s_data_handler.track_num_index
 
 	data_dict_for_make_excel = {}
 
-	for invoice_date in invoice_date_list:
+	for earned_discount_num in range(max_earned_discount_num + 1):
+		fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount_num)
 		excel_data_list = []
 		excel_data_list.append(header_list)
-		data_dict_for_make_excel[invoice_date] = excel_data_list
+
+		for track_num in track_num_list:
+			f = get_fedex_rate_data(s_data_handler, track_num, fedex_rate_dic)
+			u = get_ups_rate_data(s_data_handler, track_num)
+
+		sheetname = str(earned_discount_num) + " earned discount"
+		data_dict_for_make_excel[sheetname] = excel_data_list
+
 
 	def change_sheet_function(sheet):
 		sheet.freeze_panes = 'A2'
