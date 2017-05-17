@@ -50,6 +50,12 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 				  "Track Num/Rate": 5, "Fedex": 6, "Fedex Rate": 7,
 				  "Diff": 8, "Diff Amount": 9}
 
+	# Fill out header_list
+	for i in range(1, len(header_dic) + 1):
+		for header in header_dic:
+			if header_dic[header] == i:
+				header_list.append(header)
+
 
 	data_dict_for_make_excel = {}
 
