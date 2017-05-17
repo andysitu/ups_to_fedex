@@ -74,3 +74,19 @@ class Ship_Data_Handler():
             rates_list.append(rate_dic)
 
         return rates_list
+
+    def get_ship_data_info(self, track_num, num_id):
+        """
+        Gives date, zone, weight from ship data
+        :param track_num: dic
+        :param num_id: int
+        :return: data_dic
+        """
+        data_dic = {}
+        ship_data_inst = self._ship_data_dic[track_num]
+        print(ship_data_inst.simple_ups_data_instances)
+        simple_ups_ship_inst = ship_data_inst.simple_ups_data_instances[num_id]
+        data_dic["weight"] = simple_ups_ship_inst.weight
+        data_dic["zone"] = simple_ups_ship_inst.zone
+        data_dic["pickup_date"] = simple_ups_ship_inst.pickup_date
+        return data_dic
