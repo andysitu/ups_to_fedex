@@ -20,16 +20,22 @@ def process_ups_data(month_string, day_string, year_string):
 
 	return s_data_handler
 
-def get_rates(earned_discount = 0):
-	fedex_rate_dic = fedex_rates.process_excel_fedex(0)
+def get_fedex_rate_data(track_num, fedex_rate_dic):
+	return s_data_handler.get_fedex_rate_data(track_num, fedex_rate_dic)
 
-	s_data_handler = process_ups_data("03", "25", "17")
+def get_ups_rate_data(track_num):
+	return s_data_handler.get_ups_rate_data(track_num)
+
+def get_rates(s_data_handler, earned_discount = 0):
+	fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount)
 
 	track_num_list = s_data_handler.track_num_index
 
 	for track_num in track_num_list:
-		f = s_data_handler.get_fedex_rate_data(track_num, fedex_rate_dic)
-		u = s_data_handler.get_ups_rate_data(track_num)
+		f = get_fedex_rate_data(track_num, fedex_rate_dic)
+		u = get_ups_rate_data(track_num)
+		# print(u)
+		# print(f)
+
 
 get_rates()
-
