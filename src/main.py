@@ -50,6 +50,16 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 				  "Track Num/Rate": 5, "Fedex": 6, "Fedex Rate": 7,
 				  "Diff": 8, "Diff Amount": 9}
 
+	date_col_num = header_dic["Date"]
+	zone_col_num = header_dic["Zone"]
+	weight_col_num = header_dic["Weight"]
+	ups_col_num = header_dic["UPS"]
+	ups_rate_col_num = header_dic["Track Num/Rate"]
+	fedex_col_num = header_dic["Fedex"]
+	fedex_rate_col_num = header_dic["Fedex Rate"]
+	diff_word_col_num = header_dic["Diff"]
+	diff_amount_col_num = header_dic["Diff Amount"]
+
 	# Fill out header_list
 	for i in range(1, len(header_dic) + 1):
 		for header in header_dic:
