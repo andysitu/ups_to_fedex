@@ -43,8 +43,13 @@ s_data_handler = process_ups_data("03", "25", "17")
 get_rates(s_data_handler, 2)
 
 def make_excel_rates_file(s_data_handler, excel_filename, foldername):
-	invoice_date_list = ["1", "2", "3"]
-	header_list = ["Date", "Zone", "Weight", "UPS", "Track Num/Rate", "Fedex", "FX Rate"]
+	max_earned_discount_num = 5
+
+	header_list = []
+	header_dic = {"Date": 1, "Zone": 2, "Weight": 3, "UPS":4,
+				  "Track Num/Rate": 5, "Fedex": 6, "Fedex Rate": 7,
+				  "Diff": 8, "Diff Amount": 9}
+
 
 	data_dict_for_make_excel = {}
 
