@@ -55,7 +55,7 @@ class Ship_Data_Handler():
 
     def get_fedex_rate_data(self, track_num, fedex_rates_dic):
         ship_data_inst = self._ship_data_dic[track_num]
-        num_id_lists = ship_data_inst.num_index
+        num_id_lists = ship_data_inst.num_id_index
         rates_list = []
 
         for num_id in num_id_lists:
@@ -66,7 +66,7 @@ class Ship_Data_Handler():
 
     def get_ups_rate_data(self, track_num):
         ship_data_inst = self._ship_data_dic[track_num]
-        num_id_lists = ship_data_inst.num_index
+        num_id_lists = ship_data_inst.num_id_index
         rates_list = []
 
         for num_id in num_id_lists:
