@@ -59,8 +59,8 @@ class Ship_Data_Handler():
         rates_list = []
 
         for num_id in num_id_lists:
-            rate_dic = ship_data_inst.get_fedex_rates(num_id, fedex_rates_dic)
-            rates_list.append(rate_dic)
+            rate_list = ship_data_inst.get_fedex_rates(num_id, fedex_rates_dic)
+            rates_list.append(rate_list)
 
         return rates_list
 
