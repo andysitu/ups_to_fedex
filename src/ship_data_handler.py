@@ -54,6 +54,13 @@ class Ship_Data_Handler():
                 raise Exception(msg)
 
     def get_fedex_rate_data(self, track_num, fedex_rates_dic):
+        """
+        Returns list containing lists of dictionaries of each
+            charge_type of fedex detail data
+        :param track_num: String 
+        :param fedex_rates_dic: dictionary of all fedex rates
+        :return: List of lists of dictionaries of rates
+        """
         ship_data_inst = self._ship_data_dic[track_num]
         num_id_lists = ship_data_inst.num_id_index
         rates_list = []
@@ -65,6 +72,12 @@ class Ship_Data_Handler():
         return rates_list
 
     def get_ups_rate_data(self, track_num):
+        """
+        Returns list containing lists of dictionaries of each
+            charge_type of ups detail data
+        :param track_num: String 
+        :return: List of lists of dictionaries of rates
+        """
         ship_data_inst = self._ship_data_dic[track_num]
         num_id_lists = ship_data_inst.num_id_index
         rates_list = []
@@ -84,7 +97,6 @@ class Ship_Data_Handler():
         """
         data_dic = {}
         ship_data_inst = self._ship_data_dic[track_num]
-        print(ship_data_inst.simple_ups_data_instances)
         simple_ups_ship_inst = ship_data_inst.simple_ups_data_instances[num_id]
         data_dic["weight"] = simple_ups_ship_inst.weight
         data_dic["zone"] = simple_ups_ship_inst.zone
