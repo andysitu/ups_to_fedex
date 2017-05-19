@@ -184,3 +184,10 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 
 	excel_maker.make_excel_file(data_dict_for_make_excel, excel_filename, foldername, change_sheet_function)
 
+def make_rate_excel(month_str, day_str, year_str):
+	s_data_handler = process_ups_data(month_str, day_str, year_str)
+	date_string = month_str + day_str + year_str
+	file_name = date_string + " Rates.xlsx"
+	# get_rates(s_data_handler, 2)
+	make_excel_rates_file(s_data_handler, file_name , "rates")
+
