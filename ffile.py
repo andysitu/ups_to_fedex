@@ -37,7 +37,8 @@ def add(foldername, filename, save_key_name, save_obj, obj_if_not_exist):
 	a = shelve.open(filename)
 	try:
 		data = a[save_key_name]
-		data.append(save_obj)
+		if save_obj not in data:
+			data.append(save_obj)
 	except KeyError:
 		data = obj_if_not_exist
 		data.append(save_obj)
