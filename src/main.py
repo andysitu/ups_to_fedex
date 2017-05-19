@@ -190,3 +190,23 @@ def make_rate_excel(s_data_handler_inst):
 	# get_rates(s_data_handler, 2)
 	make_excel_rates_file(s_data_handler_inst, excel_file_name , "rates")
 
+_data_folder_name = "data"
+
+_s_handler_filename = "ship_data_handlers"
+
+def save_s_handler_index(s_handler_date):
+	ffile.add(_data_folder_name, _s_handler_filename, "index", s_handler_date, [])
+
+def open_s_handler_index():
+	return ffile.open(_data_folder_name, _s_handler_filename, "index")
+
+def save_s_handler(s_handler_inst):
+	s_handler_invoice_date = str(s_handler_inst)
+	ffile.save(_data_folder_name, _s_handler_filename, s_handler_invoice_date, s_handler_inst)
+	save_s_handler_index(s_handler_invoice_date)
+
+def open_s_handler(invoice_date):
+	s_handler_inst = ffile.open(_data_folder_name, _s_handler_filename, invoice_date)
+	return s_handler_inst
+
+
