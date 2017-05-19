@@ -10,7 +10,12 @@ class Ship_Data_Handler():
 
     def process(self, total_simple_ups_data, total_detail_ups_detail):
         for track_num, simple_ups_data_list in total_simple_ups_data.items():
-            detail_ups_data_list = total_detail_ups_detail[track_num]
+            try:
+                detail_ups_data_list = total_detail_ups_detail[track_num]
+            except KeyError as e:
+                msg = track_num + " was not in simple UPS data."
+                print(msg)
+                continue
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
                 s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
