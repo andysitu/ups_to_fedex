@@ -55,6 +55,7 @@ excel
 saved_data
 __pycache__
 fedex_rates
+rates
 
 # PYCHARM
 .idea
