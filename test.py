@@ -1,4 +1,4 @@
-import fedex_base_rate
+from src import excel_helper
 
 def test_equal(val1, val2):
 	if val1 == val2:
@@ -7,22 +7,17 @@ def test_equal(val1, val2):
 		msg = str(val1) + ' and ' + str(val2) +" are not equal."
 		raise Exception(msg)
 
+test_equal(excel_helper.get_column_num("U"), 20)
+test_equal(excel_helper.get_column_num("BA"), 52)
+test_equal(excel_helper.get_column_num("AAA"), 702)
+test_equal(excel_helper.get_column_letters(1), 'A')
+test_equal(excel_helper.get_column_letters(16), 'P')
 
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_no_earned.xlsx")
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_1st_earned.xlsx", 1500000.00)
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_2nd_earned.xlsx", 2500000.00)
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_3rd_earned.xlsx", 3500000.00)
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_4th_earned.xlsx", 4500000.00)
-fedex_base_rate.convert_file("fedex_standard_list_base_rate.xlsx", "data", "fedex_discount_rates_5th_earned.xlsx", 15500000.00)
-
-
-test_equal(fedex_base_rate.calc_earned_discount(1000000), 0.04)
-test_equal(fedex_base_rate.calc_earned_discount(100000), 0.00)
-test_equal(fedex_base_rate.calc_earned_discount(5000000), 0.08)
-test_equal(fedex_base_rate.calc_earned_discount(4999999.98), 0.07)
-test_equal(fedex_base_rate.calc_earned_discount(2000000.01), 0.05)
-test_equal(fedex_base_rate.calc_earned_discount(1000000, True), 0.01)
-test_equal(fedex_base_rate.calc_earned_discount(100000, True), 0.00)
-test_equal(fedex_base_rate.calc_earned_discount(5000000, True), 0.04)
-test_equal(fedex_base_rate.calc_earned_discount(4999999.98, True), 0.03)
-test_equal(fedex_base_rate.calc_earned_discount(2000000.01, True), 0.015)
+# Test zones
+test_equal(excel_helper.get_zone("Zone 5")["start"], "5")
+test_equal(excel_helper.get_zone("Zone 5")["end"], "5")
+test_equal(excel_helper.get_zone("Zone 5-10")["start"], "5")
+test_equal(excel_helper.get_zone("Zone 5-10")["end"], "10")
+test_equal(excel_helper.get_zone("Zone 5 - 10")["start"], "5")
+test_equal(excel_helper.get_zone("Zone 5 - 10")["end"], "10")
+test_equal(excel_helper.get_zone("5")["start"], "5")

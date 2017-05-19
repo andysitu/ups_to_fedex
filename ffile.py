@@ -17,42 +17,32 @@ def dir_back(num_times = 1):
 	for i in range(num_times):
 		os.chdir('..')
 
-def save_ups_data(ups_data):
-	move_dir("data")
-	move_dir("ups_data")
+def save(foldername, filename, save_key_name, save_obj):
+	move_dir(foldername)
+	s = shelve.open(filename)
+	s[save_key_name] = save_obj
+	s.close()
+	dir_back()
 
-	with shelve.open("ups_data") as db:
-		db["data"] = ups_data
+def open(foldername, filename, save_key_name):
+	move_dir(foldername)
+	o = shelve.open(filename)
+	data = o[save_key_name]
+	o.close()
+	dir_back()
+	return data
 
-	dir_back(2)
-
-def open_ups_data():
-	move_dir("data")
-	move_dir("ups_data")
-	d = None
-
-	with shelve.open("ups_data") as db:
-		d = db["data"]
-
-	dir_back(2)
-	return d
-
-def save_fedex_rates(fedex_data):
-	move_dir("data")
-	move_dir("fedex_rates")
-
-	with shelve.open("fedex_rates") as db:
-		db["data"] = fedex_data
-
-	dir_back(2)
-
-def open_fedex_rates():
-	move_dir("data")
-	move_dir("fedex_rates")
-	d = None
-
-	with shelve.open("fedex_rates") as db:
-		d = db["data"]
-
-	dir_back(2)
-	return d
+def add(foldername, filename, save_key_name, save_obj, obj_if_not_exist):
+	move_dir(foldername)
+	a = shelve.open(filename)
+	try:
+		data = a[save_key_name]
+		if save_obj not in data:
+			data.append(save_obj)
+	except KeyError:
+		data = obj_if_not_exist
+		data.append(save_obj)
+	finally:
+		a[save_key_name] = data
+	a.close()
+	dir_back()
