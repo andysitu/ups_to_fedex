@@ -40,12 +40,12 @@ class Ship_Data():
 		:return: detail ups data list that matches the simple_ups_data by billed charge
 		"""
 		# Not used since anything with length > 1 is filtered out in ship_data_handler
-		total_billed_charge = excel_helper.convert_charge_string_to_float(simple_ups_data["billed_charge"])
+		total_billed_charge = simple_ups_data["billed_charge"]
 		for detail_data_list in total_detail_ups_data_list:
 			total_charge = 0
 
 			for detail_ups_data in detail_data_list:
-				detail_ups_charge = excel_helper.convert_charge_string_to_float(detail_ups_data["billed_charge"])
+				detail_ups_charge = detail_ups_data["billed_charge"]
 				total_charge += detail_ups_charge
 
 			if math.isclose(total_billed_charge, total_charge, abs_tol=0.001):
