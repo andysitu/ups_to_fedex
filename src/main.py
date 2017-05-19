@@ -194,19 +194,38 @@ _data_folder_name = "data"
 
 _s_handler_filename = "ship_data_handlers"
 
+_s_handler_version = "1.0.0"
+
 def save_s_handler_index(s_handler_date):
 	ffile.add(_data_folder_name, _s_handler_filename, "index", s_handler_date, [])
 
 def open_s_handler_index():
 	return ffile.open(_data_folder_name, _s_handler_filename, "index")
 
+def save_s_handler_version():
+	ffile.save(_data_folder_name, _s_handler_filename, "version", _s_handler_version)
+
+def get_s_handler_version():
+	version = ffile.open(_data_folder_name, _s_handler_filename, "version")
+	return version
+
 def save_s_handler(s_handler_inst):
 	s_handler_invoice_date = str(s_handler_inst)
 	ffile.save(_data_folder_name, _s_handler_filename, s_handler_invoice_date, s_handler_inst)
 	save_s_handler_index(s_handler_invoice_date)
+	save_s_handler_version()
 
 def open_s_handler(invoice_date):
-	s_handler_inst = ffile.open(_data_folder_name, _s_handler_filename, invoice_date)
+	version = get_s_handler_version()
+	if version == _s_handler_version:
+		s_handler_inst = ffile.open(_data_folder_name, _s_handler_filename, invoice_date)
+	else:
+		print("The saved s_handler instance had a verseion of " + version)
+		print("The newest version is " + _s_handler_version)
+		month_str = invoice_date[:2]
+		day_str = invoice_date[2:4]
+		year_str = invoice_date[4:]
+		s_handler_inst = process_ups_data(month_str, day_str, year_str)
 	return s_handler_inst
 
 
