@@ -107,3 +107,6 @@ class Ship_Data_Handler():
         data_dic["zone"] = simple_ups_ship_inst.zone
         data_dic["pickup_date"] = simple_ups_ship_inst.pickup_date
         return data_dic
+
+    def __str__(self):
+        return self.invoice_date_string
