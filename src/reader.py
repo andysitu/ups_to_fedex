@@ -41,7 +41,10 @@ def read_simple_ups(simple_ups_filename, folder_name):
 	def extract_data(row):
 		ups_simple_dic = {}
 		for fieldname, column in fieldnames_index.items():
-			ups_simple_dic[fieldname] = row[column]
+			if fieldname == "billed_charge":
+				ups_simple_dic[fieldname] = excel_helper.convert_charge_string_to_float(row[column])
+			else:
+				ups_simple_dic[fieldname] = row[column]
 		return ups_simple_dic
 
 
@@ -102,7 +105,10 @@ def read_detail_ups(detail_ups_filename, folder_name):
 		# fieldnames_index dic which gives which and what columns to extract
 		ups_detail_dic = {}
 		for fieldname, column_num in fieldnames_index.items():
-			ups_detail_dic[fieldname] = row[column_num]
+			if fieldname == "billed_charge":
+				ups_detail_dic[fieldname] = excel_helper.convert_charge_string_to_float(row[column_num])
+			else:
+				ups_detail_dic[fieldname] = row[column_num]
 		return ups_detail_dic
 
 	def filter_data(detail_ups):
