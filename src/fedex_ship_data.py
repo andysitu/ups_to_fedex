@@ -10,6 +10,11 @@ class Simple_Fedex_Ship_Data():
         # self.invoice_date = simple_ups_data["invoice_date"]
 
 class Detail_Fedex_Ship_Data():
-    def __init__(self, charge_type):
+    def __init__(self, charge_type, weight, zone):
         self.charge_type = charge_type
-        # self.billed_charge = detail_ups_data["billed_charge"]
+
+        self.billed_charges = {}
+
+    def add_charge(self, earned_discount, billed_charge):
+        self.billed_charges[earned_discount] = billed_charge
+        # print(earned_discount, self.charge_type, billed_charge)
