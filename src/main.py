@@ -226,4 +226,15 @@ def open_s_handler(invoice_date):
 		s_handler_inst = process_ups_data(month_str, day_str, year_str)
 	return s_handler_inst
 
+def process_ship_handler(month_string, day_string, year_string):
+	"""
+	Creates a Ship_Data_Handler instance and then saves it by the invoice date.
+	:param month_str: string 
+	:param day_string: string
+	:param year_string: 
+	:return: ship_handler_instance
+	"""
+	s_data_handler = process_ups_data(month_string, day_string, year_string)
+	save_s_handler(s_data_handler)
+	return s_data_handler
 
