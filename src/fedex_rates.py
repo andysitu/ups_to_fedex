@@ -3,6 +3,8 @@ import ffile
 import openpyxl
 import re, datetime
 
+max_earned_discount_num = 5
+
 def process_excel_fedex(earned_num = 0):
     """
     Input: earned_num(float), signifying the earned discount obtained.
@@ -40,6 +42,13 @@ def process_excel_fedex(earned_num = 0):
     ffile.dir_back()
 
     return rate_dic
+
+def get_all_fedex_rates():
+    total_rate_dic = {}
+    for earned_discount_num in range(max_earned_discount_num + 1):
+        fedex_rate_dic = process_excel_fedex(earned_discount_num)
+        total_rate_dic[earned_discount_num] = fedex_rate_dic
+    return total_rate_dic
 
 def proc_sheet_for_rates(sheet):
     """
