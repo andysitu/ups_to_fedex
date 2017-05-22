@@ -183,7 +183,7 @@ class Ship_Data():
 			rates_list.append(rate_dic)
 		return rates_list
 
-	def get_fedex_rates(self, num_id, fedex_rates_dic):
+	def process_fedex_rates(self, num_id, fedex_rates_dic, earned_discount):
 		"""
 		Input: rates_dic -> [delivery_name][weight][zone]
 		Output: List containing dictionaries of calc. fedex charges from detail 
@@ -228,11 +228,17 @@ class Ship_Data():
 			if fedex_rates.add_fuel_surcharge(fedex_charge_type):
 				total_amount_for_fuel_surcharge_calc += rate
 
+			if rate != None:
+				detail_fedex_inst.add_charge(earned_discount, rate)
+
 			calc_rate_dic["billed_charge"] = rate
 			calc_rate_dic["charge_type"] = fedex_charge_type
 
 			rates_list.append(calc_rate_dic)
 		fuel_surcharge = fedex_rates.calc_fuel_surcharge(date, total_amount_for_fuel_surcharge_calc, fedex_service_level)
+
+		detail_fedex_inst_list[fuel_surcharge_index].add_charge(earned_discount, fuel_surcharge)
+
 		rates_list[fuel_surcharge_index]["billed_charge"] = fuel_surcharge
 		return rates_list
 
