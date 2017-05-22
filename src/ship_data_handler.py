@@ -1,4 +1,5 @@
 from . import ship_data
+from . import fedex_rates
 
 class Ship_Data_Handler():
     def __init__(self, invoice_date_str, total_simple_ups_data, total_detail_ups_detail):
@@ -9,6 +10,7 @@ class Ship_Data_Handler():
         pass
 
     def process(self, total_simple_ups_data, total_detail_ups_detail):
+        total_fedex_rates_dic = fedex_rates.get_all_fedex_rates()
         for track_num, simple_ups_data_list in total_simple_ups_data.items():
             try:
                 detail_ups_data_list = total_detail_ups_detail[track_num]
@@ -18,7 +20,7 @@ class Ship_Data_Handler():
                 continue
 
             if self.filter_ship_data(simple_ups_data_list, detail_ups_data_list):
-                s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list)
+                s_data = ship_data.Ship_Data(track_num, simple_ups_data_list, detail_ups_data_list, total_fedex_rates_dic)
                 self._ship_data_dic[track_num] = s_data
                 self.track_num_index.append(track_num)
         # for track_num, ups_data_dic in detail_ups_detail.items():
@@ -58,12 +60,11 @@ class Ship_Data_Handler():
                 msg = "filter_ship_data of Ship_Data_Handler seen unknown invoice section " + invoice_section
                 raise Exception(msg)
 
-    def get_fedex_rate_data(self, track_num, fedex_rates_dic):
+    def get_fedex_rate_data(self, track_num, earned_discount_num):
         """
         Returns list containing lists of dictionaries of each
             charge_type of fedex detail data
         :param track_num: String 
-        :param fedex_rates_dic: dictionary of all fedex rates
         :return: List of lists of dictionaries of rates
         """
         ship_data_inst = self._ship_data_dic[track_num]
@@ -71,7 +72,7 @@ class Ship_Data_Handler():
         rates_list = []
 
         for num_id in num_id_lists:
-            rate_list = ship_data_inst.get_fedex_rates(num_id, fedex_rates_dic)
+            rate_list = ship_data_inst.get_fedex_rates(num_id, earned_discount_num)
             rates_list.append(rate_list)
 
         return rates_list
