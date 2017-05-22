@@ -242,6 +242,19 @@ class Ship_Data():
 		rates_list[fuel_surcharge_index]["billed_charge"] = fuel_surcharge
 		return rates_list
 
+	def get_fedex_rates(self, num_id, earned_discount):
+		rates_list = []
+		detail_fedex_data_inst_list = self.total_detail_fedex_data_instances_dic[num_id]
+		for detail_fedex_data_inst in detail_fedex_data_inst_list:
+			detail_data_dic = {}
+			detail_data_dic["billed_charge"] = detail_fedex_data_inst.billed_charges[earned_discount]
+			detail_data_dic["charge_type"] = detail_fedex_data_inst.charge_type
+			rates_list.append(detail_data_dic)
+		return rates_list
+
+		self.total_detail_fedex_data_instances_dic[num_id][i]
+		return rates_list
+
 	@classmethod
 	def convert_ups_to_fedex_service_level(self, ups_service_level):
 		return self.ups_to_fedex_service_level_index[ups_service_level]
