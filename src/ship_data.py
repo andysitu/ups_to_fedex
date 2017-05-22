@@ -157,7 +157,7 @@ class Ship_Data():
 			ups_charge_type = detail_ups_data.charge_type
 			fedex_charge_type = self.convert_ups_to_fedex_charge_type(ups_charge_type)
 
-			fedex_detail_inst = self.create_fedex_detail_ship_data(fedex_charge_type)
+			fedex_detail_inst = self.create_fedex_detail_ship_data(fedex_charge_type, ups_weight, ups_zone)
 
 			self.add_fedex_detail_inst_to_index(num_id, fedex_detail_inst, i)
 
@@ -265,8 +265,8 @@ class Ship_Data():
 	def create_fedex_simple_ship_data(self, service_level, weight, zone, pickup_date):
 		return fedex_ship_data.Simple_Fedex_Ship_Data(service_level, weight, zone, pickup_date)
 
-	def create_fedex_detail_ship_data(self, charge_type):
-		return fedex_ship_data.Detail_Fedex_Ship_Data(charge_type)
+	def create_fedex_detail_ship_data(self, charge_type, ups_weight, ups_zone):
+		return fedex_ship_data.Detail_Fedex_Ship_Data(charge_type, ups_weight, ups_zone)
 
 	def add_fedex_simple_inst_to_index(self, num_id, fedex_simple_inst):
 		self.simple_fedex_data_instances[num_id] = fedex_simple_inst
