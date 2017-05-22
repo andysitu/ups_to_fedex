@@ -24,8 +24,8 @@ def process_ups_data(month_string, day_string, year_string):
 
 	return s_data_handler
 
-def get_fedex_rate_data(s_data_handler, track_num, fedex_rate_dic):
-	return s_data_handler.get_fedex_rate_data(track_num, fedex_rate_dic)
+def get_fedex_rate_data(s_data_handler, track_num, earned_discount_num):
+	return s_data_handler.get_fedex_rate_data(track_num, earned_discount_num)
 
 def get_ups_rate_data(s_data_handler, track_num):
 	return s_data_handler.get_ups_rate_data(track_num)
@@ -100,12 +100,12 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 		total_ups_billed_charge = 0.00
 		total_fedex_billed_charge = 0.00
 
-		fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount_num)
+		# fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount_num)
 		excel_data_list = []
 		excel_data_list.append(header_list)
 
 		for track_num in track_num_list:
-			total_fedex_data_list = get_fedex_rate_data(s_data_handler, track_num, fedex_rate_dic)
+			total_fedex_data_list = get_fedex_rate_data(s_data_handler, track_num, earned_discount_num)
 			total_ups_data_list = get_ups_rate_data(s_data_handler, track_num)
 
 			for num_id,ups_data_list in enumerate(total_ups_data_list):
@@ -146,8 +146,6 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
 											diff="Difference", diff_amnt=ups_charges-fedex_charges)
 				charges_list = make_excel_data_list(header_list, charges_dic)
 				excel_data_list.append(charges_list)
-
-
 
 
 		sheetname = str(earned_discount_num) + " earned discount"
