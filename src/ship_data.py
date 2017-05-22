@@ -5,7 +5,7 @@ import math
 
 class Ship_Data():
 # Assume that only outbound charges will be used, meaning no adjustments.
-	def __init__(self, tracking_num, simple_ups_data_list, total_detail_ups_data_list):
+	def __init__(self, tracking_num, simple_ups_data_list, total_detail_ups_data_list, total_fedex_rate_dic):
 		# print(simple_ups_data_list)
 		# print(total_detail_ups_data_list)
 		self.tracking_num = tracking_num
@@ -32,6 +32,10 @@ class Ship_Data():
 			simple_data_inst = self.simple_ups_data_instances[num_id]
 			detail_data_inst_list = self.total_detail_ups_data_instances_dic[num_id]
 			self.process_fedex_ship_data(num_id, simple_data_inst, detail_data_inst_list)
+			for earned_discount, fedex_rate_dic in total_fedex_rate_dic.items():
+				# print(earned_discount)
+
+				detail_fedex_rates_list = self.process_fedex_rates(num_id, fedex_rate_dic, earned_discount)
 
 	def match_simple_and_detail_ups(self, simple_ups_data, total_detail_ups_data_list):
 		"""
