@@ -237,3 +237,49 @@ def process_ship_handler(month_string, day_string, year_string):
     s_data_handler = process_ups_data(month_string, day_string, year_string)
     save_s_handler(s_data_handler)
     return s_data_handler
+
+def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
+    max_earned_discount_num = 5
+    track_num_list = s_data_handler.track_num_index
+
+    info_dic = {}
+
+    for earned_discount_num in range(max_earned_discount_num + 1):
+        info_dic[earned_discount_num] = {}
+        max_weight = 0
+        for track_num in track_num_list:
+            total_fedex_data_list = get_fedex_rate_data(s_data_handler, track_num, earned_discount_num)
+            total_ups_data_list = get_ups_rate_data(s_data_handler, track_num)
+
+            for num_id, ups_data_list in enumerate(total_ups_data_list):
+                item_info = s_data_handler.get_ship_data_info(track_num, num_id)
+                fedex_data_list = total_fedex_data_list[num_id]
+
+                weight = item_info["weight"]
+
+                zone = item_info["zone"]
+                service_level = item_info["service_level"]
+                if service_level not in info_dic[earned_discount_num]:
+                    info_dic[earned_discount_num][service_level] = {}
+                ups_charges = 0
+
+                if weight not in info_dic[earned_discount_num][service_level]:
+                    info_dic[earned_discount_num][service_level][weight] = {}
+
+                if zone not in info_dic[earned_discount_num][service_level][weight]:
+                    info_dic[earned_discount_num][service_level][weight][zone] = []
+
+                fedex_charges = 0
+
+                for i, ups_data_dic in enumerate(ups_data_list):
+                    fedex_data_dic = fedex_data_list[i]
+                    u_charge_type = ups_data_dic["charge_type"]
+                    u_charge = ups_data_dic["billed_charge"]
+
+                    f_charge_type = fedex_data_dic["charge_type"]
+                    f_charge = fedex_data_dic["billed_charge"]
+
+                    ups_charges += u_charge
+                    fedex_charges += f_charge
+                info_dic[earned_discount_num][service_level][weight][zone].append(ups_charges-fedex_charges)
+    return info_dic
