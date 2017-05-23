@@ -283,3 +283,17 @@ def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
                     fedex_charges += f_charge
                 info_dic[earned_discount_num][service_level][weight][zone].append(ups_charges-fedex_charges)
     return info_dic
+
+def make_excel_from_categorize_info_dic(info_dic):
+    pass
+
+
+def make_categorize_excel():
+    s_handler_index = main.open_s_handler_index()
+    for s_handler_invoice_date in s_handler_index:
+        print(s_handler_invoice_date)
+        excel_filename = "test.xlsx"
+        folder_name = "test"
+        s_handler_inst = main.open_s_handler(s_handler_invoice_date)
+        info_dic = main.get_categorize_info_dic(s_handler_inst, excel_filename, folder_name)
+        print(info_dic)
