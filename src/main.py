@@ -8,38 +8,38 @@ import openpyxl
 import ffile
 
 def process_ups_data(month_string, day_string, year_string):
-	date_string = month_string + day_string + year_string
-	folder_name = "ups_invoices"
-	simple_ups_filename = date_string + " ups_simple.csv"
-	detail_ups_filename = date_string + " ups_detail.csv"
-	total_simple_ups_data = reader.read_simple_ups(simple_ups_filename, folder_name)
-	total_detail_ups_data = reader.read_detail_ups(detail_ups_filename, folder_name)
-	# for tracking_num, detail_list in detail_ups_data.items():
-	# 	if len(detail_list) >= 2:
-	# 		print("OK")
-	# 	print(len(detail_list))
-	# 	print(detail_list)
-	# 	pass
-	s_data_handler = ship_data_handler.Ship_Data_Handler(date_string, total_simple_ups_data, total_detail_ups_data)
+    date_string = month_string + day_string + year_string
+    folder_name = "ups_invoices"
+    simple_ups_filename = date_string + " ups_simple.csv"
+    detail_ups_filename = date_string + " ups_detail.csv"
+    total_simple_ups_data = reader.read_simple_ups(simple_ups_filename, folder_name)
+    total_detail_ups_data = reader.read_detail_ups(detail_ups_filename, folder_name)
+    # for tracking_num, detail_list in detail_ups_data.items():
+    # 	if len(detail_list) >= 2:
+    # 		print("OK")
+    # 	print(len(detail_list))
+    # 	print(detail_list)
+    # 	pass
+    s_data_handler = ship_data_handler.Ship_Data_Handler(date_string, total_simple_ups_data, total_detail_ups_data)
 
-	return s_data_handler
+    return s_data_handler
 
 def get_fedex_rate_data(s_data_handler, track_num, earned_discount_num):
-	return s_data_handler.get_fedex_rate_data(track_num, earned_discount_num)
+    return s_data_handler.get_fedex_rate_data(track_num, earned_discount_num)
 
 def get_ups_rate_data(s_data_handler, track_num):
-	return s_data_handler.get_ups_rate_data(track_num)
+    return s_data_handler.get_ups_rate_data(track_num)
 
 def get_rates(s_data_handler, earned_discount = 0):
-	fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount)
+    fedex_rate_dic = fedex_rates.process_excel_fedex(earned_discount)
 
-	track_num_list = s_data_handler.track_num_index
+    track_num_list = s_data_handler.track_num_index
 
-	for track_num in track_num_list:
-		f = get_fedex_rate_data(s_data_handler, track_num, fedex_rate_dic)
-		u = get_ups_rate_data(s_data_handler, track_num)
-		# print(u)
-		# print(f)
+    for track_num in track_num_list:
+        f = get_fedex_rate_data(s_data_handler, track_num, fedex_rate_dic)
+        u = get_ups_rate_data(s_data_handler, track_num)
+        # print(u)
+        # print(f)
 
 def make_excel_rates_file(s_data_handler, excel_filename, foldername):
     max_earned_discount_num = 5
@@ -183,10 +183,10 @@ def make_excel_rates_file(s_data_handler, excel_filename, foldername):
     excel_maker.make_excel_file(data_dict_for_make_excel, excel_filename, foldername, change_sheet_function)
 
 def make_rate_excel(s_data_handler_inst):
-	date_string = s_data_handler_inst.invoice_date_string
-	excel_file_name = date_string + " Rates.xlsx"
-	# get_rates(s_data_handler, 2)
-	make_excel_rates_file(s_data_handler_inst, excel_file_name , "rates")
+    date_string = s_data_handler_inst.invoice_date_string
+    excel_file_name = date_string + " Rates.xlsx"
+    # get_rates(s_data_handler, 2)
+    make_excel_rates_file(s_data_handler_inst, excel_file_name , "rates")
 
 _data_folder_name = "data"
 
@@ -195,46 +195,45 @@ _s_handler_filename = "ship_data_handlers"
 _s_handler_version = "1.0.0"
 
 def save_s_handler_index(s_handler_date):
-	ffile.add(_data_folder_name, _s_handler_filename, "index", s_handler_date, [])
+    ffile.add(_data_folder_name, _s_handler_filename, "index", s_handler_date, [])
 
 def open_s_handler_index():
-	return ffile.open(_data_folder_name, _s_handler_filename, "index")
+    return ffile.open(_data_folder_name, _s_handler_filename, "index")
 
 def save_s_handler_version():
-	ffile.save(_data_folder_name, _s_handler_filename, "version", _s_handler_version)
+    ffile.save(_data_folder_name, _s_handler_filename, "version", _s_handler_version)
 
 def get_s_handler_version():
-	version = ffile.open(_data_folder_name, _s_handler_filename, "version")
-	return version
+    version = ffile.open(_data_folder_name, _s_handler_filename, "version")
+    return version
 
 def save_s_handler(s_handler_inst):
-	s_handler_invoice_date = str(s_handler_inst)
-	ffile.save(_data_folder_name, _s_handler_filename, s_handler_invoice_date, s_handler_inst)
-	save_s_handler_index(s_handler_invoice_date)
-	save_s_handler_version()
+    s_handler_invoice_date = str(s_handler_inst)
+    ffile.save(_data_folder_name, _s_handler_filename, s_handler_invoice_date, s_handler_inst)
+    save_s_handler_index(s_handler_invoice_date)
+    save_s_handler_version()
 
 def open_s_handler(invoice_date):
-	version = get_s_handler_version()
-	if version == _s_handler_version:
-		s_handler_inst = ffile.open(_data_folder_name, _s_handler_filename, invoice_date)
-	else:
-		print("The saved s_handler instance had a verseion of " + version)
-		print("The newest version is " + _s_handler_version)
-		month_str = invoice_date[:2]
-		day_str = invoice_date[2:4]
-		year_str = invoice_date[4:]
-		s_handler_inst = process_ups_data(month_str, day_str, year_str)
-	return s_handler_inst
+    version = get_s_handler_version()
+    if version == _s_handler_version:
+        s_handler_inst = ffile.open(_data_folder_name, _s_handler_filename, invoice_date)
+    else:
+        print("The saved s_handler instance had a verseion of " + version)
+        print("The newest version is " + _s_handler_version)
+        month_str = invoice_date[:2]
+        day_str = invoice_date[2:4]
+        year_str = invoice_date[4:]
+        s_handler_inst = process_ups_data(month_str, day_str, year_str)
+    return s_handler_inst
 
 def process_ship_handler(month_string, day_string, year_string):
-	"""
-	Creates a Ship_Data_Handler instance and then saves it by the invoice date.
-	:param month_str: string 
-	:param day_string: string
-	:param year_string: 
-	:return: ship_handler_instance
-	"""
-	s_data_handler = process_ups_data(month_string, day_string, year_string)
-	save_s_handler(s_data_handler)
-	return s_data_handler
-
+    """
+    Creates a Ship_Data_Handler instance and then saves it by the invoice date.
+    :param month_str: string 
+    :param day_string: string
+    :param year_string: 
+    :return: ship_handler_instance
+    """
+    s_data_handler = process_ups_data(month_string, day_string, year_string)
+    save_s_handler(s_data_handler)
+    return s_data_handler
