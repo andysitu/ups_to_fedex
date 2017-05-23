@@ -109,6 +109,8 @@ def get_fedex_calc_function(fedex_charge_type):
         return calc_nonmachinable_charge
     elif fedex_charge_type == "2 Day":
         return calc_2_day
+    elif fedex_charge_type == "Smart Post 1-16 oz":
+        return calc_smart_post_lt_1lb
 
 # Calculate the rates for fedex charges
 def get_rate(fedex_service_name, weight, zone, rates_dic):
@@ -140,6 +142,8 @@ def calc_2_day(weight, zone, rates_dic):
 def calc_smart_post_1lb_plus(weight, zone, rates_dic):
     return get_rate('Smart Post 1-70 lbs', weight, zone, rates_dic)
 
+def calc_smart_post_lt_1lb(weight, zone, rates_dic):
+    return get_rate('Smart Post 1-16 oz', weight, zone, rates_dic)
 
 def calc_residential_charge(weight, zone):
     res_surcharge = 3.45
@@ -214,6 +218,7 @@ add_fuel_surcharge_index = {
 		"Residential Delivery Charge": True,
 		"Delivery Area Surcharge": True,
 		'Smart Post 1-70 lbs': True,
+        'Smart Post 1-16 oz': True,
 		"Oversize Charge": True,
 		"Non-Machinable": False,
 		"Delivery Signature": False,
@@ -297,6 +302,7 @@ fuel_rate_index = {
     "5/1/2017": [3.50, 4.50],
     "5/8/2017": [3.00, 4.50],
     "5/15/2017": [2.50, 4.50],
+    "5/22/2017": [2.50, 4.25],
 }
 
 fedex_delivery_type = {

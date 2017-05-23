@@ -87,6 +87,7 @@ class Ship_Data():
 		"2nd Day Air Commercial": '2 Day',
 		"2nd Day Air Residential": '2 Day',
 		"UPS SurePost - 1 LB or Greater": 'Smart Post 1-70 lbs',
+		'UPS SurePost - Less than 1 LB': 'Smart Post 1-16 oz',
 		"Worldwide Expedited": False,
 		"Ground Undeliverable Return": False,
 		# Probably Adjustments
@@ -124,6 +125,8 @@ class Ship_Data():
 		"Delivery Area Surcharge - Extended": "Delivery Area Surcharge",
 		"Delivery Confirmation Signature": "Delivery Signature",
 		"UPS SurePost - 1 lb or Greater": 'Smart Post 1-70 lbs',
+		'UPS SurePost - Less than 1 LB': 'Smart Post 1-16 oz',
+		'UPS SurePost - Less than 1 lb': 'Smart Post 1-16 oz',
 		"Delivery Confirmation Response": "Delivery Signature",
 		"Large Package Surcharge": "Oversize Charge",
 		"Non-machinable Charge": "Non-Machinable",
