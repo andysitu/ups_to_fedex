@@ -472,12 +472,21 @@ def make_abs_total_excel_from_categorize_info_dic(info_dic, invoice_date):
         excel_maker.make_excel_file(excel_dic, filename, foldername)
 
 def make_cat_info_excel_from_categorize_info_dic(info_dic):
+    invoice_date_list = info_dic["invoice_dates"]
+
+    invoices_string = ""
+    for invoice_date in invoice_date_list:
+        invoices_string += invoice_date + " "
+
     max_zones = 8
     num_col_per_zone = 5
     foldername = "categorization - Mult Info"
     for earned_discount, dicta in info_dic["data"].items():
+
+
         excel_dic = {}
         for service_level, dictb in dicta.items():
+            abs_total_num_shipments = 0
             excel_dic[service_level] = []
             list_a = excel_dic[service_level]
 
@@ -505,6 +514,8 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic):
                     for zone in range(2, max_zones + 1):
                         if zone in dictc:
                             rates_list = dictc[zone]
+                            num_shipments = len(rates_list)
+                            abs_total_num_shipments += num_shipments
                             total_rate = 0
                             abs_total_rate = 0
                             for rate in rates_list:
@@ -514,21 +525,37 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic):
                             list_b.append(total_rate)
                             list_b.append(abs_total_rate)
                             list_b.append(total_rate / len(rates_list))
-                            list_b.append(len(rates_list))
+                            list_b.append(num_shipments)
                         else:
                             list_b += [""] * num_col_per_zone
                 else:
                     for zone in range(2, max_zones + 1):
                         list_b += [""] * num_col_per_zone
 
-        invoice_date_list = info_dic["invoice_dates"]
+
+            title_list = []
+
+            title_list.append("")
+            title_list.append("")
+            title_list.append("Inv Dates")
+            title_list.append(invoices_string)
+            title_list.append("Tot Shipments")
+            title_list.append(abs_total_num_shipments)
+
+            list_a.insert(0, title_list)
+
+        def change_sheet_function(sheet):
+            sheet.freeze_panes = 'B3'
+
+            small_col_width = 6
+            small_col_list = ['A','B','F','G','K','L','P','Q','U','V','Z','AA','AE','AF','AJ']
+            for col_letter in small_col_list:
+                sheet.column_dimensions[col_letter].width = small_col_width
+
         if len(invoice_date_list) > 1:
             filename = "total " + str(earned_discount) + " discount mult_total_cat_excel.xlsx"
         else:
-            filename = invoice_date_list[0] +  " " +  str(earned_discount) + " discount mult_total_cat_excel.xlsx"
-
-        def change_sheet_function(sheet):
-            sheet.freeze_panes = 'A2'
+            filename = invoice_date_list[0] + " " + str(earned_discount) + " discount mult_total_cat_excel.xlsx"
 
         excel_maker.make_excel_file(excel_dic, filename, foldername, change_sheet_function)
 
@@ -536,7 +563,7 @@ def combine_all_info_dic():
     total_info_dic = {"data": {}, "max_weights": {}, "invoice_dates": []}
     s_handler_index = open_s_handler_index()
     for s_handler_invoice_date in s_handler_index:
-        total_info_dic["invoice_date"].append(s_handler_invoice_date)
+        total_info_dic["invoice_dates"].append(s_handler_invoice_date)
         s_handler_inst = open_s_handler(s_handler_invoice_date)
         info_dic = get_categorize_info_dic(s_handler_inst)
 
@@ -563,3 +590,4 @@ def combine_all_info_dic():
                             total_info_dic["data"][earned_discount][service_level][weight][zone] += rates_list
 
     return total_info_dic
+
