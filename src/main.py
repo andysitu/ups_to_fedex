@@ -273,7 +273,7 @@ def get_categorize_info_dic(s_data_handler):
 
 
                 zone = item_info["zone"]
-                service_level = item_info["service_level"]
+                service_level = item_info["fedex_service_level"]
                 if service_level not in info_dic[earned_discount_num]:
                     info_dic[earned_discount_num][service_level] = {}
                 ups_charges = 0
