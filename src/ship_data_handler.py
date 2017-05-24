@@ -104,8 +104,11 @@ class Ship_Data_Handler():
         data_dic = {}
         ship_data_inst = self._ship_data_dic[track_num]
         simple_ups_ship_inst = ship_data_inst.simple_ups_data_instances[num_id]
+        simple_fedex_ship_inst = ship_data_inst.simple_fedex_data_instances[num_id]
+
         data_dic["tracking_num"] = track_num
         data_dic["service_level"] = simple_ups_ship_inst.service_level
+        data_dic["fedex_service_level"] = simple_fedex_ship_inst.service_level
         data_dic["weight"] = simple_ups_ship_inst.weight
         data_dic["zone"] = simple_ups_ship_inst.zone
         data_dic["pickup_date"] = simple_ups_ship_inst.pickup_date
