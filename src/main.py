@@ -519,7 +519,7 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic, invoice_date):
                             list_b += [""] * num_col_per_zone
                 else:
                     for zone in range(2, max_zones + 1):
-                        list_b += [""] * 4
+                        list_b += [""] * num_col_per_zone
         filename = invoice_date +  " " +  str(earned_discount) + " discount mult_total_cat_excel.xlsx"
 
         def change_sheet_function(sheet):
