@@ -471,7 +471,7 @@ def make_abs_total_excel_from_categorize_info_dic(info_dic, invoice_date):
         filename = invoice_date +  " " +  str(earned_discount) + " discount abs_total_cat_excel.xlsx"
         excel_maker.make_excel_file(excel_dic, filename, foldername)
 
-def make_cat_info_excel_from_categorize_info_dic(info_dic, invoice_date):
+def make_cat_info_excel_from_categorize_info_dic(info_dic):
     max_zones = 8
     num_col_per_zone = 5
     foldername = "categorization - Mult Info"
@@ -528,9 +528,10 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic, invoice_date):
         excel_maker.make_excel_file(excel_dic, filename, foldername)
 
 def combine_all_info_dic():
-    total_info_dic = {"data": {}, "max_weights": {}}
+    total_info_dic = {"data": {}, "max_weights": {}, "invoice_dates": []}
     s_handler_index = open_s_handler_index()
     for s_handler_invoice_date in s_handler_index:
+        total_info_dic["invoice_date"].append(s_handler_invoice_date)
         s_handler_inst = open_s_handler(s_handler_invoice_date)
         info_dic = get_categorize_info_dic(s_handler_inst)
 
