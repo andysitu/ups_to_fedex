@@ -2,6 +2,7 @@ from . import reader
 from src import ship_data_handler
 from src import fedex_rates
 from src import excel_maker
+import math
 
 from inspect import signature
 import openpyxl
@@ -304,10 +305,255 @@ def get_categorize_info_dic(s_data_handler):
 
                 info_dic[earned_discount_num][service_level][weight][zone].append(ups_charges-fedex_charges)
     return {"data": info_dic, "max_weights": max_weight_dic}
+
+def make_total_excel_from_categorize_info_dic(info_dic, invoice_date):
+    max_zones = 8
+    foldername = "categorization - Total"
+    for earned_discount, dicta in info_dic["data"].items():
+        excel_dic = {}
+        for service_level, dictb in dicta.items():
+            excel_dic[service_level] = []
+            list_a = excel_dic[service_level]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i == 0:
+                    zone_list.append("Weight / Zone")
+                else:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+            list_a.append(zone_list)
+
+            max_weight = info_dic["max_weights"][service_level]
+            for weight in range(1, max_weight):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            rates_list = dictc[zone]
+                            total_rate = 0
+                            for rate in rates_list:
+                                total_rate += rate
+                            list_b.append(total_rate)
+                        else:
+                            list_b.append("")
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b.append("")
+        filename = invoice_date +  " " +  str(earned_discount) + " discount total_cat_excel.xlsx"
+        excel_maker.make_excel_file(excel_dic, filename, foldername)
+
+def make_avg_excel_from_categorize_info_dic(info_dic, invoice_date):
+    max_zones = 8
+    foldername = "categorization - Avg"
+    for earned_discount, dicta in info_dic["data"].items():
+        excel_dic = {}
+        for service_level, dictb in dicta.items():
+            excel_dic[service_level] = []
+            list_a = excel_dic[service_level]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i == 0:
+                    zone_list.append("Weight / Zone")
+                else:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+            list_a.append(zone_list)
+
+            max_weight = info_dic["max_weights"][service_level]
+            for weight in range(1, max_weight):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            rates_list = dictc[zone]
+                            total_rate = 0
+                            for rate in rates_list:
+                                total_rate += rate
+                            list_b.append(total_rate / len(rates_list))
+                        else:
+                            list_b.append("")
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b.append("")
+        filename = invoice_date +  " " +  str(earned_discount) + " discount avg_cat_excel.xlsx"
+        excel_maker.make_excel_file(excel_dic, filename, foldername)
+
+def make_num_items_excel_from_categorize_info_dic(info_dic, invoice_date):
+    max_zones = 8
+    foldername = "categorization - Num of items"
+    for earned_discount, dicta in info_dic["data"].items():
+        excel_dic = {}
+        for service_level, dictb in dicta.items():
+            excel_dic[service_level] = []
+            list_a = excel_dic[service_level]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i == 0:
+                    zone_list.append("Weight / Zone")
+                else:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+            list_a.append(zone_list)
+
+            max_weight = info_dic["max_weights"][service_level]
+            for weight in range(1, max_weight):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            rates_list = dictc[zone]
+                            list_b.append(len(rates_list))
+                        else:
+                            list_b.append("")
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b.append("")
+        filename = invoice_date +  " " +  str(earned_discount) + " discount total_items_cat_excel.xlsx"
+        excel_maker.make_excel_file(excel_dic, filename, foldername)
+
+def make_abs_total_excel_from_categorize_info_dic(info_dic, invoice_date):
+    max_zones = 8
+    foldername = "categorization - Abs. Total"
+    for earned_discount, dicta in info_dic["data"].items():
+        excel_dic = {}
+        for service_level, dictb in dicta.items():
+            excel_dic[service_level] = []
+            list_a = excel_dic[service_level]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i != 0:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+                    zone_list.append("Abs")
+                else:
+                    zone_list.append("Weight / Zone")
+            list_a.append(zone_list)
+
+            max_weight = info_dic["max_weights"][service_level]
+            for weight in range(1, max_weight):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            rates_list = dictc[zone]
+                            total_rate = 0
+                            abs_total_rate = 0
+                            for rate in rates_list:
+                                total_rate += rate
+                                abs_total_rate += math.fabs(rate)
+                            list_b.append(total_rate)
+                            list_b.append(abs_total_rate)
+                        else:
+                            list_b.append("")
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b.append("")
+        filename = invoice_date +  " " +  str(earned_discount) + " discount abs_total_cat_excel.xlsx"
+        excel_maker.make_excel_file(excel_dic, filename, foldername)
+
+def make_cat_info_excel_from_categorize_info_dic(info_dic, invoice_date):
+    max_zones = 8
+    num_col_per_zone = 5
+    foldername = "categorization - Mult Info"
+    for earned_discount, dicta in info_dic["data"].items():
+        excel_dic = {}
+        for service_level, dictb in dicta.items():
+            excel_dic[service_level] = []
+            list_a = excel_dic[service_level]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i != 1:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+                    zone_list.append("Net Total")
+                    zone_list.append("Abs. Total")
+                    zone_list.append("Avg. Rate")
+                    zone_list.append("# ship")
+                else:
+                    zone_list.append("Weight")
+            list_a.append(zone_list)
+
+            max_weight = info_dic["max_weights"][service_level]
+            for weight in range(1, max_weight + 1):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            rates_list = dictc[zone]
+                            total_rate = 0
+                            abs_total_rate = 0
+                            for rate in rates_list:
+                                total_rate += rate
+                                abs_total_rate += math.fabs(rate)
+                            list_b.append("")
+                            list_b.append(total_rate)
+                            list_b.append(abs_total_rate)
+                            list_b.append(total_rate / len(rates_list))
+                            list_b.append(len(rates_list))
+                        else:
+                            list_b += [""] * num_col_per_zone
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b += [""] * 4
+        filename = invoice_date +  " " +  str(earned_discount) + " discount mult_total_cat_excel.xlsx"
+
+        def change_sheet_function(sheet):
+            sheet.freeze_panes = 'A2'
+
+        excel_maker.make_excel_file(excel_dic, filename, foldername)
+
+def combine_all_info_dic():
+    total_info_dic = {"data": {}, "max_weights": {}}
+    s_handler_index = open_s_handler_index()
     for s_handler_invoice_date in s_handler_index:
-        print(s_handler_invoice_date)
-        excel_filename = "test.xlsx"
-        folder_name = "test"
-        s_handler_inst = main.open_s_handler(s_handler_invoice_date)
-        info_dic = main.get_categorize_info_dic(s_handler_inst, excel_filename, folder_name)
-        print(info_dic)
+        s_handler_inst = open_s_handler(s_handler_invoice_date)
+        info_dic = get_categorize_info_dic(s_handler_inst)
+
+        weights_dic = info_dic['max_weights']
+        for service_level, weight in weights_dic.items():
+            if service_level not in total_info_dic["max_weights"]:
+                total_info_dic["max_weights"][service_level] = weights_dic[service_level]
+            elif total_info_dic["max_weights"][service_level] < weight:
+                total_info_dic["max_weights"][service_level] = weight
+
+        for earned_discount, dicta in info_dic["data"].items():
+            if earned_discount not in total_info_dic["data"]:
+                total_info_dic["data"][earned_discount] = {}
+            for service_level, dictb in dicta.items():
+                if service_level not in total_info_dic["data"]:
+                    total_info_dic["data"][earned_discount][service_level] = {}
+                for weight, dictc in dictb.items():
+                    if weight not in total_info_dic["data"][earned_discount][service_level]:
+                        total_info_dic["data"][earned_discount][service_level][weight] = {}
+                    for zone, rates_list in dictc.items():
+                        if zone not in total_info_dic["data"][earned_discount][service_level][weight]:
+                            total_info_dic["data"][earned_discount][service_level][weight][zone] = rates_list
+                        else:
+                            total_info_dic["data"][earned_discount][service_level][weight][zone] += rates_list
+
+    return total_info_dic
