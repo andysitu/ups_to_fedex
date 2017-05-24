@@ -239,6 +239,19 @@ def process_ship_handler(month_string, day_string, year_string):
     return s_data_handler
 
 def get_categorize_info_dic(s_data_handler):
+    """
+    Searches through data of s_data_handler
+        And returns a dictionary  of a dictionary
+        containing the max weights and another
+        containing the difference of ups rates and fedex rates
+        of a tracking num.
+    :param s_data_handler: 
+    :return: {  "max_weights": [], 
+                "data": {earned_discount(int): 
+                            {service_level[string]: {
+                                weight(int):
+                                    { zone[int]: lists of rate_difference) }}}} } 
+    """
     max_earned_discount_num = 5
     track_num_list = s_data_handler.track_num_index
 
