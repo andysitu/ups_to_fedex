@@ -525,7 +525,7 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic):
         def change_sheet_function(sheet):
             sheet.freeze_panes = 'A2'
 
-        excel_maker.make_excel_file(excel_dic, filename, foldername)
+        excel_maker.make_excel_file(excel_dic, filename, foldername, change_sheet_function)
 
 def combine_all_info_dic():
     total_info_dic = {"data": {}, "max_weights": {}, "invoice_dates": []}
