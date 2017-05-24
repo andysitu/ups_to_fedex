@@ -520,7 +520,12 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic):
                 else:
                     for zone in range(2, max_zones + 1):
                         list_b += [""] * num_col_per_zone
-        filename = invoice_date +  " " +  str(earned_discount) + " discount mult_total_cat_excel.xlsx"
+
+        invoice_date_list = info_dic["invoice_dates"]
+        if len(invoice_date_list) > 1:
+            filename = "total " + str(earned_discount) + " discount mult_total_cat_excel.xlsx"
+        else:
+            filename = invoice_date_list[0] +  " " +  str(earned_discount) + " discount mult_total_cat_excel.xlsx"
 
         def change_sheet_function(sheet):
             sheet.freeze_panes = 'A2'
