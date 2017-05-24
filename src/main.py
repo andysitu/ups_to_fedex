@@ -238,7 +238,7 @@ def process_ship_handler(month_string, day_string, year_string):
     save_s_handler(s_data_handler)
     return s_data_handler
 
-def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
+def get_categorize_info_dic(s_data_handler):
     max_earned_discount_num = 5
     track_num_list = s_data_handler.track_num_index
 
@@ -246,7 +246,7 @@ def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
 
     for earned_discount_num in range(max_earned_discount_num + 1):
         info_dic[earned_discount_num] = {}
-        max_weight = 0
+        max_weight_dic = {}
         for track_num in track_num_list:
             total_fedex_data_list = get_fedex_rate_data(s_data_handler, track_num, earned_discount_num)
             total_ups_data_list = get_ups_rate_data(s_data_handler, track_num)
@@ -256,6 +256,7 @@ def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
                 fedex_data_list = total_fedex_data_list[num_id]
 
                 weight = item_info["weight"]
+
 
                 zone = item_info["zone"]
                 service_level = item_info["service_level"]
@@ -269,9 +270,15 @@ def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
                 if zone not in info_dic[earned_discount_num][service_level][weight]:
                     info_dic[earned_discount_num][service_level][weight][zone] = []
 
+                if service_level not in max_weight_dic:
+                    max_weight_dic[service_level] = weight
+                elif max_weight_dic[service_level] < weight:
+                    max_weight_dic[service_level] = weight
+
                 fedex_charges = 0
 
                 for i, ups_data_dic in enumerate(ups_data_list):
+                    # print(ups_data_dic)
                     fedex_data_dic = fedex_data_list[i]
                     u_charge_type = ups_data_dic["charge_type"]
                     u_charge = ups_data_dic["billed_charge"]
@@ -281,15 +288,9 @@ def get_categorize_info_dic(s_data_handler, excel_filename, folder_name):
 
                     ups_charges += u_charge
                     fedex_charges += f_charge
+
                 info_dic[earned_discount_num][service_level][weight][zone].append(ups_charges-fedex_charges)
-    return info_dic
-
-def make_excel_from_categorize_info_dic(info_dic):
-    pass
-
-
-def make_categorize_excel():
-    s_handler_index = main.open_s_handler_index()
+    return {"data": info_dic, "max_weights": max_weight_dic}
     for s_handler_invoice_date in s_handler_index:
         print(s_handler_invoice_date)
         excel_filename = "test.xlsx"
