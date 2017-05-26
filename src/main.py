@@ -255,6 +255,7 @@ def get_categorize_info_dic(s_data_handler):
     """
     max_earned_discount_num = 5
     track_num_list = s_data_handler.track_num_index
+    invoice_date = str(s_data_handler)
 
     info_dic = {}
 
@@ -304,7 +305,7 @@ def get_categorize_info_dic(s_data_handler):
                     fedex_charges += f_charge
 
                 info_dic[earned_discount_num][service_level][weight][zone].append(ups_charges-fedex_charges)
-    return {"data": info_dic, "max_weights": max_weight_dic}
+    return {"data": info_dic, "max_weights": max_weight_dic, "invoice_dates": [invoice_date]}
 
 def make_total_excel_from_categorize_info_dic(info_dic, invoice_date):
     max_zones = 8
