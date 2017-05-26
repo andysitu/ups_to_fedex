@@ -592,3 +592,65 @@ def combine_all_info_dic():
 
     return total_info_dic
 
+def get_charge_type_info(s_data_handler):
+    max_earned_discount_num = 5
+    track_num_list = s_data_handler.track_num_index
+
+    info_dic = {}
+
+    def filter_charge_type(charge_type):
+        if charge_type == "Home Delivery" or charge_type == "Ground" \
+                or charge_type == "Smart Post 1-70 lbs" \
+                or charge_type == "Smart Post 1-16 oz":
+            return True
+        else:
+            return False
+
+    for earned_discount_num in range(max_earned_discount_num + 1):
+        info_dic[earned_discount_num] = {}
+        max_weight_dic = {}
+        for track_num in track_num_list:
+            total_fedex_data_list = get_fedex_rate_data(s_data_handler, track_num, earned_discount_num)
+            total_ups_data_list = get_ups_rate_data(s_data_handler, track_num)
+
+            for num_id, ups_data_list in enumerate(total_ups_data_list):
+                item_info = s_data_handler.get_ship_data_info(track_num, num_id)
+                fedex_data_list = total_fedex_data_list[num_id]
+
+                weight = item_info["weight"]
+
+                zone = item_info["zone"]
+
+
+                fedex_charges = 0
+
+                for i, ups_data_dic in enumerate(ups_data_list):
+                    # print(ups_data_dic)
+                    fedex_data_dic = fedex_data_list[i]
+                    u_charge_type = ups_data_dic["charge_type"]
+                    u_charge = ups_data_dic["billed_charge"]
+
+                    f_charge_type = fedex_data_dic["charge_type"]
+                    f_charge = fedex_data_dic["billed_charge"]
+
+                    if not filter_charge_type(f_charge_type):
+                        continue
+
+                    if f_charge_type not in info_dic[earned_discount_num]:
+                        info_dic[earned_discount_num][f_charge_type] = {}
+                    ups_charges = 0
+
+                    if weight not in info_dic[earned_discount_num][f_charge_type]:
+                        info_dic[earned_discount_num][f_charge_type][weight] = {}
+
+                    if zone not in info_dic[earned_discount_num][f_charge_type][weight]:
+                        info_dic[earned_discount_num][f_charge_type][weight][zone] = {"ups": [], "fedex": []}
+
+                    if f_charge_type not in max_weight_dic:
+                        max_weight_dic[f_charge_type] = weight
+                    elif max_weight_dic[f_charge_type] < weight:
+                        max_weight_dic[f_charge_type] = weight
+
+                    info_dic[earned_discount_num][f_charge_type][weight][zone]["ups"].append(u_charge)
+                    info_dic[earned_discount_num][f_charge_type][weight][zone]["fedex"].append(f_charge)
+    return {"data": info_dic, "max_weights": max_weight_dic}
