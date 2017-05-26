@@ -545,7 +545,7 @@ def make_cat_info_excel_from_categorize_info_dic(info_dic):
             list_a.insert(0, title_list)
 
         def change_sheet_function(sheet):
-            sheet.freeze_panes = 'B3'
+            sheet.freeze_panes = 'A3'
 
             small_col_width = 6
             small_col_list = ['A','B','F','G','K','L','P','Q','U','V','Z','AA','AE','AF','AJ']
