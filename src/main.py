@@ -654,3 +654,40 @@ def get_charge_type_info(s_data_handler):
                     info_dic[earned_discount_num][f_charge_type][weight][zone]["ups"].append(u_charge)
                     info_dic[earned_discount_num][f_charge_type][weight][zone]["fedex"].append(f_charge)
     return {"data": info_dic, "max_weights": max_weight_dic}
+
+def combine_all_charge_type_info_dic():
+    total_info_dic = {"data": {}, "max_weights": {}, "invoice_dates": []}
+    s_handler_index = open_s_handler_index()
+    for s_handler_invoice_date in s_handler_index:
+        total_info_dic["invoice_dates"].append(s_handler_invoice_date)
+
+        s_handler_inst = open_s_handler(s_handler_invoice_date)
+        info_dic = get_charge_type_info(s_handler_inst)
+
+        weights_dic = info_dic['max_weights']
+
+        for f_charge_type, weight in weights_dic.items():
+            if f_charge_type not in total_info_dic["max_weights"]:
+                total_info_dic["max_weights"][f_charge_type] = weights_dic[f_charge_type]
+            elif total_info_dic["max_weights"][f_charge_type] < weight:
+                total_info_dic["max_weights"][f_charge_type] = weight
+
+        for earned_discount, dicta in info_dic["data"].items():
+            if earned_discount not in total_info_dic["data"]:
+                total_info_dic["data"][earned_discount] = {}
+            for f_charge_type, dictb in dicta.items():
+                if f_charge_type not in total_info_dic["data"][earned_discount]:
+                    total_info_dic["data"][earned_discount][f_charge_type] = {}
+                for weight, dictc in dictb.items():
+                    if weight not in total_info_dic["data"][earned_discount][f_charge_type]:
+                        total_info_dic["data"][earned_discount][f_charge_type][weight] = {}
+                    for zone, dictd in dictc.items():
+                        if zone not in total_info_dic["data"][earned_discount][f_charge_type][weight]:
+                            total_info_dic["data"][earned_discount][f_charge_type][weight][zone] = {
+                                "ups": [], "fedex": []}
+                        fedex_charge_list = dictd["fedex"]
+                        for i, ups_charge in enumerate(dictd["ups"]):
+                            total_info_dic["data"][earned_discount][f_charge_type][weight][zone]["ups"].append(ups_charge)
+                            total_info_dic["data"][earned_discount][f_charge_type][weight][zone]["fedex"].append(fedex_charge_list[i])
+
+    return total_info_dic
