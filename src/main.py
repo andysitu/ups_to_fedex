@@ -193,7 +193,7 @@ _data_folder_name = "data"
 
 _s_handler_filename = "ship_data_handlers"
 
-_s_handler_version = "1.0.0"
+_s_handler_version = "1.0.0.1"
 
 def save_s_handler_index(s_handler_date):
     ffile.add(_data_folder_name, _s_handler_filename, "index", s_handler_date, [])
