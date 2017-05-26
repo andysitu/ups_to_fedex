@@ -64,6 +64,7 @@ def read_simple_ups(simple_ups_filename, folder_name):
 
 		for row in reader:
 			tracking_num = row[tracking_num_column]
+			# print(tracking_num, simple_ups_filename)
 			simple_ups_data = extract_data(row)
 			if not filter_data(simple_ups_data):
 				continue
