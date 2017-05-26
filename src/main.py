@@ -691,3 +691,103 @@ def combine_all_charge_type_info_dic():
                             total_info_dic["data"][earned_discount][f_charge_type][weight][zone]["fedex"].append(fedex_charge_list[i])
 
     return total_info_dic
+
+def make_charge_info_excel_from_charge_info_dic(charge_type_info_dic):
+    invoice_date_list = charge_type_info_dic["invoice_dates"]
+
+    invoices_string = ""
+    for invoice_date in invoice_date_list:
+        invoices_string += invoice_date + " "
+
+    max_zones = 8
+    num_col_per_zone = 7
+    foldername = "Categorization - Charge Type"
+    for earned_discount, dicta in charge_type_info_dic["data"].items():
+
+        excel_dic = {}
+        for fedex_charge_type, dictb in dicta.items():
+            abs_total_num_shipments = 0
+            excel_dic[fedex_charge_type] = []
+            list_a = excel_dic[fedex_charge_type]
+
+            zone_list = []
+            for i in range(1, max_zones + 1):
+                if i != 1:
+                    h_str = "Zone " + str(i)
+                    zone_list.append(h_str)
+                    zone_list.append("UPS Net")
+                    zone_list.append("Fed Net")
+                    zone_list.append("Net Diff")
+                    zone_list.append("UPS Avg")
+                    zone_list.append("Fed Avg")
+                    zone_list.append("Avg Diff")
+                else:
+                    zone_list.append("Weight")
+            list_a.append(zone_list)
+
+            max_weight = charge_type_info_dic["max_weights"][fedex_charge_type]
+            for weight in range(1, max_weight + 1):
+                list_b = []
+                list_a.append(list_b)
+                list_b.append(weight)
+                if weight in dictb:
+                    dictc = dictb[weight]
+
+                    for zone in range(2, max_zones + 1):
+                        if zone in dictc:
+                            dictd = dictc[zone]
+                            ups_rates_list = dictd["ups"]
+                            fedex_rates_list = dictd["fedex"]
+                            ups_num_shipments = len(ups_rates_list)
+
+                            abs_total_num_shipments += ups_num_shipments
+                            ups_total_rate = 0
+                            fedex_total_rate = 0
+
+                            for ups_rate in ups_rates_list:
+                                ups_total_rate += ups_rate
+                            for fedex_rate in fedex_rates_list:
+                                fedex_total_rate += fedex_rate
+                            list_b.append("")
+                            list_b.append(ups_total_rate)
+                            list_b.append(fedex_total_rate)
+                            list_b.append(ups_total_rate - fedex_total_rate)
+
+                            ups_avg_rate = ups_total_rate/ups_num_shipments
+                            fedex_avg_rate = fedex_total_rate/ups_num_shipments
+
+                            list_b.append(ups_avg_rate)
+                            list_b.append(fedex_avg_rate)
+                            list_b.append(ups_avg_rate - fedex_avg_rate)
+                        else:
+                            list_b += [""] * num_col_per_zone
+                else:
+                    for zone in range(2, max_zones + 1):
+                        list_b += [""] * num_col_per_zone
+
+
+            title_list = []
+
+            title_list.append("")
+            title_list.append("")
+            title_list.append("Inv Dates")
+            title_list.append(invoices_string)
+            title_list.append("Tot Shipments")
+            title_list.append(abs_total_num_shipments)
+
+            list_a.insert(0, title_list)
+
+        def change_sheet_function(sheet):
+            sheet.freeze_panes = 'A3'
+
+            # small_col_width = 6
+            # small_col_list = ['A','B','F','G','K','L','P','Q','U','V','Z','AA','AE','AF','AJ']
+            # for col_letter in small_col_list:
+            #     sheet.column_dimensions[col_letter].width = small_col_width
+
+        if len(invoice_date_list) > 1:
+            filename = "total " + str(earned_discount) + " discount mult_charge_type_excel.xlsx"
+        else:
+            filename = invoice_date_list[0] + " " + str(earned_discount) + " discount mult_charge_type_excel.xlsx"
+
+        excel_maker.make_excel_file(excel_dic, filename, foldername, change_sheet_function)
