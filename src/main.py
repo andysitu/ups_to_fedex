@@ -579,7 +579,7 @@ def combine_all_info_dic():
             if earned_discount not in total_info_dic["data"]:
                 total_info_dic["data"][earned_discount] = {}
             for service_level, dictb in dicta.items():
-                if service_level not in total_info_dic["data"]:
+                if service_level not in total_info_dic["data"][earned_discount]:
                     total_info_dic["data"][earned_discount][service_level] = {}
                 for weight, dictc in dictb.items():
                     if weight not in total_info_dic["data"][earned_discount][service_level]:
